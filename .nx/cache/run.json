@@ -1,18 +1,18 @@
 {
   "run": {
     "command": "nx run-many -t build --projects=app-shell,mfe-auth,mfe-dashboard,mfe-reporting",
-    "startTime": "2026-08-05T10:29:11.642Z",
-    "endTime": "2026-08-05T10:29:41.113Z",
+    "startTime": "2026-08-05T10:35:14.182Z",
+    "endTime": "2026-08-05T10:35:42.380Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "mfe-dashboard:build",
+      "taskId": "mfe-auth:build",
       "target": "build",
-      "projectName": "mfe-dashboard",
-      "hash": "15793828222207150515",
-      "startTime": "2026-08-05T10:29:11.649Z",
-      "endTime": "2026-08-05T10:29:25.836Z",
+      "projectName": "mfe-auth",
+      "hash": "12204603465215392578",
+      "startTime": "2026-08-05T10:35:14.190Z",
+      "endTime": "2026-08-05T10:35:30.248Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -22,19 +22,19 @@
       "target": "build",
       "projectName": "mfe-reporting",
       "hash": "16996611537953245033",
-      "startTime": "2026-08-05T10:29:11.649Z",
-      "endTime": "2026-08-05T10:29:26.355Z",
+      "startTime": "2026-08-05T10:35:14.190Z",
+      "endTime": "2026-08-05T10:35:30.271Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
     },
     {
-      "taskId": "mfe-auth:build",
+      "taskId": "mfe-dashboard:build",
       "target": "build",
-      "projectName": "mfe-auth",
-      "hash": "10556109191528993030",
-      "startTime": "2026-08-05T10:29:11.649Z",
-      "endTime": "2026-08-05T10:29:26.406Z",
+      "projectName": "mfe-dashboard",
+      "hash": "15793828222207150515",
+      "startTime": "2026-08-05T10:35:14.190Z",
+      "endTime": "2026-08-05T10:35:30.307Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -43,9 +43,9 @@
       "taskId": "app-shell:build",
       "target": "build",
       "projectName": "app-shell",
-      "hash": "7639670655165289679",
-      "startTime": "2026-08-05T10:29:25.838Z",
-      "endTime": "2026-08-05T10:29:41.106Z",
+      "hash": "7306130181491837077",
+      "startTime": "2026-08-05T10:35:30.257Z",
+      "endTime": "2026-08-05T10:35:42.373Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0

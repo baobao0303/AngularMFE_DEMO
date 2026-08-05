@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService, EventBusService } from '@core';
 import { CardComponent, ButtonComponent, InputComponent, BadgeComponent, SpinnerComponent } from '@ui';
 
@@ -71,6 +72,7 @@ import { CardComponent, ButtonComponent, InputComponent, BadgeComponent, Spinner
 export class RemoteEntryComponent {
   public readonly authService = inject(AuthService);
   public readonly eventBus = inject(EventBusService);
+  private readonly router = inject(Router);
 
   public readonly email = signal('admin@mfe.com');
   public readonly password = signal('password123');
@@ -86,6 +88,7 @@ export class RemoteEntryComponent {
         sourceRemote: 'mfe-auth',
         timestamp: Date.now()
       });
+      await this.router.navigate(['/dashboard']);
     } finally {
       this.loading.set(false);
     }
@@ -101,6 +104,7 @@ export class RemoteEntryComponent {
         sourceRemote: 'mfe-auth',
         timestamp: Date.now()
       });
+      await this.router.navigate(['/dashboard']);
     } finally {
       this.loading.set(false);
     }

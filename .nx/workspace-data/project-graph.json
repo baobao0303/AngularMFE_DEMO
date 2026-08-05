@@ -14626,16 +14626,6 @@
       },
       {
         "source": "app-shell",
-        "target": "ui",
-        "type": "static"
-      },
-      {
-        "source": "app-shell",
-        "target": "npm:tds-ui",
-        "type": "static"
-      },
-      {
-        "source": "app-shell",
         "target": "core",
         "type": "static"
       },
@@ -14653,6 +14643,11 @@
         "source": "app-shell",
         "target": "mfe-reporting",
         "type": "dynamic"
+      },
+      {
+        "source": "app-shell",
+        "target": "npm:tds-ui",
+        "type": "static"
       },
       {
         "source": "app-shell",
@@ -14683,17 +14678,17 @@
       },
       {
         "source": "mfe-auth",
+        "target": "npm:@angular/router",
+        "type": "static"
+      },
+      {
+        "source": "mfe-auth",
         "target": "core",
         "type": "static"
       },
       {
         "source": "mfe-auth",
         "target": "ui",
-        "type": "static"
-      },
-      {
-        "source": "mfe-auth",
-        "target": "npm:@angular/router",
         "type": "static"
       },
       {
@@ -35953,5 +35948,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1785925775309
+  "computedAt": 1785926145127
 }
