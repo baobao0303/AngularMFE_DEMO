@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run-many -t serve --projects=app-shell,mfe-auth,mfe-dashboard,mfe-reporting --parallel=4",
+    "start": "nx run-many -t serve --parallel=4",
     "start:shell": "nx serve app-shell",
     "start:auth": "nx serve mfe-auth",
     "start:dashboard": "nx serve mfe-dashboard",
     "start:reporting": "nx serve mfe-reporting",
-    "build": "nx run-many -t build --projects=app-shell,mfe-auth,mfe-dashboard,mfe-reporting",
+    "build": "nx run-many -t build --parallel=4",
     "build:lib": "nx build core && nx build ui",
     "test": "nx run-many -t test"
   },

@@ -3,7 +3,7 @@ import { sharedMappings } from '../../shared/federation.shared';
 export default {
   name: 'mfe-dashboard',
   exposes: {
-    './Routes': './src/app/remote-entry/entry.routes.ts',
+    './Routes': './src/app/app.routes.ts',
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   shared: (libraryName: string, defaultConfig: any) => {

@@ -1,0 +1,54 @@
+<div class="space-y-6">
+  <!-- Header Banner -->
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div>
+      <div class="flex items-center gap-3 mb-1">
+        <h2 class="text-2xl font-bold text-white tracking-tight m-0 leading-tight">System Analytics Dashboard</h2>
+        <tds-tag class="!bg-blue-500/10 !text-blue-400 !border-blue-500/20 text-xs px-2 py-0.5 rounded-md font-mono">
+          Port 4202
+        </tds-tag>
+      </div>
+      <p class="text-slate-400 text-xs m-0">Real-time telemetry and micro-frontend inter-module communication</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <tds-tag class="!bg-emerald-500/10 !text-emerald-400 !border-emerald-500/30 text-xs px-3 py-1 rounded-lg">
+        ● Live Stream Connected
+      </tds-tag>
+    </div>
+  </div>
+
+  <!-- Metrics Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <ui-stats-widget label="Total Users" [value]="metrics().totalUsers" change="+12.5%"></ui-stats-widget>
+    <ui-stats-widget label="Active Sessions" [value]="metrics().activeSessions" change="+5.2%"></ui-stats-widget>
+    <ui-stats-widget label="Monthly Revenue" [value]="'$' + metrics().revenue" change="+18.4%"></ui-stats-widget>
+    <ui-stats-widget label="System Health" [value]="metrics().systemHealth" change="100%"></ui-stats-widget>
+  </div>
+
+  <!-- Event Bus Feed -->
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">📡</span>
+        <h3 class="text-base font-semibold text-white m-0">Inter-MFE Event Bus Live Feed</h3>
+      </div>
+      <span class="text-[11px] text-slate-400 font-mono">RxJS Subject Bus</span>
+    </div>
+
+    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 font-mono text-xs">
+      @if (lastEvent(); as evt) {
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold uppercase">
+            {{ evt.sourceRemote }}
+          </span>
+          <span class="font-bold text-slate-200">{{ evt.type }}</span>
+          <span class="text-slate-400 font-normal truncate max-w-xl">{{ evt.payload | json }}</span>
+        </div>
+      } @else {
+        <div class="text-slate-500 italic flex items-center gap-2 py-2">
+          <span>⏳</span> No events received yet. Try signing in or creating an account in mfe-auth.
+        </div>
+      }
+    </div>
+  </div>
+</div>

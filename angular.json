@@ -18,7 +18,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "apps/app-shell/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [],
+            "assets": ["apps/app-shell/src/assets"],
             "styles": ["apps/app-shell/src/styles.scss"],
             "scripts": []
           }
@@ -47,7 +47,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "apps/mfe-auth/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [],
+            "assets": ["apps/mfe-auth/src/assets"],
             "styles": ["apps/mfe-auth/src/styles.scss"],
             "scripts": []
           }

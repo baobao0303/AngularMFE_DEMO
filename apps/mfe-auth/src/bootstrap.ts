@@ -4,15 +4,16 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 import { TDS_I18N, vi_VN } from 'tds-ui/i18n';
-import { RemoteEntryComponent } from './app/remote-entry/entry.component';
-import { remoteRoutes } from './app/remote-entry/entry.routes';
+
+import { AppComponent } from './app/app.component';
+import { appRoutes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 
 registerLocaleData(localeVi);
 
-bootstrapApplication(RemoteEntryComponent, {
+bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(remoteRoutes),
+    provideRouter(appRoutes),
     provideAnimations(),
     { provide: TDS_I18N, useValue: vi_VN }
   ]

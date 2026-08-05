@@ -3,7 +3,9 @@ import { sharedMappings } from '../../shared/federation.shared';
 const config = {
   name: 'app-shell',
   remotes: [
-    'mfe-auth'
+    'mfe-auth',
+    'mfe-dashboard',
+    'mfe-reporting'
   ],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   shared: (libraryName: string, defaultConfig: any) => {

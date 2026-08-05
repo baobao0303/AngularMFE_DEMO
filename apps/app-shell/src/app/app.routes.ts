@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@core/authorization';
 import { MainLayoutComponent } from './layout/main-layout.component';
+import { loadRemoteModule } from '@nx/angular/mf';
 
 export const appRoutes: Routes = [
   {
@@ -10,17 +11,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'auth',
-    children: [
-      {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-      },
-      {
-        path: 'login',
-        loadChildren: () => import('../../../mfe-auth/src/app/remote-entry/entry.routes').then(m => m.remoteRoutes)
-      }
-    ]
+    loadChildren: () => loadRemoteModule('mfe-auth', './Routes').then(m => m.appRoutes)
   },
   {
     path: '',
@@ -29,11 +20,11 @@ export const appRoutes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('../../../mfe-dashboard/src/app/remote-entry/entry.routes').then(m => m.remoteRoutes)
+        loadChildren: () => loadRemoteModule('mfe-dashboard', './Routes').then(m => m.appRoutes)
       },
       {
         path: 'reporting',
-        loadChildren: () => import('../../../mfe-reporting/src/app/remote-entry/entry.routes').then(m => m.remoteRoutes)
+        loadChildren: () => loadRemoteModule('mfe-reporting', './Routes').then(m => m.appRoutes)
       }
     ]
   },
