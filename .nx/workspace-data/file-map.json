@@ -35,64 +35,100 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".gitignore",
-        "hash": "12556064115236964336"
-      },
-      {
-        "file": "nx.json",
-        "hash": "4981303688833060543"
-      },
-      {
-        "file": ".angular/cache/18.2.21/mfe-auth/angular-compiler.db-lock",
-        "hash": "38114637552907415"
-      },
-      {
-        "file": "tsconfig.json",
-        "hash": "7114475794642293012"
-      },
-      {
-        "file": ".editorconfig",
-        "hash": "5443105041930014821"
-      },
-      {
-        "file": "tailwind.config.js",
-        "hash": "4806569806712582778"
-      },
-      {
-        "file": "pnpm-workspace.yaml",
-        "hash": "8992528595466750241"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "17510695962852433991"
-      },
-      {
         "file": "jest.preset.js",
         "hash": "9430166341120122740"
       },
       {
-        "file": "package.json",
-        "hash": "11042363163747608500"
+        "file": ".prettierignore",
+        "hash": "5407418692668764289"
       },
       {
-        "file": "eslint.config.mjs",
-        "hash": "16045336261305149366"
-      },
-      {
-        "file": ".angular/cache/18.2.21/mfe-reporting/angular-compiler.db-lock",
-        "hash": "13562876527973084571"
-      },
-      {
-        "file": ".angular/cache/18.2.21/mfe-dashboard/angular-compiler.db",
-        "hash": "5259254291641468899"
+        "file": ".angular/cache/18.2.21/mfe-dashboard/.tsbuildinfo",
+        "hash": "7931475463589153160"
       },
       {
         "file": ".npmrc",
         "hash": "1880664178033616490"
       },
       {
-        "file": ".angular/cache/18.2.21/mfe-dashboard/.tsbuildinfo",
-        "hash": "10416846991458897280"
+        "file": "package.json",
+        "hash": "11042363163747608500"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "5187000747655643318"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "6870352021923392442"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-dashboard/angular-compiler.db",
+        "hash": "5259254291641468899"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-auth/angular-compiler.db-lock",
+        "hash": "38114637552907415"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-dashboard/angular-compiler.db-lock",
+        "hash": "4805601289193664582"
+      },
+      {
+        "file": ".angular/cache/18.2.21/app-shell/angular-compiler.db-lock",
+        "hash": "1000208299509164853"
+      },
+      {
+        "file": "pnpm-workspace.yaml",
+        "hash": "8992528595466750241"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-reporting/.tsbuildinfo",
+        "hash": "3215393652760148745"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "7114475794642293012"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-reporting/angular-compiler.db",
+        "hash": "13036984214381968534"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-reporting/angular-compiler.db-lock",
+        "hash": "13562876527973084571"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "12556064115236964336"
+      },
+      {
+        "file": "ports.txt",
+        "hash": "15567203431967550201"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "4806569806712582778"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "17510695962852433991"
+      },
+      {
+        "file": "eslint.config.mjs",
+        "hash": "16045336261305149366"
+      },
+      {
+        "file": ".angular/cache/18.2.21/app-shell/.tsbuildinfo",
+        "hash": "2708121697674504235"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": "shared/tsconfig.json",
+        "hash": "15562912898677765680"
       },
       {
         "file": "postcss.config.js",
@@ -100,67 +136,31 @@
       },
       {
         "file": ".angular/cache/18.2.21/mfe-auth/.tsbuildinfo",
-        "hash": "16342356965614796639"
-      },
-      {
-        "file": "angular.json",
-        "hash": "13244420245830863570"
-      },
-      {
-        "file": ".angular/cache/18.2.21/mfe-dashboard/angular-compiler.db-lock",
-        "hash": "4805601289193664582"
+        "hash": "6340994422559989799"
       },
       {
         "file": ".angular/cache/18.2.21/mfe-auth/angular-compiler.db",
         "hash": "15563290612382854388"
       },
       {
-        "file": "ports.txt",
-        "hash": "15567203431967550201"
-      },
-      {
-        "file": ".angular/cache/18.2.21/mfe-reporting/angular-compiler.db",
-        "hash": "13036984214381968534"
-      },
-      {
-        "file": ".angular/cache/18.2.21/app-shell/.tsbuildinfo",
-        "hash": "3388090771679775540"
-      },
-      {
         "file": ".prettierrc",
         "hash": "16267754514737964994"
-      },
-      {
-        "file": "shared/federation.shared.ts",
-        "hash": "18381654866103458007"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "5187000747655643318"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "5407418692668764289"
-      },
-      {
-        "file": "jest.config.ts",
-        "hash": "6870352021923392442"
-      },
-      {
-        "file": ".angular/cache/18.2.21/mfe-reporting/.tsbuildinfo",
-        "hash": "3215393652760148745"
-      },
-      {
-        "file": ".angular/cache/18.2.21/app-shell/angular-compiler.db-lock",
-        "hash": "1000208299509164853"
       },
       {
         "file": ".angular/cache/18.2.21/app-shell/angular-compiler.db",
         "hash": "8356897485691849926"
       },
       {
-        "file": "shared/tsconfig.json",
-        "hash": "15562912898677765680"
+        "file": "shared/federation.shared.ts",
+        "hash": "18381654866103458007"
+      },
+      {
+        "file": "angular.json",
+        "hash": "13244420245830863570"
+      },
+      {
+        "file": "nx.json",
+        "hash": "4981303688833060543"
       }
     ],
     "projectFileMap": {
@@ -360,8 +360,16 @@
           "hash": "516312922131466100"
         },
         {
-          "file": "apps/mfe-auth/src/app/remote-entry/entry.component.ts",
-          "hash": "4798443340231119750",
+          "file": "apps/mfe-auth/src/app/login/login.component.html",
+          "hash": "15867277762246917314"
+        },
+        {
+          "file": "apps/mfe-auth/src/app/login/login.component.scss",
+          "hash": "15081882391426385407"
+        },
+        {
+          "file": "apps/mfe-auth/src/app/login/login.component.ts",
+          "hash": "52925213986383376",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common",
@@ -372,8 +380,15 @@
           ]
         },
         {
+          "file": "apps/mfe-auth/src/app/remote-entry/entry.component.ts",
+          "hash": "17873605463865555947",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
           "file": "apps/mfe-auth/src/app/remote-entry/entry.routes.ts",
-          "hash": "16113117553297347187",
+          "hash": "1719568188323612311",
           "deps": [
             "npm:@angular/router"
           ]

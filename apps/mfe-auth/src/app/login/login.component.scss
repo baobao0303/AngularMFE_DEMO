@@ -1,0 +1,28 @@
+.mfe-auth-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--tds-spacing-9);
+}
+
+.tds-auth-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tds-spacing-7);
+}
+
+.tds-desc {
+  color: var(--tds-color-neutral-500);
+  font-size: var(--tds-font-size-3);
+}
+
+.tds-actions {
+  display: flex;
+  gap: var(--tds-spacing-7);
+  margin-top: var(--tds-spacing-5);
+}
+
+.tds-logged-in {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tds-spacing-5);
+}
