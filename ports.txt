@@ -1,0 +1,5 @@
+# Micro-Frontends Port Assignment List
+# To prevent conflicts, assign a unique port for any new remote MFE.
+
+6200: app-shell
+

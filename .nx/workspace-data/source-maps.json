@@ -1,0 +1,1694 @@
+{
+  "apps/app-shell": {
+    "root": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.1": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.2": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.3": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.4": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "projectType": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "sourceRoot": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.cache": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.1": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.2": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.continuous": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "prefix": [
+      "apps/app-shell/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "apps/app-shell/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.index": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.main": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.tsConfig": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.inlineStyleLanguage": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.assets": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.scripts": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.buildTarget": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.port": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "$schema": [
+      "apps/app-shell/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "apps/app-shell/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.type:shell": [
+      "apps/app-shell/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "apps/mfe-auth": {
+    "root": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.1": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.2": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.3": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.4": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "projectType": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "sourceRoot": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.cache": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.1": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.2": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.continuous": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "prefix": [
+      "apps/mfe-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "apps/mfe-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.index": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.main": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.tsConfig": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.inlineStyleLanguage": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.assets": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.scripts": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.buildTarget": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.port": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "$schema": [
+      "apps/mfe-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "apps/mfe-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.type:remote": [
+      "apps/mfe-auth/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "apps/mfe-dashboard": {
+    "root": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.1": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.2": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.3": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.4": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "projectType": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "sourceRoot": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.cache": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.1": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.2": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.continuous": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "prefix": [
+      "apps/mfe-dashboard/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "apps/mfe-dashboard/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.index": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.main": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.tsConfig": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.inlineStyleLanguage": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.assets": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.scripts": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.buildTarget": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.port": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "$schema": [
+      "apps/mfe-dashboard/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "apps/mfe-dashboard/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.type:remote": [
+      "apps/mfe-dashboard/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "apps/mfe-reporting": {
+    "root": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.1": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.2": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.3": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.4": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "projectType": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "sourceRoot": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.dependsOn": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.outputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.cache": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.1": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs.2": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.inputs": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.build.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.continuous": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.executor": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.cwd": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.options": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.technologies.0": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.description": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.command": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "targets.serve.metadata.help.example": [
+      "angular.json",
+      "@nx/angular/plugin"
+    ],
+    "prefix": [
+      "apps/mfe-reporting/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "apps/mfe-reporting/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.index": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.main": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.polyfills": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.tsConfig": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.inlineStyleLanguage": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.assets": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles.0": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.styles": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.build.options.scripts": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.buildTarget": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "targets.serve.options.port": [
+      "angular.json",
+      "nx-angular-json-plugin"
+    ],
+    "$schema": [
+      "apps/mfe-reporting/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "apps/mfe-reporting/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.type:remote": [
+      "apps/mfe-reporting/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/core": {
+    "root": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.1": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.2": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.3": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.4": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.build": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.cache": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn.0": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs.0": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs.1": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.executor": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/core/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs.0": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.main": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.tsConfig": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.assets": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.executor": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.outputs.0": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.outputs": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.jestConfig": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options": [
+      "libs/core/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/ui": {
+    "root": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.1": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.2": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.3": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs.4": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.build": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.cache": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn.0": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs.0": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs.1": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json#targetDefaults.@nx/js:tsc",
+      "nx/target-defaults"
+    ],
+    "targets.build.executor": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/ui/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs.0": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.main": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.tsConfig": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.assets": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.executor": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.outputs.0": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.outputs": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.jestConfig": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options": [
+      "libs/ui/project.json",
+      "nx/core/project-json"
+    ]
+  }
+}

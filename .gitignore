@@ -1,0 +1,26 @@
+# Harness durable layer & tooling files
+AGENTS.md
+README.md
+harness.db
+harness.db-wal
+harness.db-shm
+scripts/
+docs/
+.agents/
+
+# Rust build output for harness tooling
+target/
+dist/
+
+# Local environment variables
+.env
+*.env.local
+
+# IDE / Agent specific local folders
+.cursor/
+.kiro/
+.windsurfrules
+# Local sub-projects workspace
+projects/
+!projects/.gitkeep
+node_modules

@@ -1,0 +1,54 @@
+{
+  "run": {
+    "command": "nx run-many -t build --projects=app-shell,mfe-auth,mfe-dashboard,mfe-reporting",
+    "startTime": "2026-08-05T10:29:11.642Z",
+    "endTime": "2026-08-05T10:29:41.113Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "mfe-dashboard:build",
+      "target": "build",
+      "projectName": "mfe-dashboard",
+      "hash": "15793828222207150515",
+      "startTime": "2026-08-05T10:29:11.649Z",
+      "endTime": "2026-08-05T10:29:25.836Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "mfe-reporting:build",
+      "target": "build",
+      "projectName": "mfe-reporting",
+      "hash": "16996611537953245033",
+      "startTime": "2026-08-05T10:29:11.649Z",
+      "endTime": "2026-08-05T10:29:26.355Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "mfe-auth:build",
+      "target": "build",
+      "projectName": "mfe-auth",
+      "hash": "10556109191528993030",
+      "startTime": "2026-08-05T10:29:11.649Z",
+      "endTime": "2026-08-05T10:29:26.406Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "app-shell:build",
+      "target": "build",
+      "projectName": "app-shell",
+      "hash": "7639670655165289679",
+      "startTime": "2026-08-05T10:29:25.838Z",
+      "endTime": "2026-08-05T10:29:41.106Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    }
+  ]
+}

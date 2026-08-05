@@ -1,0 +1,672 @@
+{
+  "version": "6.0",
+  "nxVersion": "23.1.0",
+  "pathMappings": {
+    "@core": [
+      "libs/core/src/index.ts"
+    ],
+    "@core/*": [
+      "libs/core/src/index.ts"
+    ],
+    "@ui": [
+      "libs/ui/src/index.ts"
+    ],
+    "@ui/*": [
+      "libs/ui/src/index.ts"
+    ],
+    "@shared/federation": [
+      "shared/federation.shared.ts"
+    ]
+  },
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "name": "@nx/angular/plugin",
+      "options": {
+        "targetNamePrefix": ""
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".angular/cache/18.2.21/mfe-dashboard/angular-compiler.db",
+        "hash": "11625027827782112131"
+      },
+      {
+        "file": "nx.json",
+        "hash": "4981303688833060543"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-auth/angular-compiler.db",
+        "hash": "15563290612382854388"
+      },
+      {
+        "file": ".angular/cache/18.2.21/app-shell/angular-compiler.db-lock",
+        "hash": "1000208299509164853"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-dashboard/.tsbuildinfo",
+        "hash": "14029434222763180546"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-auth/.tsbuildinfo",
+        "hash": "8927656520252665452"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-reporting/angular-compiler.db-lock",
+        "hash": "13562876527973084571"
+      },
+      {
+        "file": "shared/tsconfig.json",
+        "hash": "15562912898677765680"
+      },
+      {
+        "file": "angular.json",
+        "hash": "13244420245830863570"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "6870352021923392442"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "7114475794642293012"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-reporting/.tsbuildinfo",
+        "hash": "3215393652760148745"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-reporting/angular-compiler.db",
+        "hash": "13036984214381968534"
+      },
+      {
+        "file": "package.json",
+        "hash": "1194001544900013529"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "1880664178033616490"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".angular/cache/18.2.21/app-shell/.tsbuildinfo",
+        "hash": "15888601985133152510"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "4806569806712582778"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-dashboard/angular-compiler.db-lock",
+        "hash": "4805601289193664582"
+      },
+      {
+        "file": ".angular/cache/18.2.21/mfe-auth/angular-compiler.db-lock",
+        "hash": "38114637552907415"
+      },
+      {
+        "file": "pnpm-workspace.yaml",
+        "hash": "8992528595466750241"
+      },
+      {
+        "file": "postcss.config.js",
+        "hash": "8055263870272897227"
+      },
+      {
+        "file": "ports.txt",
+        "hash": "15567203431967550201"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "17510695962852433991"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "12556064115236964336"
+      },
+      {
+        "file": ".angular/cache/18.2.21/app-shell/angular-compiler.db",
+        "hash": "8356897485691849926"
+      },
+      {
+        "file": "eslint.config.mjs",
+        "hash": "16045336261305149366"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "5407418692668764289"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "5187000747655643318"
+      },
+      {
+        "file": "shared/federation.shared.ts",
+        "hash": "18381654866103458007"
+      }
+    ],
+    "projectFileMap": {
+      "mfe-dashboard": [
+        {
+          "file": "apps/mfe-dashboard/module-federation.config.ts",
+          "hash": "13872420881823079423"
+        },
+        {
+          "file": "apps/mfe-dashboard/project.json",
+          "hash": "12533919151636768291"
+        },
+        {
+          "file": "apps/mfe-dashboard/src/app/remote-entry/entry.component.ts",
+          "hash": "17221122519769749303",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "core",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/mfe-dashboard/src/app/remote-entry/entry.routes.ts",
+          "hash": "16113117553297347187",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/mfe-dashboard/src/bootstrap.ts",
+          "hash": "13634017971207409395",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/platform-browser",
+            "npm:@angular/common",
+            "npm:tds-ui",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/mfe-dashboard/src/index.html",
+          "hash": "14740142924294361314"
+        },
+        {
+          "file": "apps/mfe-dashboard/src/main.ts",
+          "hash": "448575057459636510"
+        },
+        {
+          "file": "apps/mfe-dashboard/src/styles.scss",
+          "hash": "13431869536249134089"
+        },
+        {
+          "file": "apps/mfe-dashboard/tsconfig.app.json",
+          "hash": "3893848144564122477"
+        },
+        {
+          "file": "apps/mfe-dashboard/tsconfig.json",
+          "hash": "6247413506070597777"
+        }
+      ],
+      "ui": [
+        {
+          "file": "libs/ui/jest.config.ts",
+          "hash": "6585631281863897173"
+        },
+        {
+          "file": "libs/ui/package.json",
+          "hash": "16200831622361737468",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "libs/ui/project.json",
+          "hash": "11415964528967710403"
+        },
+        {
+          "file": "libs/ui/src/index.ts",
+          "hash": "16309233517130385951"
+        },
+        {
+          "file": "libs/ui/src/lib/components/badge.component.ts",
+          "hash": "2705454200836255744",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/button.component.spec.ts",
+          "hash": "11945632630371398432"
+        },
+        {
+          "file": "libs/ui/src/lib/components/button.component.ts",
+          "hash": "16337910409185739941",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/card.component.ts",
+          "hash": "12092296358867918968",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/input.component.ts",
+          "hash": "5491799779315257009",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/shell-header.component.ts",
+          "hash": "10940708350246316889",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "core"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/shell-sidebar.component.ts",
+          "hash": "14693925662302001915",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/spinner.component.ts",
+          "hash": "3634849632901163953",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/stats-widget.component.ts",
+          "hash": "4979821581062655127",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/components/widget-card.component.ts",
+          "hash": "16719045598742059157",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/styles/global.scss",
+          "hash": "13634840046442717764"
+        },
+        {
+          "file": "libs/ui/src/lib/styles/tokens.scss",
+          "hash": "15010129446797391100"
+        },
+        {
+          "file": "libs/ui/src/test-setup.ts",
+          "hash": "1246545652960286643",
+          "deps": [
+            "npm:zone.js",
+            "npm:jest-preset-angular"
+          ]
+        },
+        {
+          "file": "libs/ui/tsconfig.json",
+          "hash": "4373981186798390264"
+        },
+        {
+          "file": "libs/ui/tsconfig.lib.json",
+          "hash": "10747033011492262421"
+        },
+        {
+          "file": "libs/ui/tsconfig.spec.json",
+          "hash": "17550162386928049291"
+        }
+      ],
+      "mfe-auth": [
+        {
+          "file": "apps/mfe-auth/module-federation.config.ts",
+          "hash": "10866565076586317081"
+        },
+        {
+          "file": "apps/mfe-auth/project.json",
+          "hash": "516312922131466100"
+        },
+        {
+          "file": "apps/mfe-auth/src/app/remote-entry/entry.component.ts",
+          "hash": "14152578034842911290",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "core",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/mfe-auth/src/app/remote-entry/entry.routes.ts",
+          "hash": "16113117553297347187",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/mfe-auth/src/bootstrap.ts",
+          "hash": "13634017971207409395",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/platform-browser",
+            "npm:@angular/common",
+            "npm:tds-ui",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/mfe-auth/src/index.html",
+          "hash": "1746535300052700853"
+        },
+        {
+          "file": "apps/mfe-auth/src/main.ts",
+          "hash": "448575057459636510"
+        },
+        {
+          "file": "apps/mfe-auth/src/styles.scss",
+          "hash": "13431869536249134089"
+        },
+        {
+          "file": "apps/mfe-auth/tsconfig.app.json",
+          "hash": "3893848144564122477"
+        },
+        {
+          "file": "apps/mfe-auth/tsconfig.json",
+          "hash": "6247413506070597777"
+        }
+      ],
+      "core": [
+        {
+          "file": "libs/core/jest.config.ts",
+          "hash": "5190208424926067999"
+        },
+        {
+          "file": "libs/core/package.json",
+          "hash": "16708346534205881184",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "libs/core/project.json",
+          "hash": "15446983065621467442"
+        },
+        {
+          "file": "libs/core/src/index.ts",
+          "hash": "9622108348573667690"
+        },
+        {
+          "file": "libs/core/src/lib/base/base-auth.service.ts",
+          "hash": "15318855040389549630",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/core/src/lib/base/base-event-bus.service.ts",
+          "hash": "7496764633295967218",
+          "deps": [
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "libs/core/src/lib/domain/dashboard-metrics.interface.ts",
+          "hash": "3219894102454266593"
+        },
+        {
+          "file": "libs/core/src/lib/domain/mfe-event.interface.ts",
+          "hash": "6466067274513875457"
+        },
+        {
+          "file": "libs/core/src/lib/domain/report-data.interface.ts",
+          "hash": "4234883585338036498"
+        },
+        {
+          "file": "libs/core/src/lib/domain/user-profile.interface.ts",
+          "hash": "2528822219100210048"
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/auth.guard.ts",
+          "hash": "3184311426247356471",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/auth.service.spec.ts",
+          "hash": "15565776039518348652"
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/auth.service.ts",
+          "hash": "10234651167399508512",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/bff.interceptor.ts",
+          "hash": "13506659680330093549",
+          "deps": [
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/event-bus.service.spec.ts",
+          "hash": "1512086922229822759"
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/event-bus.service.ts",
+          "hash": "18428470167865814912",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "libs/core/src/lib/infrastructure/token.interceptor.ts",
+          "hash": "16476746757390717523",
+          "deps": [
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "libs/core/src/test-setup.ts",
+          "hash": "1246545652960286643",
+          "deps": [
+            "npm:zone.js",
+            "npm:jest-preset-angular"
+          ]
+        },
+        {
+          "file": "libs/core/tsconfig.json",
+          "hash": "4373981186798390264"
+        },
+        {
+          "file": "libs/core/tsconfig.lib.json",
+          "hash": "10747033011492262421"
+        },
+        {
+          "file": "libs/core/tsconfig.spec.json",
+          "hash": "17550162386928049291"
+        }
+      ],
+      "app-shell": [
+        {
+          "file": "apps/app-shell/module-federation.config.ts",
+          "hash": "14945360134473599032"
+        },
+        {
+          "file": "apps/app-shell/project.json",
+          "hash": "10786031646590447859"
+        },
+        {
+          "file": "apps/app-shell/src/app/app.component.html",
+          "hash": "1772191180887706691"
+        },
+        {
+          "file": "apps/app-shell/src/app/app.component.scss",
+          "hash": "9076503279974293875"
+        },
+        {
+          "file": "apps/app-shell/src/app/app.component.ts",
+          "hash": "14177119361277004865",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "ui",
+            "npm:tds-ui"
+          ]
+        },
+        {
+          "file": "apps/app-shell/src/app/app.routes.ts",
+          "hash": "16674459223863060028",
+          "deps": [
+            "npm:@angular/router",
+            "core",
+            [
+              "mfe-auth",
+              "dynamic"
+            ],
+            [
+              "mfe-dashboard",
+              "dynamic"
+            ],
+            [
+              "mfe-reporting",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/app-shell/src/bootstrap.ts",
+          "hash": "5925331581423028961",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/platform-browser",
+            "npm:@angular/common",
+            "npm:tds-ui",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/app-shell/src/index.html",
+          "hash": "13164482604017291355"
+        },
+        {
+          "file": "apps/app-shell/src/main.ts",
+          "hash": "10018980967429810802"
+        },
+        {
+          "file": "apps/app-shell/src/styles.scss",
+          "hash": "13431869536249134089"
+        },
+        {
+          "file": "apps/app-shell/tsconfig.app.json",
+          "hash": "3893848144564122477"
+        },
+        {
+          "file": "apps/app-shell/tsconfig.json",
+          "hash": "6247413506070597777"
+        }
+      ],
+      "mfe-reporting": [
+        {
+          "file": "apps/mfe-reporting/module-federation.config.ts",
+          "hash": "11485421932359398946"
+        },
+        {
+          "file": "apps/mfe-reporting/project.json",
+          "hash": "1215160772600714344"
+        },
+        {
+          "file": "apps/mfe-reporting/src/app/remote-entry/entry.component.ts",
+          "hash": "6117771616231460916",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "core",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/mfe-reporting/src/app/remote-entry/entry.routes.ts",
+          "hash": "16113117553297347187",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/mfe-reporting/src/bootstrap.ts",
+          "hash": "13634017971207409395",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/platform-browser",
+            "npm:@angular/common",
+            "npm:tds-ui",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/mfe-reporting/src/index.html",
+          "hash": "8561589829081988822"
+        },
+        {
+          "file": "apps/mfe-reporting/src/main.ts",
+          "hash": "448575057459636510"
+        },
+        {
+          "file": "apps/mfe-reporting/src/styles.scss",
+          "hash": "13431869536249134089"
+        },
+        {
+          "file": "apps/mfe-reporting/tsconfig.app.json",
+          "hash": "3893848144564122477"
+        },
+        {
+          "file": "apps/mfe-reporting/tsconfig.json",
+          "hash": "6247413506070597777"
+        }
+      ]
+    }
+  },
+  "externalNodesHash": "14071926487340254150"
+}

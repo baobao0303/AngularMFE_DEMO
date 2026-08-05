@@ -1,0 +1,42 @@
+:root {
+  /* TDS v18.6.2 Color Palette */
+  --tds-color-primary-500: #0f62fe;
+  --tds-color-primary-600: #0353e9;
+  --tds-color-secondary-500: #198038;
+  --tds-color-neutral-10: #ffffff;
+  --tds-color-neutral-50: #f4f4f4;
+  --tds-color-neutral-200: #e0e0e0;
+  --tds-color-neutral-500: #8d8d8d;
+  --tds-color-neutral-900: #161616;
+
+  /* Typography */
+  --tds-font-family-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --tds-font-size-3: 12px;
+  --tds-font-size-4: 14px;
+  --tds-font-size-7: 20px;
+
+  /* Spacing Scale */
+  --tds-spacing-3: 4px;
+  --tds-spacing-5: 8px;
+  --tds-spacing-7: 12px;
+  --tds-spacing-9: 16px;
+  --tds-spacing-11: 24px;
+
+  /* Border Radius */
+  --tds-border-radius-s: 4px;
+  --tds-border-radius-m: 8px;
+  --tds-border-radius-circle: 50%;
+
+  /* Shadows */
+  --tds-shadow-s: 0 2px 4px rgba(0,0,0,0.05);
+  --tds-shadow-m: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+[data-theme='dark'] {
+  --tds-color-primary-500: #4589ff;
+  --tds-color-neutral-10: #262626;
+  --tds-color-neutral-50: #161616;
+  --tds-color-neutral-200: #393939;
+  --tds-color-neutral-500: #a8a8a8;
+  --tds-color-neutral-900: #f4f4f4;
+}
