@@ -1,4 +1,0 @@
-> nx run ui:build
-
-Compiling TypeScript files for project "ui"...
-Done compiling TypeScript files for project "ui".

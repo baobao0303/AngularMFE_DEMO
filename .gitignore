@@ -20,7 +20,10 @@ dist/
 .cursor/
 .kiro/
 .windsurfrules
+.angular/
+.nx/
 # Local sub-projects workspace
 projects/
 !projects/.gitkeep
 node_modules
+package-lock.json
