@@ -4,6 +4,7 @@ export default {
   name: 'mfe-dashboard',
   exposes: {
     './Routes': './src/app/app.routes.ts',
+    './Projects': './src/app/pages/projects/projects.component.ts',
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   shared: (libraryName: string, defaultConfig: any) => {

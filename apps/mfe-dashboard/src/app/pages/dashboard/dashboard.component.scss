@@ -2,3 +2,104 @@
   display: block;
   width: 100%;
 }
+
+/* Custom class to hide scrollbars while allowing scroll functionality */
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+  
+  &::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+:host ::ng-deep {
+  /* Hide scrollbars across TDS Cards & TDS Tables */
+  tds-card,
+  tds-table,
+  .tds-table-container,
+  .tds-table-body,
+  .tds-table-content,
+  .overflow-x-auto,
+  .overflow-y-auto,
+  .overflow-auto {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+
+    &::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  }
+
+  /* Custom Dashboard Tabs styling (Matching User Screenshot Spec) */
+  .custom-dashboard-tabs {
+    
+    .tds-tabs-nav-wrap,
+    .tds-tabs-bar {
+      border-bottom: 1px solid #E2E8F0 !important; /* Full width subtle light gray bottom line */
+      margin-bottom: 16px !important;
+      position: relative;
+    }
+
+    .tds-tabs-nav,
+    .tds-tabs-nav-list,
+    .tds-tabs-nav-container {
+      margin-bottom: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+      
+      &::before,
+      &::after {
+        display: none !important;
+        border: none !important;
+      }
+    }
+
+    .tds-tabs-nav-operations {
+      display: none !important;
+    }
+    
+    /* Tab item buttons */
+    .tds-tabs-tab {
+      padding: 8px 20px 12px 20px !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      color: #64748B !important;
+      transition: all 0.2s ease;
+
+      /* Remove left padding on the first tab so it aligns flush left with the content grid */
+      &:first-child {
+        padding-left: 0 !important;
+      }
+
+      &:hover {
+        color: #4F46E5 !important;
+      }
+    }
+
+    .tds-tabs-tab-active {
+      .tds-tabs-tab-btn {
+        color: #4F46E5 !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
+      }
+    }
+
+    /* Active indicator line - elegant 3px height positioned right on top of the border */
+    .tds-tabs-ink-bar {
+      background-color: #4F46E5 !important;
+      height: 3px !important;
+      border-radius: 2px !important;
+      bottom: 0px !important;
+      z-index: 10;
+    }
+  }
+}

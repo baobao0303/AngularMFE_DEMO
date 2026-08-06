@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@core/authorization';
 import { MainLayoutComponent } from './layout/main-layout.component';
-import { loadRemoteModule } from '@nx/angular/mf';
 
 export const appRoutes: Routes = [
   {
@@ -11,7 +10,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => loadRemoteModule('mfe-auth', './Routes').then(m => m.appRoutes)
+    loadChildren: () => import('mfe-auth/Routes').then(m => m.appRoutes)
   },
   {
     path: '',
@@ -20,11 +19,15 @@ export const appRoutes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => loadRemoteModule('mfe-dashboard', './Routes').then(m => m.appRoutes)
+        loadChildren: () => import('mfe-dashboard/Routes').then(m => m.appRoutes)
       },
       {
         path: 'reporting',
-        loadChildren: () => loadRemoteModule('mfe-reporting', './Routes').then(m => m.appRoutes)
+        loadChildren: () => import('mfe-reporting/Routes').then(m => m.appRoutes)
+      },
+      {
+        path: 'projects',
+        loadComponent: () => import('mfe-dashboard/Projects').then(m => m.ProjectsComponent)
       }
     ]
   },

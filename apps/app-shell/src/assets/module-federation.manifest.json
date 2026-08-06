@@ -1,0 +1,5 @@
+{
+  "mfe-auth": "http://localhost:4201",
+  "mfe-dashboard": "http://localhost:4202",
+  "mfe-reporting": "http://localhost:4203"
+}

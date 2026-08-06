@@ -6,3 +6,15 @@ body {
   background-color: var(--tds-color-neutral-50);
   color: var(--tds-color-neutral-900);
 }
+
+/* Hide scrollbars globally across all elements while retaining smooth scrollability */
+html, body, main, aside, div, tds-card, tds-table, .tds-table-container, .tds-table-body, .overflow-x-auto, .overflow-y-auto, .overflow-auto, .no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+  
+  &::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}

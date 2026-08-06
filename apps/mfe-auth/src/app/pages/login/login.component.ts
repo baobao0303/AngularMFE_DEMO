@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -34,7 +34,7 @@ import { TDSCheckBoxModule } from 'tds-ui/tds-checkbox';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public readonly authService = inject(AuthService);
   public readonly eventBus = inject(EventBusService);
   private readonly router = inject(Router);
@@ -51,6 +51,12 @@ export class LoginComponent {
   public readonly resetEmail = signal('name@company.com');
   public readonly resetSubmitted = signal(false);
   public readonly resetLoading = signal(false);
+
+  public ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   public togglePasswordVisibility(): void {
     this.showPassword.update(v => !v);

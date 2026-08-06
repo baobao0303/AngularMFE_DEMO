@@ -20,7 +20,11 @@
       "@core/*": ["libs/core/src/index.ts"],
       "@ui": ["libs/ui/src/index.ts"],
       "@ui/*": ["libs/ui/src/index.ts"],
-      "@shared/federation": ["shared/federation.shared.ts"]
+      "@shared/federation": ["shared/federation.shared.ts"],
+      "mfe-auth/Routes": ["apps/mfe-auth/src/app/app.routes.ts"],
+      "mfe-dashboard/Routes": ["apps/mfe-dashboard/src/app/app.routes.ts"],
+      "mfe-dashboard/Projects": ["apps/mfe-dashboard/src/app/pages/projects/projects.component.ts"],
+      "mfe-reporting/Routes": ["apps/mfe-reporting/src/app/app.routes.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

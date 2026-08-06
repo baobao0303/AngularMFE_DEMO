@@ -1,60 +1,293 @@
-<div class="space-y-6">
-  <!-- Header Banner -->
-  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div class="space-y-6 text-[#131B2E]">
+  
+  <!-- Page Header matching Stitch Reports Spec -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
     <div>
-      <div class="flex items-center gap-3 mb-1">
-        <h2 class="text-2xl font-bold text-white tracking-tight m-0 leading-tight">Analytics & System Reports</h2>
-        <tds-tag class="!bg-purple-500/10 !text-purple-400 !border-purple-500/20 text-xs px-2 py-0.5 rounded-md font-mono">
-          Port 4203
-        </tds-tag>
-      </div>
-      <p class="text-slate-400 text-xs m-0">Generated reports and diagnostic logs for micro-frontend infrastructure</p>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#131B2E] tracking-tight m-0">Reports</h2>
+      <p class="text-base font-medium text-[#505F76] m-0 mt-1">Analyze and export your latest metrics.</p>
     </div>
-    <tds-tag class="!bg-blue-500/10 !text-blue-400 !border-blue-500/30 text-xs px-3 py-1 rounded-lg">
-      ● Auto-refresh Enabled
-    </tds-tag>
+    <button 
+      type="button" 
+      class="bg-[#800A20] text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-[#630617] transition-all shadow-sm border-0 cursor-pointer active:scale-95 flex-shrink-0"
+    >
+      <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Export PDF
+    </button>
   </div>
 
-  <!-- Data Table Card -->
-  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-    <div class="p-6 border-b border-slate-800 flex justify-between items-center">
-      <h3 class="text-base font-semibold text-white m-0">Recent Reports</h3>
-      <span class="text-xs text-slate-400 font-mono">{{ reports().length }} Entries</span>
+  <!-- Filters & Monthly Performance Chart Grid (Stitch 1:1) -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- Left Column: Filters Card -->
+    <tds-card class="!bg-white !rounded-2xl !border !border-slate-200 p-6 shadow-xs lg:col-span-1 flex flex-col justify-between">
+      <div class="space-y-5">
+        <h3 class="text-xl font-bold text-[#131B2E] border-b border-slate-100 pb-3 m-0">Filters</h3>
+        
+        <div class="space-y-4">
+          <!-- Date Range Select -->
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1.5">Date Range</label>
+            <select class="w-full h-10 bg-[#FAF8FF] border border-slate-200 rounded-xl px-3 text-xs font-semibold text-[#131B2E] focus:border-[#800A20] focus:ring-1 focus:ring-[#800A20] outline-none transition-colors">
+              <option>Last 30 Days</option>
+              <option>Last 90 Days</option>
+              <option>Year to Date</option>
+              <option>Custom Range</option>
+            </select>
+          </div>
+
+          <!-- Category Select -->
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1.5">Category</label>
+            <select class="w-full h-10 bg-[#FAF8FF] border border-slate-200 rounded-xl px-3 text-xs font-semibold text-[#131B2E] focus:border-[#800A20] focus:ring-1 focus:ring-[#800A20] outline-none transition-colors">
+              <option>All Categories</option>
+              <option>Financial</option>
+              <option>User Engagement</option>
+              <option>System Performance</option>
+            </select>
+          </div>
+
+          <!-- Status Pills -->
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-2">Status</label>
+            <div class="flex gap-2 flex-wrap">
+              <button 
+                type="button" 
+                (click)="setStatusFilter('All')"
+                [class]="selectedStatusFilter() === 'All' ? 'border-[#800A20] text-[#800A20] font-bold bg-[#FFF5F6]' : 'border-slate-200 text-[#505F76] font-medium bg-white hover:bg-slate-50'"
+                class="px-3.5 py-1.5 rounded-full border text-xs transition-all cursor-pointer"
+              >
+                All
+              </button>
+              <button 
+                type="button" 
+                (click)="setStatusFilter('Completed')"
+                [class]="selectedStatusFilter() === 'Completed' ? 'border-[#800A20] text-[#800A20] font-bold bg-[#FFF5F6]' : 'border-slate-200 text-[#505F76] font-medium bg-white hover:bg-slate-50'"
+                class="px-3.5 py-1.5 rounded-full border text-xs transition-all cursor-pointer"
+              >
+                Completed
+              </button>
+              <button 
+                type="button" 
+                (click)="setStatusFilter('Pending')"
+                [class]="selectedStatusFilter() === 'Pending' ? 'border-[#800A20] text-[#800A20] font-bold bg-[#FFF5F6]' : 'border-slate-200 text-[#505F76] font-medium bg-white hover:bg-slate-50'"
+                class="px-3.5 py-1.5 rounded-full border text-xs transition-all cursor-pointer"
+              >
+                Pending
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        type="button" 
+        (click)="applyFilters()"
+        class="w-full mt-6 py-2.5 bg-white border border-slate-200 text-[#131B2E] rounded-xl font-bold text-xs hover:bg-[#FAF8FF] transition-all cursor-pointer shadow-2xs"
+      >
+        Apply Filters
+      </button>
+    </tds-card>
+
+    <!-- Right Column: Monthly Performance Comparison Chart Card (Stitch 1:1) -->
+    <tds-card class="!bg-white !rounded-2xl !border !border-slate-200 p-6 shadow-xs lg:col-span-2 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-5">
+          <h3 class="text-xl font-bold text-[#131B2E] m-0">Monthly Performance Comparison</h3>
+          <button type="button" class="text-slate-400 hover:text-[#131B2E] transition-colors border-0 bg-transparent cursor-pointer p-1">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="12" cy="5" r="1"></circle>
+              <circle cx="12" cy="19" r="1"></circle>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Simulated Bar Chart matching Stitch HTML Spec -->
+        <div class="h-56 w-full bg-[#FAF8FF] rounded-xl border border-slate-100 p-4 flex items-end justify-between gap-2 relative overflow-hidden">
+          
+          <!-- Horizontal Grid Lines -->
+          <div class="absolute inset-x-4 top-1/4 h-[1px] bg-slate-200/60 border-t border-dashed"></div>
+          <div class="absolute inset-x-4 top-2/4 h-[1px] bg-slate-200/60 border-t border-dashed"></div>
+          <div class="absolute inset-x-4 top-3/4 h-[1px] bg-slate-200/60 border-t border-dashed"></div>
+
+          <!-- Bar 1: Jan -->
+          <div class="w-1/12 bg-[#800A20]/20 hover:bg-[#800A20]/40 rounded-t-md h-[30%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Jan (30%)</div>
+          </div>
+          <!-- Bar 2: Feb -->
+          <div class="w-1/12 bg-[#800A20]/35 hover:bg-[#800A20]/55 rounded-t-md h-[45%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Feb (45%)</div>
+          </div>
+          <!-- Bar 3: Mar -->
+          <div class="w-1/12 bg-[#800A20]/50 hover:bg-[#800A20]/70 rounded-t-md h-[60%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Mar (60%)</div>
+          </div>
+          <!-- Bar 4: Apr -->
+          <div class="w-1/12 bg-[#800A20] hover:bg-[#630617] rounded-t-md h-[85%] transition-all relative group cursor-pointer shadow-xs">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Apr (85%)</div>
+          </div>
+          <!-- Bar 5: May -->
+          <div class="w-1/12 bg-[#800A20]/30 hover:bg-[#800A20]/50 rounded-t-md h-[40%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">May (40%)</div>
+          </div>
+          <!-- Bar 6: Jun -->
+          <div class="w-1/12 bg-[#800A20]/70 hover:bg-[#800A20]/90 rounded-t-md h-[75%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Jun (75%)</div>
+          </div>
+          <!-- Bar 7: Jul -->
+          <div class="w-1/12 bg-[#800A20]/50 hover:bg-[#800A20]/70 rounded-t-md h-[55%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Jul (55%)</div>
+          </div>
+          <!-- Bar 8: Aug -->
+          <div class="w-1/12 bg-[#800A20]/80 hover:bg-[#800A20] rounded-t-md h-[90%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Aug (90%)</div>
+          </div>
+          <!-- Bar 9: Sep -->
+          <div class="w-1/12 bg-[#800A20]/25 hover:bg-[#800A20]/45 rounded-t-md h-[25%] transition-all relative group cursor-pointer">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Sep (25%)</div>
+          </div>
+          <!-- Bar 10: Oct -->
+          <div class="w-1/12 bg-[#800A20] hover:bg-[#630617] rounded-t-md h-[95%] transition-all relative group cursor-pointer shadow-xs">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#131B2E] text-white text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Oct (95%)</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flex justify-between px-2 text-[11px] text-[#505F76] font-bold pt-3">
+        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+      </div>
+    </tds-card>
+
+  </div>
+
+  <!-- Bottom Detailed Reports Table Section (Stitch 1:1) -->
+  <tds-card class="!bg-white !rounded-2xl !border !border-slate-200 shadow-xs overflow-hidden no-scrollbar">
+    
+    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-[#FAF8FF]">
+      <div>
+        <h3 class="text-xl font-bold text-[#131B2E] m-0">Detailed Reports</h3>
+        <p class="text-xs text-[#505F76] m-0 mt-0.5 font-medium">Exportable system diagnostic logs & financial metrics</p>
+      </div>
+      <tds-tag class="!bg-[#FFF5F6] !text-[#800A20] !border-[#FAD0D6] text-xs font-bold px-3 py-1 rounded-xl">
+        Port 4203
+      </tds-tag>
     </div>
 
-    <div class="overflow-x-auto">
+    <!-- Data Table -->
+    <div class="overflow-x-auto no-scrollbar">
       <table class="w-full text-left text-xs border-collapse">
         <thead>
-          <tr class="bg-slate-800/50 text-slate-400 font-semibold border-b border-slate-800">
-            <th class="py-3.5 px-6">REPORT ID</th>
-            <th class="py-3.5 px-6">TITLE</th>
-            <th class="py-3.5 px-6">CATEGORY</th>
-            <th class="py-3.5 px-6">CREATED DATE</th>
+          <tr class="bg-[#FAF8FF] text-[#505F76] font-bold border-b border-slate-100 uppercase tracking-wider">
+            <th class="py-3.5 px-6">REPORT NAME</th>
+            <th class="py-3.5 px-6">DATE CREATED</th>
+            <th class="py-3.5 px-6">AUTHOR</th>
             <th class="py-3.5 px-6">STATUS</th>
+            <th class="py-3.5 px-6 text-right">ACTION</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-slate-800/60 text-slate-200">
-          @for (report of reports(); track report.id) {
-            <tr class="hover:bg-slate-800/40 transition-colors">
-              <td class="py-4 px-6 font-mono text-blue-400 font-medium">{{ report.id }}</td>
-              <td class="py-4 px-6 font-semibold text-white">{{ report.title }}</td>
-              <td class="py-4 px-6 text-slate-400">{{ report.category }}</td>
-              <td class="py-4 px-6 font-mono text-slate-400">{{ report.createdAt }}</td>
-              <td class="py-4 px-6">
-                @if (report.status === 'published') {
-                  <tds-tag class="!bg-emerald-500/10 !text-emerald-400 !border-emerald-500/20 text-xs px-2.5 py-0.5 rounded-full font-medium">
-                    Published
-                  </tds-tag>
-                } @else {
-                  <tds-tag class="!bg-amber-500/10 !text-amber-400 !border-amber-500/20 text-xs px-2.5 py-0.5 rounded-full font-medium">
-                    Draft
-                  </tds-tag>
-                }
-              </td>
-            </tr>
+        <tbody class="divide-y divide-slate-100 text-[#131B2E]">
+          @for (report of detailedReports(); track report.id) {
+            @if (selectedStatusFilter() === 'All' || selectedStatusFilter() === report.status) {
+              <tr class="hover:bg-[#FAF8FF]/80 transition-colors group">
+                
+                <!-- Report Name with Icon -->
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-slate-100 text-[#505F76] flex items-center justify-center flex-shrink-0">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                      </svg>
+                    </div>
+                    <div>
+                      <span class="font-bold text-[#131B2E] text-sm block">{{ report.name }}</span>
+                      <span class="text-[11px] font-mono text-[#505F76]">{{ report.id }}</span>
+                    </div>
+                  </div>
+                </td>
+                
+                <!-- Date Created -->
+                <td class="py-4 px-6 text-[#505F76] font-medium whitespace-nowrap">{{ report.dateCreated }}</td>
+                
+                <!-- Author with Initials Avatar -->
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-2.5">
+                    <div [class]="report.author.avatarBg" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] flex-shrink-0 shadow-2xs">
+                      {{ report.author.initials }}
+                    </div>
+                    <span class="font-semibold text-[#131B2E]">{{ report.author.name }}</span>
+                  </div>
+                </td>
+                
+                <!-- Status Tag -->
+                <td class="py-4 px-6">
+                  @if (report.status === 'Completed') {
+                    <tds-tag class="!bg-[#DCFCE7] !text-[#166534] !border-[#DCFCE7] text-xs px-2.5 py-0.5 rounded-full font-bold">
+                      Completed
+                    </tds-tag>
+                  } @else {
+                    <tds-tag class="!bg-[#FEF3C7] !text-[#92400E] !border-[#FEF3C7] text-xs px-2.5 py-0.5 rounded-full font-bold">
+                      Pending
+                    </tds-tag>
+                  }
+                </td>
+                
+                <!-- Action Buttons -->
+                <td class="py-4 px-6 text-right">
+                  <div class="flex items-center justify-end gap-1">
+                    <button type="button" class="p-1.5 text-[#505F76] hover:text-[#800A20] hover:bg-[#FFF5F6] rounded-lg transition-colors border-0 bg-transparent cursor-pointer" title="View">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                    <button type="button" class="p-1.5 text-[#505F76] hover:text-[#800A20] hover:bg-[#FFF5F6] rounded-lg transition-colors border-0 bg-transparent cursor-pointer" title="Download">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+
+              </tr>
+            }
           }
         </tbody>
       </table>
     </div>
-  </div>
+
+    <!-- Table Pagination Footer matching Stitch HTML Spec -->
+    <div class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#FAF8FF]">
+      <span class="text-xs text-[#505F76] font-medium">Showing 1 to 5 of 45 entries</span>
+      <div class="flex items-center gap-1">
+        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white transition-colors bg-white cursor-pointer shadow-2xs">
+          ‹
+        </button>
+        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#800A20] text-white font-bold text-xs border-0 cursor-pointer shadow-2xs">
+          1
+        </button>
+        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white font-medium text-xs bg-white cursor-pointer shadow-2xs">
+          2
+        </button>
+        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white font-medium text-xs bg-white cursor-pointer shadow-2xs">
+          3
+        </button>
+        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white transition-colors bg-white cursor-pointer shadow-2xs">
+          ›
+        </button>
+      </div>
+    </div>
+
+  </tds-card>
+
 </div>

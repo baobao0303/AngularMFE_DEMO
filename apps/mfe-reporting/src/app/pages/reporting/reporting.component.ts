@@ -1,20 +1,65 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReportData } from '@core';
 import { CardComponent, BadgeComponent } from '@ui';
 import { TDSTagModule } from 'tds-ui/tag';
+import { TDSCardModule } from 'tds-ui/card';
+import { TDSTableModule } from 'tds-ui/table';
+import { TDSSkeletonModule } from 'tds-ui/skeleton';
+import { ReportingApiService } from '../../services/reporting-api.service';
+
+export interface DetailedReportItem {
+  id: string;
+  name: string;
+  dateCreated: string;
+  author: {
+    name: string;
+    initials: string;
+    avatarBg: string;
+  };
+  status: 'Completed' | 'Pending';
+}
 
 @Component({
   selector: 'mfe-reporting-page',
   standalone: true,
-  imports: [CommonModule, CardComponent, BadgeComponent, TDSTagModule],
+  imports: [
+    CommonModule, 
+    CardComponent, 
+    BadgeComponent, 
+    TDSTagModule,
+    TDSCardModule,
+    TDSTableModule,
+    TDSSkeletonModule
+  ],
   templateUrl: './reporting.component.html',
   styleUrl: './reporting.component.scss'
 })
-export class ReportingComponent {
-  public readonly reports = signal<ReportData[]>([
-    { id: 'REP-01', title: 'Monthly Revenue Analysis', category: 'Finance', createdAt: '2026-08-01', status: 'published' },
-    { id: 'REP-02', title: 'User Retention & Cohort', category: 'Analytics', createdAt: '2026-08-03', status: 'published' },
-    { id: 'REP-03', title: 'System Latency Audit', category: 'DevOps', createdAt: '2026-08-05', status: 'draft' }
-  ]);
+export class ReportingComponent implements OnInit {
+  private readonly apiService = inject(ReportingApiService);
+
+  public readonly isLoading = signal(true);
+  public readonly selectedStatusFilter = signal<'All' | 'Completed' | 'Pending'>('All');
+  public readonly selectedCategory = signal<string>('All Categories');
+  public readonly selectedDateRange = signal<string>('Last 30 Days');
+
+  public readonly detailedReports = signal<DetailedReportItem[]>([]);
+
+  public ngOnInit(): void {
+    this.apiService.getDetailedReports().subscribe(data => {
+      this.detailedReports.set(data);
+      this.isLoading.set(false);
+    });
+  }
+
+  public setStatusFilter(filter: 'All' | 'Completed' | 'Pending'): void {
+    this.selectedStatusFilter.set(filter);
+  }
+
+  public applyFilters(): void {
+    this.isLoading.set(true);
+    this.apiService.getDetailedReports().subscribe(data => {
+      this.detailedReports.set(data);
+      this.isLoading.set(false);
+    });
+  }
 }
