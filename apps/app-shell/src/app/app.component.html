@@ -1,11 +1,4 @@
-@if (isLoading()) {
-<!-- Full-screen opaque overlay spinner covering the entire page -->
-<div class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#FAF8FF]">
-  <div class="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white shadow-xl border border-slate-100">
-    <tds-spinner color="error" class="h-10 w-10"></tds-spinner>
-  </div>
-</div>
-}
+
 
 @if (isAuthRoute()) {
 <router-outlet></router-outlet>

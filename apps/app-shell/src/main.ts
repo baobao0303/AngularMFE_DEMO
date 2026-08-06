@@ -16,6 +16,5 @@ import('@nx/angular/mf').then(({ setRemoteDefinitions }) => {
     'mfe-reporting': '/mfe-reporting'
   });
 
-  // @ts-ignore
   return import('./bootstrap');
 }).catch((err) => console.error(err));

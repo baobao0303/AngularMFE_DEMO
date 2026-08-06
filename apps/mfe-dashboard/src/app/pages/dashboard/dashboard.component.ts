@@ -7,7 +7,8 @@ import { TDSCardModule } from 'tds-ui/card';
 import { TDSSkeletonModule } from 'tds-ui/skeleton';
 import { TDSTableModule } from 'tds-ui/table';
 import { TDSDataTableModule } from 'tds-ui/data-table';
-import { DashboardApiService } from '../../services/dashboard-api.service';
+import { TDSButtonModule } from 'tds-ui/button';
+import { DashboardApiService } from './services/dashboard-api.service';
 
 export type TimeFilter = '30D' | '90D' | '1Y';
 export type ActivityFilterType = 'All' | 'Projects' | 'Security' | 'System';
@@ -63,7 +64,8 @@ export interface ActivityLogItem {
     TDSCardModule,
     TDSSkeletonModule,
     TDSTableModule,
-    TDSDataTableModule
+    TDSDataTableModule,
+    TDSButtonModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -150,9 +152,10 @@ export class DashboardComponent implements OnInit {
     if (this.activityFilter() === filter) return;
     this.isActivityLoading.set(true);
     this.activityFilter.set(filter);
-    setTimeout(() => {
+    this.apiService.getActivityLogs(filter).subscribe(data => {
+      this.activityLogsData.set(data);
       this.isActivityLoading.set(false);
-    }, 350);
+    });
   }
 
   public ngOnInit(): void {

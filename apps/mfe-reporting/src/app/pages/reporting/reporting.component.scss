@@ -14,6 +14,23 @@
   }
 }
 
+@keyframes barGrowUp {
+  0% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0.2;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+    opacity: 1;
+  }
+}
+
+.animate-bar-grow {
+  animation: barGrowUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 :host ::ng-deep {
   tds-card,
   tds-table,

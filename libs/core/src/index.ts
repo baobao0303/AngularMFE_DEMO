@@ -3,6 +3,8 @@ export * from './lib/base/base-storage.service';
 export * from './lib/base/base-event-bus.service';
 export * from './lib/base/base-api.service';
 export * from './lib/base/base-loading.service';
+export * from './lib/base/readable.repository';
+export * from './lib/base/writeable.repository';
 
 // Infrastructure Concrete Implementations
 export * from './lib/infrastructure/storage.service';

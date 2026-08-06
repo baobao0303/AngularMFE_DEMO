@@ -1,6 +1,4 @@
-export * from './lib/components/button.component';
+// UI Library Component Exports
 export * from './lib/components/badge.component';
 export * from './lib/components/card.component';
 export * from './lib/components/spinner.component';
-export * from './lib/components/stats-widget.component';
-export * from './lib/components/widget-card.component';

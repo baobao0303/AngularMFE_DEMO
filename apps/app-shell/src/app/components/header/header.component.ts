@@ -2,12 +2,13 @@ import { Component, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TDSTagModule } from 'tds-ui/tag';
+import { TDSButtonModule } from 'tds-ui/button';
 import { BaseStorageService, BaseEventBusService } from '@core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, TDSTagModule],
+  imports: [CommonModule, RouterLink, TDSTagModule, TDSButtonModule],
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {

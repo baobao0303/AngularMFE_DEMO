@@ -36,10 +36,16 @@ export class AppComponent implements OnInit {
         e instanceof NavigationError ||
         e instanceof NavigationCancel
       ),
-      map(e => e instanceof NavigationStart),
-      startWith(true)
+      map(e => {
+        if (e instanceof NavigationStart) {
+          // Prevent screen flicker when clicking on the current active route
+          return this.router.url !== e.url;
+        }
+        return false;
+      }),
+      startWith(false)
     ),
-    { initialValue: true }
+    { initialValue: false }
   );
 
   public readonly isLoading = computed(() => this.routeLoading() || this.loadingService.isLoading());

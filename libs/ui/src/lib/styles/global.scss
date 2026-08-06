@@ -5,7 +5,26 @@
 @import 'tds-ui/assets/v2/scss/theme/theme.all.scss';
 @import './tokens.scss';
 
-/* TDS Select Red Focus, Red Shadow & Red Opacity Dropdown Options */
+/* Global Native Select & TDS Select Clean White Theme */
+select,
+option,
+.tds-select-selector,
+.tds-select-top-control,
+tds-select .tds-select-selector,
+.tds-select:not(.tds-select-customize-input) .tds-select-selector {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #131b2e !important;
+  border-color: #cbd5e1 !important;
+}
+
+select option {
+  background-color: #ffffff !important;
+  color: #131b2e !important;
+  padding: 8px !important;
+}
+
+/* TDS Select Red Focus & Shadow */
 .tds-select-focused:not(.tds-select-disabled).tds-select-single:not(.tds-select-customize-input) .tds-select-selector,
 .tds-select-open:not(.tds-select-disabled).tds-select-single:not(.tds-select-customize-input) .tds-select-selector,
 .tds-select-focused .tds-select-selector,
@@ -13,23 +32,195 @@
 .tds-select:focus .tds-select-selector,
 .tds-select:focus-within .tds-select-selector {
   border-color: #800a20 !important;
-  box-shadow: 0 0 0 3px rgba(128, 10, 32, 0.2) !important;
+  box-shadow: 0 0 0 3px rgba(128, 10, 32, 0.15) !important;
 }
 
-.tds-select-dropdown {
+/* TDS Select Popover Overlay Dropdown Panel (Clean White Theme) */
+.tds-select-dropdown,
+.cdk-overlay-pane .tds-select-dropdown,
+div.tds-select-dropdown,
+.tds-dropdown-menu,
+.tds-menu {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #131b2e !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
-  border: 1px solid rgba(128, 10, 32, 0.15) !important;
-  box-shadow: 0 10px 25px -5px rgba(128, 10, 32, 0.15), 0 8px 10px -6px rgba(128, 10, 32, 0.08) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+  padding: 4px !important;
 }
 
-.tds-select-item-option-selected:not(.tds-select-item-option-disabled) {
+/* Option Items */
+.tds-select-item,
+.tds-select-item-option,
+.tds-menu-item {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
-  color: #800a20 !important;
-  background-color: rgba(128, 10, 32, 0.12) !important;
+  transition: all 0.15s ease !important;
 }
 
+/* Hovered / Active Option */
 .tds-select-item-option-active:not(.tds-select-item-option-disabled),
-.tds-select-item-option:hover:not(.tds-select-item-option-disabled) {
+.tds-select-item-option:hover:not(.tds-select-item-option-disabled),
+.tds-menu-item:hover {
   color: #800a20 !important;
-  background-color: rgba(128, 10, 32, 0.08) !important;
+  background-color: #fff5f6 !important;
+  background: #fff5f6 !important;
+}
+
+/* Selected Option */
+.tds-select-item-option-selected:not(.tds-select-item-option-disabled) {
+  font-weight: 700 !important;
+  color: #800a20 !important;
+  background-color: #fce7f3 !important;
+  background: #fce7f3 !important;
+}
+
+/* TDS Table Comprehensive Light Theme Override */
+tds-table,
+.tds-table,
+.tds-table-wrapper,
+.tds-table-container,
+.tds-table-content,
+.tds-data-table {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #131b2e !important;
+}
+
+/* Headers */
+.tds-table-thead,
+.tds-table-thead > tr,
+.tds-table-thead > tr > th,
+.tds-table thead,
+.tds-table thead tr,
+.tds-table thead th,
+.tds-data-table th,
+th.tds-table-cell,
+tds-table th {
+  background-color: #f8fafc !important;
+  background: #f8fafc !important;
+  color: #505f76 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  font-weight: 700 !important;
+}
+
+/* Body Rows & Cells */
+.tds-table-tbody,
+.tds-table-tbody > tr,
+.tds-table-tbody > tr > td,
+.tds-table tbody,
+.tds-table tbody tr,
+.tds-table tbody td,
+.tds-data-table td,
+td.tds-table-cell,
+tds-table td {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #131b2e !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* Row Hover & Row Selected States */
+.tds-table-tbody > tr:hover > td,
+.tds-table tbody tr:hover td,
+.tds-table-tbody > tr.tds-table-row-selected > td,
+.tds-table-tbody > tr.tds-table-row-active > td,
+.tds-table-row:hover,
+.tds-table-row-selected,
+.tds-table-row-active {
+  background-color: #f8fafc !important;
+  background: #f8fafc !important;
+  color: #131b2e !important;
+}
+
+/* Fixed Columns Sticky Cells */
+.tds-table-cell-fix-left,
+.tds-table-cell-fix-right {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.tds-table-thead .tds-table-cell-fix-left,
+.tds-table-thead .tds-table-cell-fix-right {
+  background-color: #f8fafc !important;
+  background: #f8fafc !important;
+}
+
+/* Global TDS Notification Toast Clean Light Theme & Status Borders */
+.tds-notification {
+  z-index: 99999 !important;
+}
+
+.tds-notification-notice {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-left: 5px solid #800a20 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+  padding: 14px 18px !important;
+  margin-bottom: 12px !important;
+  color: #131b2e !important;
+  animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.tds-notification-notice-message {
+  color: #131b2e !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin-bottom: 3px !important;
+}
+
+.tds-notification-notice-description {
+  color: #505f76 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+}
+
+.tds-notification-notice-success,
+.tds-notification-notice-type-success {
+  border-left-color: #10b981 !important;
+}
+
+.tds-notification-notice-info,
+.tds-notification-notice-type-info {
+  border-left-color: #3b82f6 !important;
+}
+
+.tds-notification-notice-warning,
+.tds-notification-notice-type-warning {
+  border-left-color: #f59e0b !important;
+}
+
+.tds-notification-notice-error,
+.tds-notification-notice-type-error {
+  border-left-color: #ef4444 !important;
+}
+
+.tds-notification-notice-close {
+  color: #94a3b8 !important;
+  top: 14px !important;
+  right: 14px !important;
+  
+  &:hover {
+    color: #131b2e !important;
+  }
+}
+
+@keyframes toastSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
