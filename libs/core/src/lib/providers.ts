@@ -9,13 +9,14 @@ import { ApiService } from './infrastructure/api.service';
 import { BaseLoadingService } from './base/base-loading.service';
 import { LoadingService } from './infrastructure/loading.service';
 import { authorizationTokenInterceptorFn } from './infrastructure/authorization-token.interceptor';
+import { mockApiInterceptor } from './infrastructure/mock-api.interceptor';
 
 /**
  * Single, centralized provider function for all core application services and HTTP interceptors across Micro-Frontends.
  */
 export function provideCore(): Array<Provider | EnvironmentProviders> {
   return [
-    provideHttpClient(withInterceptors([authorizationTokenInterceptorFn])),
+    provideHttpClient(withInterceptors([authorizationTokenInterceptorFn, mockApiInterceptor])),
     StorageService,
     EventBusService,
     ApiService,

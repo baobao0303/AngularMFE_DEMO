@@ -1,0 +1,681 @@
+<div class="w-full min-w-0 space-y-6 text-[#131B2E]">
+
+  <!-- Page Header matching Stitch Projects Spec -->
+  <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+    <div>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#131B2E] tracking-tight m-0">Projects</h2>
+      <p class="text-base font-medium text-[#505F76] m-0 mt-1">Manage and track your team's ongoing initiatives.</p>
+    </div>
+
+    <!-- Search Input & CTA Buttons -->
+    <div class="flex items-center gap-3 w-full lg:w-auto">
+      
+      <!-- TDS / Tailwind Search Component (https://tds.tmtco.org/#/components/search/vi) -->
+      <div class="relative flex-1 lg:w-64">
+        <svg class="w-4.5 h-4.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#505F76]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text"
+          [value]="searchQuery()"
+          (input)="onSearch($event)"
+          placeholder="Search projects..."
+          class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-[#131B2E] placeholder:text-[#505F76]/70 focus:outline-none focus:border-[#800A20] focus:ring-1 focus:ring-[#800A20] transition-colors shadow-2xs"
+        />
+      </div>
+
+      <!-- Create New Project CTA -->
+      <button 
+        type="button" 
+        (click)="toggleCreateModal()"
+        class="bg-[#800A20] text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 hover:bg-[#630617] transition-all shadow-sm border-0 cursor-pointer active:scale-95 whitespace-nowrap flex-shrink-0"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Create New Project
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters & Tabs Row -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-200 pb-3">
+    <div class="flex gap-6">
+      <button 
+        type="button"
+        (click)="setTab('all')"
+        [class]="selectedTab() === 'all' ? 'border-[#800A20] text-[#800A20] font-extrabold' : 'border-transparent text-[#505F76] hover:text-[#131B2E] font-semibold'"
+        class="pb-3 border-b-2 text-xs transition-colors bg-transparent border-0 cursor-pointer"
+      >
+        All Projects ({{ tasks().length }})
+      </button>
+      <button 
+        type="button"
+        (click)="setTab('active')"
+        [class]="selectedTab() === 'active' ? 'border-[#800A20] text-[#800A20] font-extrabold' : 'border-transparent text-[#505F76] hover:text-[#131B2E] font-semibold'"
+        class="pb-3 border-b-2 text-xs transition-colors bg-transparent border-0 cursor-pointer"
+      >
+        Active (3)
+      </button>
+      <button 
+        type="button"
+        (click)="setTab('completed')"
+        [class]="selectedTab() === 'completed' ? 'border-[#800A20] text-[#800A20] font-extrabold' : 'border-transparent text-[#505F76] hover:text-[#131B2E] font-semibold'"
+        class="pb-3 border-b-2 text-xs transition-colors bg-transparent border-0 cursor-pointer"
+      >
+        Completed (1)
+      </button>
+      <button 
+        type="button"
+        (click)="setTab('on_hold')"
+        [class]="selectedTab() === 'on_hold' ? 'border-[#800A20] text-[#800A20] font-extrabold' : 'border-transparent text-[#505F76] hover:text-[#131B2E] font-semibold'"
+        class="pb-3 border-b-2 text-xs transition-colors bg-transparent border-0 cursor-pointer"
+      >
+        On Hold (1)
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Filter Dropdown Control -->
+      <div class="relative">
+        <button 
+          type="button" 
+          (click)="toggleFilterDropdown($event)"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 text-[#505F76] hover:bg-white text-xs font-bold bg-[#FAF8FF] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs active:scale-95"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          <span>{{ selectedFilterLabel() }}</span>
+        </button>
+
+        @if (showFilterDropdown()) {
+          <div 
+            (click)="$event.stopPropagation()" 
+            class="absolute left-0 top-9 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+          >
+            <button type="button" (click)="setFilter('all', 'Filter')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>All Priorities</span>
+              @if (selectedFilterOption() === 'all') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+            <button type="button" (click)="setFilter('HIGH', 'Filter: High')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>High Priority</span>
+              @if (selectedFilterOption() === 'HIGH') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+            <button type="button" (click)="setFilter('MEDIUM', 'Filter: Medium')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>Medium Priority</span>
+              @if (selectedFilterOption() === 'MEDIUM') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+            <button type="button" (click)="setFilter('LOW', 'Filter: Low')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>Low Priority</span>
+              @if (selectedFilterOption() === 'LOW') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+          </div>
+        }
+      </div>
+
+      <!-- Sort By Dropdown Control -->
+      <div class="relative">
+        <button 
+          type="button" 
+          (click)="toggleSortDropdown($event)"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 text-[#505F76] hover:bg-white text-xs font-bold bg-[#FAF8FF] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs active:scale-95"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="11" y1="5" x2="6" y2="5"></line>
+            <line x1="11" y1="12" x2="6" y2="12"></line>
+            <line x1="11" y1="19" x2="6" y2="19"></line>
+            <polyline points="15 16 18 19 21 16"></polyline>
+            <line x1="18" y1="5" x2="18" y2="19"></line>
+          </svg>
+          <span>{{ selectedSortLabel() }}</span>
+        </button>
+
+        @if (showSortDropdown()) {
+          <div 
+            (click)="$event.stopPropagation()" 
+            class="absolute right-0 top-9 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+          >
+            <button type="button" (click)="setSort('recent', 'Sort By: Recent')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>Sort By: Recent</span>
+              @if (selectedSortOption() === 'recent') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+            <button type="button" (click)="setSort('title', 'Sort By: Title (A-Z)')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>Sort By: Title (A-Z)</span>
+              @if (selectedSortOption() === 'title') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+            <button type="button" (click)="setSort('priority', 'Sort By: Priority')" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center justify-between border-0 bg-transparent cursor-pointer">
+              <span>Sort By: Priority</span>
+              @if (selectedSortOption() === 'priority') { <span class="text-[#800A20] font-bold">✓</span> }
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Drag & Drop Kanban Board (https://tds.tmtco.org/#/components/drag-drop/vi) -->
+  <div (click)="closeAllMenus()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
+    
+    <!-- Column 1: To Do -->
+    <div 
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, 'todo')"
+      class="bg-[#F5F7FA] border border-slate-200/80 rounded-2xl p-4 min-h-[500px] flex flex-col gap-3"
+    >
+      <div class="flex justify-between items-center px-1 mb-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+          <h3 class="text-sm font-bold text-[#131B2E] m-0">To Do <span class="text-[#505F76] font-semibold ml-1">({{ todoTasks().length }})</span></h3>
+        </div>
+        <button type="button" (click)="toggleCreateModal()" class="text-[#505F76] hover:text-[#800A20] transition-colors border-0 bg-transparent cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+      </div>
+
+      <!-- Task Cards -->
+      @for (task of todoTasks(); track task.id) {
+        <div 
+          draggable="true"
+          (dragstart)="onDragStart($event, task.id)"
+          (click)="openTaskDetail(task)"
+          class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs hover:shadow-md hover:border-[#800A20]/40 transition-all cursor-pointer active:scale-[0.99] space-y-3 group relative"
+        >
+          <div class="flex justify-between items-start">
+            <tds-tag 
+              [status]="task.priority === 'HIGH' ? 'error' : task.priority === 'MEDIUM' ? 'warning' : 'default'"
+              class="!rounded-full !px-2.5 !py-0.5 text-[10px] font-black uppercase tracking-wider"
+            >
+              {{ task.priority }}
+            </tds-tag>
+
+            <!-- 3-Dots Action Button & Dropdown Menu -->
+            <div class="relative">
+              <button 
+                type="button" 
+                (click)="toggleTaskMenu($event, task.id)" 
+                class="w-7 h-7 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors border-0 bg-transparent cursor-pointer p-0"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="1.5"></circle>
+                  <circle cx="19" cy="12" r="1.5"></circle>
+                  <circle cx="5" cy="12" r="1.5"></circle>
+                </svg>
+              </button>
+
+              <!-- Action Dropdown Popover -->
+              @if (activeMenuTaskId() === task.id) {
+                <div 
+                  (click)="$event.stopPropagation()" 
+                  class="absolute right-0 top-8 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                >
+                  <button type="button" (click)="openTaskDetail(task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    View Details
+                  </button>
+                  <button type="button" (click)="toggleTaskPriority($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10M7 12h10M7 17h10"/></svg>
+                    Change Priority
+                  </button>
+                  <button type="button" (click)="duplicateTask($event, task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Duplicate
+                  </button>
+                  <div class="my-1 border-t border-slate-100"></div>
+                  <button type="button" (click)="deleteTask($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Delete Task
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-[#131B2E] m-0 mb-1 group-hover:text-[#800A20] transition-colors">{{ task.title }}</h4>
+            <p class="text-xs text-[#505F76] m-0 line-clamp-2 leading-relaxed font-medium">{{ task.description }}</p>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+            <div class="flex items-center gap-1 text-[11px] font-bold text-[#505F76]">
+              ☑ {{ task.checklistDone || 0 }}/{{ task.checklistTotal || 3 }}
+            </div>
+            <div class="flex -space-x-1.5">
+              @for (m of task.members; track m.name) {
+                <img [src]="m.avatar" [alt]="m.name" class="w-6 h-6 rounded-full border-2 border-white object-cover shadow-2xs">
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Column 2: In Progress -->
+    <div 
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, 'in_progress')"
+      class="bg-[#F5F7FA] border border-slate-200/80 rounded-2xl p-4 min-h-[500px] flex flex-col gap-3"
+    >
+      <div class="flex justify-between items-center px-1 mb-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#800A20]"></span>
+          <h3 class="text-sm font-bold text-[#131B2E] m-0">In Progress <span class="text-[#505F76] font-semibold ml-1">({{ inProgressTasks().length }})</span></h3>
+        </div>
+        <button type="button" (click)="toggleCreateModal()" class="text-[#505F76] hover:text-[#800A20] transition-colors border-0 bg-transparent cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+      </div>
+
+      <!-- Task Cards -->
+      @for (task of inProgressTasks(); track task.id) {
+        <div 
+          draggable="true"
+          (dragstart)="onDragStart($event, task.id)"
+          (click)="openTaskDetail(task)"
+          class="bg-white rounded-xl border border-slate-200 border-l-4 border-l-[#800A20] p-4 shadow-xs hover:shadow-md hover:border-[#800A20]/40 transition-all cursor-pointer active:scale-[0.99] space-y-3 group relative"
+        >
+          <div class="flex justify-between items-start">
+            <tds-tag 
+              [status]="task.priority === 'HIGH' ? 'error' : 'warning'"
+              class="!rounded-full !px-2.5 !py-0.5 text-[10px] font-black uppercase tracking-wider"
+            >
+              {{ task.priority }}
+            </tds-tag>
+
+            <!-- 3-Dots Action Button & Dropdown Menu -->
+            <div class="relative">
+              <button 
+                type="button" 
+                (click)="toggleTaskMenu($event, task.id)" 
+                class="w-7 h-7 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors border-0 bg-transparent cursor-pointer p-0"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="1.5"></circle>
+                  <circle cx="19" cy="12" r="1.5"></circle>
+                  <circle cx="5" cy="12" r="1.5"></circle>
+                </svg>
+              </button>
+
+              <!-- Action Dropdown Popover -->
+              @if (activeMenuTaskId() === task.id) {
+                <div 
+                  (click)="$event.stopPropagation()" 
+                  class="absolute right-0 top-8 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                >
+                  <button type="button" (click)="openTaskDetail(task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    View Details
+                  </button>
+                  <button type="button" (click)="toggleTaskPriority($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10M7 12h10M7 17h10"/></svg>
+                    Change Priority
+                  </button>
+                  <button type="button" (click)="duplicateTask($event, task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Duplicate
+                  </button>
+                  <div class="my-1 border-t border-slate-100"></div>
+                  <button type="button" (click)="deleteTask($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Delete Task
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-[#131B2E] m-0 mb-1 group-hover:text-[#800A20] transition-colors">{{ task.title }}</h4>
+            <p class="text-xs text-[#505F76] m-0 line-clamp-2 leading-relaxed font-medium">{{ task.description }}</p>
+          </div>
+
+          <!-- Progress Bar -->
+          @if (task.progressPercent) {
+            <div class="space-y-1 pt-1">
+              <div class="flex justify-between text-[11px] font-bold">
+                <span class="text-[#505F76]">Progress</span>
+                <span class="text-[#800A20]">{{ task.progressPercent }}%</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-[#800A20] rounded-full transition-all duration-500" [style.width.%]="task.progressPercent"></div>
+              </div>
+            </div>
+          }
+
+          <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+            <div class="flex items-center gap-1 text-[11px] font-bold text-[#505F76]">
+              💬 {{ task.commentsCount || 0 }} comments
+            </div>
+            <div class="flex -space-x-1.5">
+              @for (m of task.members; track m.name) {
+                <img [src]="m.avatar" [alt]="m.name" class="w-6 h-6 rounded-full border-2 border-white object-cover shadow-2xs">
+              }
+              <div class="w-6 h-6 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[#505F76] font-bold text-[9px] z-10">+3</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Column 3: In Review -->
+    <div 
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, 'in_review')"
+      class="bg-[#F5F7FA] border border-slate-200/80 rounded-2xl p-4 min-h-[500px] flex flex-col gap-3"
+    >
+      <div class="flex justify-between items-center px-1 mb-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+          <h3 class="text-sm font-bold text-[#131B2E] m-0">In Review <span class="text-[#505F76] font-semibold ml-1">({{ inReviewTasks().length }})</span></h3>
+        </div>
+        <button type="button" (click)="toggleCreateModal()" class="text-[#505F76] hover:text-[#800A20] transition-colors border-0 bg-transparent cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+      </div>
+
+      <!-- Task Cards -->
+      @for (task of inReviewTasks(); track task.id) {
+        <div 
+          draggable="true"
+          (dragstart)="onDragStart($event, task.id)"
+          (click)="openTaskDetail(task)"
+          class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs hover:shadow-md hover:border-[#800A20]/40 transition-all cursor-pointer active:scale-[0.99] space-y-3 group relative"
+        >
+          <div class="flex justify-between items-start">
+            <tds-tag 
+              status="warning" 
+              class="!rounded-full !px-2.5 !py-0.5 text-[10px] font-black uppercase tracking-wider"
+            >
+              {{ task.priority }}
+            </tds-tag>
+
+            <!-- 3-Dots Action Button & Dropdown Menu -->
+            <div class="relative">
+              <button 
+                type="button" 
+                (click)="toggleTaskMenu($event, task.id)" 
+                class="w-7 h-7 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors border-0 bg-transparent cursor-pointer p-0"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="1.5"></circle>
+                  <circle cx="19" cy="12" r="1.5"></circle>
+                  <circle cx="5" cy="12" r="1.5"></circle>
+                </svg>
+              </button>
+
+              <!-- Action Dropdown Popover -->
+              @if (activeMenuTaskId() === task.id) {
+                <div 
+                  (click)="$event.stopPropagation()" 
+                  class="absolute right-0 top-8 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                >
+                  <button type="button" (click)="openTaskDetail(task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    View Details
+                  </button>
+                  <button type="button" (click)="toggleTaskPriority($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10M7 12h10M7 17h10"/></svg>
+                    Change Priority
+                  </button>
+                  <button type="button" (click)="duplicateTask($event, task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Duplicate
+                  </button>
+                  <div class="my-1 border-t border-slate-100"></div>
+                  <button type="button" (click)="deleteTask($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Delete Task
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-[#131B2E] m-0 mb-1 group-hover:text-[#800A20] transition-colors">{{ task.title }}</h4>
+            <p class="text-xs text-[#505F76] m-0 line-clamp-2 leading-relaxed font-medium">{{ task.description }}</p>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+            <div class="flex items-center gap-1 text-[11px] font-bold text-[#505F76]">
+              ☑ {{ task.checklistDone || 0 }}/{{ task.checklistTotal || 3 }}
+            </div>
+            <div class="flex -space-x-1.5">
+              @for (m of task.members; track m.name) {
+                <img [src]="m.avatar" [alt]="m.name" class="w-6 h-6 rounded-full border-2 border-white object-cover shadow-2xs">
+              }
+              <div class="w-6 h-6 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[#505F76] font-bold text-[9px] z-10">+1</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Column 4: Completed -->
+    <div 
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, 'completed')"
+      class="bg-[#F5F7FA] border border-slate-200/80 rounded-2xl p-4 min-h-[500px] flex flex-col gap-3"
+    >
+      <div class="flex justify-between items-center px-1 mb-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <h3 class="text-sm font-bold text-[#131B2E] m-0">Completed <span class="text-[#505F76] font-semibold ml-1">({{ completedTasks().length }})</span></h3>
+        </div>
+        <button type="button" (click)="toggleCreateModal()" class="text-[#505F76] hover:text-[#800A20] transition-colors border-0 bg-transparent cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+      </div>
+
+      <!-- Task Cards -->
+      @for (task of completedTasks(); track task.id) {
+        <div 
+          draggable="true"
+          (dragstart)="onDragStart($event, task.id)"
+          (click)="openTaskDetail(task)"
+          class="bg-white/80 rounded-xl border border-slate-200 p-4 shadow-xs hover:shadow-md hover:border-[#800A20]/40 transition-all cursor-pointer active:scale-[0.99] space-y-3 group opacity-90 hover:opacity-100 relative"
+        >
+          <div class="flex justify-between items-start">
+            <tds-tag 
+              status="success" 
+              class="!rounded-full !px-2.5 !py-0.5 text-[10px] font-black uppercase tracking-wider"
+            >
+              DONE
+            </tds-tag>
+
+            <!-- 3-Dots Action Button & Dropdown Menu -->
+            <div class="relative">
+              <button 
+                type="button" 
+                (click)="toggleTaskMenu($event, task.id)" 
+                class="w-7 h-7 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors border-0 bg-transparent cursor-pointer p-0"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="1.5"></circle>
+                  <circle cx="19" cy="12" r="1.5"></circle>
+                  <circle cx="5" cy="12" r="1.5"></circle>
+                </svg>
+              </button>
+
+              <!-- Action Dropdown Popover -->
+              @if (activeMenuTaskId() === task.id) {
+                <div 
+                  (click)="$event.stopPropagation()" 
+                  class="absolute right-0 top-8 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                >
+                  <button type="button" (click)="openTaskDetail(task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    View Details
+                  </button>
+                  <button type="button" (click)="toggleTaskPriority($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10M7 12h10M7 17h10"/></svg>
+                    Change Priority
+                  </button>
+                  <button type="button" (click)="duplicateTask($event, task)" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-[#FFF5F6] hover:text-[#800A20] flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Duplicate
+                  </button>
+                  <div class="my-1 border-t border-slate-100"></div>
+                  <button type="button" (click)="deleteTask($event, task.id)" class="w-full px-3 py-2 text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 border-0 bg-transparent cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Delete Task
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-[#505F76] line-through m-0 mb-1">{{ task.title }}</h4>
+            <p class="text-xs text-[#505F76]/80 m-0 line-clamp-2 leading-relaxed font-medium">{{ task.description }}</p>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+            <div class="flex items-center gap-1 text-[11px] font-bold text-emerald-700">
+              ✓ {{ task.checklistDone || 0 }}/{{ task.checklistTotal || 3 }}
+            </div>
+            <div class="flex -space-x-1.5">
+              @for (m of task.members; track m.name) {
+                <img [src]="m.avatar" [alt]="m.name" class="w-6 h-6 rounded-full border-2 border-white object-cover shadow-2xs">
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+
+  <!-- Create New Project Modal -->
+  @if (showCreateModal()) {
+    <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 w-full max-w-md shadow-xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+          <h3 class="text-lg font-bold text-[#131B2E] m-0">Create New Initiative</h3>
+          <button type="button" (click)="toggleCreateModal()" class="text-slate-400 hover:text-slate-600 border-0 bg-transparent cursor-pointer p-1">
+            ✕
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Project Title</label>
+            <input #taskTitleInput type="text" placeholder="e.g. Mobile App Redesign" class="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:border-[#800A20] focus:ring-1 focus:ring-[#800A20] outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Description</label>
+            <textarea #taskDescInput rows="3" placeholder="Brief project summary..." class="w-full p-3 border border-slate-200 rounded-xl text-xs font-medium focus:border-[#800A20] focus:ring-1 focus:ring-[#800A20] outline-none resize-none"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Priority</label>
+            <select #taskPrioritySelect class="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:border-[#800A20] outline-none">
+              <option value="HIGH">High Priority</option>
+              <option value="MEDIUM" selected>Medium Priority</option>
+              <option value="LOW">Low Priority</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <button type="button" (click)="toggleCreateModal()" class="px-4 py-2 border border-slate-200 text-xs font-bold text-[#505F76] rounded-xl hover:bg-slate-50 transition-colors bg-white cursor-pointer">
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            (click)="addTask(taskTitleInput.value, taskDescInput.value, taskPrioritySelect.value === 'HIGH' ? 'HIGH' : taskPrioritySelect.value === 'LOW' ? 'LOW' : 'MEDIUM')"
+            class="px-5 py-2 bg-[#800A20] text-white text-xs font-bold rounded-xl hover:bg-[#630617] transition-all border-0 cursor-pointer shadow-xs"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- View / Edit Task Details Modal -->
+  @if (selectedTaskForDetail(); as detail) {
+    <div (click)="closeTaskDetail()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+      <div (click)="$event.stopPropagation()" class="bg-white rounded-2xl border border-slate-200 p-6 w-full max-w-lg shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex justify-between items-start border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">{{ detail.id }}</span>
+            <h3 class="text-xl font-extrabold text-[#131B2E] m-0 mt-0.5">Task Details</h3>
+          </div>
+          <button type="button" (click)="closeTaskDetail()" class="text-slate-400 hover:text-slate-600 border-0 bg-transparent cursor-pointer p-1 text-lg">
+            ✕
+          </button>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Title</label>
+            <input #editTitleInput type="text" [value]="detail.title" class="w-full h-10 px-3.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:border-[#800A20] outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Description</label>
+            <textarea #editDescInput rows="3" [value]="detail.description" class="w-full p-3 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:border-[#800A20] outline-none resize-none leading-relaxed"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Priority</label>
+              <select #editPrioritySelect [value]="detail.priority" class="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-bold outline-none">
+                <option value="HIGH">High Priority</option>
+                <option value="MEDIUM">Medium Priority</option>
+                <option value="LOW">Low Priority</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1">Status</label>
+              <select #editStatusSelect [value]="detail.status" class="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-bold outline-none">
+                <option value="todo">To Do</option>
+                <option value="in_progress">In Progress</option>
+                <option value="in_review">In Review</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-2">Assigned Team Members</label>
+            <div class="flex items-center gap-3">
+              @for (m of detail.members; track m.name) {
+                <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
+                  <img [src]="m.avatar" [alt]="m.name" class="w-6 h-6 rounded-full object-cover">
+                  <span class="text-xs font-bold text-slate-800">{{ m.name }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+          <button type="button" (click)="deleteTask(null, detail.id)" class="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded-xl transition-colors border-0 cursor-pointer flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Delete
+          </button>
+
+          <div class="flex items-center gap-2">
+            <button type="button" (click)="closeTaskDetail()" class="px-4 py-2 border border-slate-200 text-xs font-bold text-[#505F76] rounded-xl hover:bg-slate-50 transition-colors bg-white cursor-pointer">
+              Cancel
+            </button>
+            <button 
+              type="button" 
+              (click)="saveTaskDetail(editTitleInput.value, editDescInput.value, editPrioritySelect.value === 'HIGH' ? 'HIGH' : editPrioritySelect.value === 'LOW' ? 'LOW' : 'MEDIUM', editStatusSelect.value === 'todo' ? 'todo' : editStatusSelect.value === 'in_progress' ? 'in_progress' : editStatusSelect.value === 'in_review' ? 'in_review' : 'completed')"
+              class="px-5 py-2 bg-[#800A20] text-white text-xs font-bold rounded-xl hover:bg-[#630617] transition-all border-0 cursor-pointer shadow-xs"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Action Toast Alert Popup -->
+  @if (actionToastMessage(); as msg) {
+    <div class="fixed bottom-6 right-6 z-50 bg-[#131B2E] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold border border-slate-700 animate-in slide-in-from-bottom-5 duration-200">
+      <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+      {{ msg }}
+    </div>
+  }
+
+</div>

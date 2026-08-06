@@ -16,6 +16,8 @@ import { TDSCardModule } from 'tds-ui/card';
 import { TDSDividerModule } from 'tds-ui/divider';
 import { TDSCheckBoxModule } from 'tds-ui/tds-checkbox';
 
+import { AuthApiService } from '../../services/auth-api.service';
+
 @Component({
   selector: 'mfe-auth-login',
   standalone: true,
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
   public readonly storage = inject(BaseStorageService);
   public readonly eventBus = inject(BaseEventBusService);
   private readonly router = inject(Router);
+  private readonly authApi = inject(AuthApiService);
 
   public readonly email = signal('name@company.com');
   public readonly password = signal('123456');
@@ -85,61 +88,54 @@ export class LoginComponent implements OnInit {
   public onSendResetLink(): void {
     if (!this.resetEmail()) return;
     this.resetLoading.set(true);
-    timer(800).pipe(
-      finalize(() => this.resetLoading.set(false))
-    ).subscribe(() => {
+    this.authApi.sendPasswordReset(this.resetEmail()).subscribe(() => {
+      this.resetLoading.set(false);
       this.resetSubmitted.set(true);
     });
   }
 
-  public async onLogin(): Promise<void> {
+  public onLogin(): void {
     this.errorMessage.set(null);
-    const passVal = this.password() || '123456';
-    const emailVal = this.email() || 'name@company.com';
     this.loading.set(true);
-
-    const user = {
-      id: 'usr_' + Math.random().toString(36).substring(2, 9),
-      email: emailVal,
-      name: emailVal.split('@')[0],
-      role: 'Administrator'
-    };
-
-    this.storage.setItem('mfe_mock_user', user);
-    this.storage.setItem('mfe_jwt_token', `mock_jwt_${user.id}`);
-
-    this.eventBus.emit({
-      type: 'USER_LOGGED_IN',
-      payload: user,
-      sourceRemote: 'mfe-auth',
-      timestamp: Date.now()
+    this.authApi.login(this.email(), this.password()).subscribe({
+      next: (res) => {
+        this.storage.setItem('mfe_mock_user', res.user);
+        this.storage.setItem('mfe_jwt_token', res.token);
+        this.eventBus.emit({
+          type: 'USER_LOGGED_IN',
+          payload: res.user,
+          sourceRemote: 'mfe-auth',
+          timestamp: Date.now()
+        });
+        this.loading.set(false);
+        this.navigateToDashboard();
+      },
+      error: () => {
+        this.loading.set(false);
+        this.errorMessage.set('Invalid credentials. Please try again.');
+      }
     });
-
-    this.loading.set(false);
-    this.navigateToDashboard();
   }
 
-  public async onSsoLogin(): Promise<void> {
+  public onSsoLogin(): void {
     this.loading.set(true);
-    const user = {
-      id: 'usr_sso_' + Math.random().toString(36).substring(2, 9),
-      email: 'sso.admin@mfe.com',
-      name: 'sso.admin',
-      role: 'Administrator'
-    };
-
-    this.storage.setItem('mfe_mock_user', user);
-    this.storage.setItem('mfe_jwt_token', `mock_jwt_${user.id}`);
-
-    this.eventBus.emit({
-      type: 'USER_LOGGED_IN',
-      payload: user,
-      sourceRemote: 'mfe-auth',
-      timestamp: Date.now()
+    this.authApi.ssoLogin().subscribe({
+      next: (res) => {
+        this.storage.setItem('mfe_mock_user', res.user);
+        this.storage.setItem('mfe_jwt_token', res.token);
+        this.eventBus.emit({
+          type: 'USER_LOGGED_IN',
+          payload: res.user,
+          sourceRemote: 'mfe-auth',
+          timestamp: Date.now()
+        });
+        this.loading.set(false);
+        this.navigateToDashboard();
+      },
+      error: () => {
+        this.loading.set(false);
+      }
     });
-
-    this.loading.set(false);
-    this.navigateToDashboard();
   }
 
   public async onLogout(): Promise<void> {

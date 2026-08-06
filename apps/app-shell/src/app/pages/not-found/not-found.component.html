@@ -1,0 +1,53 @@
+<div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-slate-50">
+  <div class="max-w-md w-full flex flex-col items-center text-center">
+    
+    <!-- Illustration Container -->
+    <div class="w-full max-w-[280px] mb-6 flex items-center justify-center bg-transparent border-0 shadow-none">
+      <div class="w-full">
+        <tds-illustration tdsName="wi-empty-author" class="w-full h-64 flex items-center justify-center"></tds-illustration>
+      </div>
+    </div>
+
+    <!-- 404 Status Code -->
+    <h1 class="text-4xl font-extrabold text-[#800a20] tracking-tight mb-2">
+      404
+    </h1>
+
+    <!-- Title -->
+    <h2 class="text-xl font-bold text-slate-800 mb-2">
+      Page Not Found
+    </h2>
+
+    <!-- Description -->
+    <p class="text-xs md:text-sm text-slate-500 max-w-sm mb-6 leading-relaxed">
+      Oops! The page you are looking for doesn't exist. It might have been moved, deleted, or perhaps the URL is incorrect.
+    </p>
+
+    <!-- Buttons Row (2 Columns layout with Gap) -->
+    <div class="grid grid-cols-2 gap-3 mb-8 w-full max-w-md">
+      <button type="button" (click)="goToDashboard()" tds-button class="w-full !bg-[#800a20] !text-white !border-[#800a20] hover:!bg-[#a00d28] !h-11 !px-4 !rounded-xl font-semibold text-xs shadow-md inline-flex items-center justify-center cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+        </svg>
+        <span>Back to Dashboard</span>
+      </button>
+
+      <button type="button" (click)="goToDashboard()" tds-button class="w-full !bg-white !text-slate-700 !border-slate-200 hover:!bg-slate-50 !h-11 !px-4 !rounded-xl font-medium text-xs shadow-sm inline-flex items-center justify-center cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2.5 text-slate-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <span>Contact Support</span>
+      </button>
+    </div>
+
+    <!-- Footer Links -->
+    <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-400 uppercase tracking-widest w-full justify-center">
+      <button type="button" (click)="goToDashboard()" class="hover:text-slate-600 transition-colors bg-transparent border-0 cursor-pointer text-[11px] font-semibold text-slate-400">STATUS</button>
+      <span>•</span>
+      <button type="button" (click)="goToDashboard()" class="hover:text-slate-600 transition-colors bg-transparent border-0 cursor-pointer text-[11px] font-semibold text-slate-400">DOCUMENTATION</button>
+      <span>•</span>
+      <button type="button" (click)="goToDashboard()" class="hover:text-slate-600 transition-colors bg-transparent border-0 cursor-pointer text-[11px] font-semibold text-slate-400">HOME</button>
+    </div>
+
+  </div>
+</div>

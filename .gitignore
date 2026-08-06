@@ -24,9 +24,6 @@ dist/
 .angular/
 .nx/
 
-# Local sub-projects workspace
-projects/
-!projects/.gitkeep
 
 # Node Modules & Package Locks
 node_modules/

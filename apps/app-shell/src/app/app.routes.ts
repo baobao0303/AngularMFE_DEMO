@@ -69,7 +69,6 @@ export const appRoutes: Routes = [
   },
   {
     path: '**',
-    loadComponent: () =>
-      import('./pages/not-found/not-found.component').then((m) => m.NotFoundComponent)
+    redirectTo: 'page-404'
   }
 ];

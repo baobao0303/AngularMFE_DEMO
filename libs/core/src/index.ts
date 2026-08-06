@@ -10,6 +10,7 @@ export * from './lib/infrastructure/event-bus.service';
 export * from './lib/infrastructure/api.service';
 export * from './lib/infrastructure/loading.service';
 export * from './lib/infrastructure/authorization-token.interceptor';
+export * from './lib/infrastructure/mock-api.interceptor';
 
 // Core Providers Config
 export * from './lib/providers';

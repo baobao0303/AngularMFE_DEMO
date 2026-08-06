@@ -1,8 +1,8 @@
 @if (isLoading()) {
-<!-- Overlay loading spinner using TDS Red color -->
-<div class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/60 backdrop-blur-[2px]">
-  <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white shadow-lg border border-gray-100">
-    <tds-spinner color="error" class="mr-1 h-8 w-8"></tds-spinner>
+<!-- Full-screen opaque overlay spinner covering the entire page -->
+<div class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#FAF8FF]">
+  <div class="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white shadow-xl border border-slate-100">
+    <tds-spinner color="error" class="h-10 w-10"></tds-spinner>
   </div>
 </div>
 }
@@ -22,8 +22,8 @@
     <app-header (toggleSidebar)="toggleSidebar()" (logout)="logout()"></app-header>
 
     <!-- Main Dynamic Route Viewport -->
-    <main class="flex-1 overflow-y-auto px-4 py-5 md:px-6 md:py-5">
-      <div class="max-w-[1280px] mx-auto">
+    <main class="flex-1 overflow-y-auto px-4 py-5 md:px-6 md:py-5 w-full min-w-0">
+      <div class="w-full min-w-0">
         <router-outlet></router-outlet>
       </div>
     </main>

@@ -37,20 +37,25 @@ export class AppComponent implements OnInit {
         e instanceof NavigationCancel
       ),
       map(e => e instanceof NavigationStart),
-      startWith(false)
+      startWith(true)
     ),
-    { initialValue: false }
+    { initialValue: true }
   );
 
   public readonly isLoading = computed(() => this.routeLoading() || this.loadingService.isLoading());
 
+  private isStandaloneUrl(url: string): boolean {
+    const layoutPrefixes = ['/dashboard', '/reporting', '/projects'];
+    return !layoutPrefixes.some(prefix => url.startsWith(prefix));
+  }
+
   public readonly isAuthRoute = toSignal(
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map(e => e.urlAfterRedirects.startsWith('/auth')),
-      startWith(typeof window !== 'undefined' && window.location.pathname.startsWith('/auth'))
+      map(e => this.isStandaloneUrl(e.urlAfterRedirects)),
+      startWith(typeof window !== 'undefined' ? this.isStandaloneUrl(window.location.pathname) : true)
     ),
-    { initialValue: typeof window !== 'undefined' && window.location.pathname.startsWith('/auth') }
+    { initialValue: typeof window !== 'undefined' ? this.isStandaloneUrl(window.location.pathname) : true }
   );
 
   public ngOnInit(): void {

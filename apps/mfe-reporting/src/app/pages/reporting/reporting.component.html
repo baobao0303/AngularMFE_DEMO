@@ -1,4 +1,4 @@
-<div class="space-y-6 text-[#131B2E]">
+<div class="w-full min-w-0 space-y-6 text-[#131B2E]">
   
   <!-- Page Header matching Stitch Reports Spec -->
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -230,11 +230,11 @@
                 <!-- Status Tag -->
                 <td class="py-4 px-6">
                   @if (report.status === 'Completed') {
-                    <tds-tag class="!bg-[#DCFCE7] !text-[#166534] !border-[#DCFCE7] text-xs px-2.5 py-0.5 rounded-full font-bold">
+                    <tds-tag status="success" class="!rounded-full !px-3 !py-0.5 font-bold text-xs">
                       Completed
                     </tds-tag>
                   } @else {
-                    <tds-tag class="!bg-[#FEF3C7] !text-[#92400E] !border-[#FEF3C7] text-xs px-2.5 py-0.5 rounded-full font-bold">
+                    <tds-tag status="warning" class="!rounded-full !px-3 !py-0.5 font-bold text-xs">
                       Pending
                     </tds-tag>
                   }

@@ -1,10 +1,21 @@
 @import '../../../libs/ui/src/lib/styles/global.scss';
 
-body {
+html, body {
   margin: 0;
   font-family: var(--tds-font-family-heading);
   background-color: var(--tds-color-neutral-50);
   color: var(--tds-color-neutral-900);
+}
+
+/* Ensure all dynamic MFE route host tags take 100% full width */
+router-outlet + *,
+mfe-dashboard-page,
+mfe-projects-page,
+mfe-reporting-page {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Custom Thin Red Scrollbar */
