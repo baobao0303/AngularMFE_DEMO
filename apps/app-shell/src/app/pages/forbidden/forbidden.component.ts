@@ -9,45 +9,56 @@ import { TDSButtonModule } from 'tds-ui/button';
   standalone: true,
   imports: [CommonModule, RouterLink, TDSIllustrationModule, TDSButtonModule],
   template: `
-    <div class="min-h-[80vh] flex flex-col items-center justify-center p-6 text-center">
-      <div class="max-w-md w-full flex flex-col items-center">
+    <div class="min-h-[85vh] w-full flex flex-col items-center justify-center p-6 bg-slate-50/30">
+      <div class="max-w-md w-full flex flex-col items-center text-center">
         
-        <!-- Thought Cloud Bubble with Status 403 -->
-        <div class="relative mb-4 flex flex-col items-center group">
-          <!-- Thought Cloud Box -->
-          <div class="relative bg-gradient-to-r from-[#800a20] to-[#a00d28] text-white px-7 py-3 rounded-[2rem] shadow-xl border-2 border-white/80 flex items-center gap-3 transform transition-all duration-300 group-hover:scale-105">
-            <span class="w-3 h-3 rounded-full bg-amber-300 animate-ping"></span>
-            <span class="text-xl font-extrabold tracking-wider">403</span>
-            <span class="text-xs font-semibold uppercase tracking-widest bg-white/20 px-2.5 py-0.5 rounded-full">Truy cập bị từ chối</span>
-          </div>
-
-          <!-- Thought Cloud Tail Circles -->
-          <div class="flex flex-col items-center -space-y-0.5 mt-1">
-            <div class="w-4 h-4 bg-[#800a20] rounded-full border border-white/60 shadow-sm"></div>
-            <div class="w-2.5 h-2.5 bg-[#800a20] rounded-full border border-white/40 shadow-sm"></div>
-            <div class="w-1.5 h-1.5 bg-[#800a20] rounded-full border border-white/20"></div>
+        <!-- Illustration Container -->
+        <div class="w-full max-w-[280px] bg-white rounded-2xl p-4 shadow-sm border border-slate-100 mb-6 flex items-center justify-center">
+          <div class="w-full">
+            <tds-illustration tdsName="wi-empty-author" class="w-full h-64 flex items-center justify-center"></tds-illustration>
           </div>
         </div>
 
-        <!-- TDS Illustration -->
-        <div class="w-64 h-64 md:w-72 md:h-72 my-2 flex items-center justify-center">
-          <tds-illustration tdsName="403"></tds-illustration>
-        </div>
-
-        <!-- Page Text & Actions -->
-        <h1 class="text-2xl md:text-3xl font-bold text-[#131B2E] mt-4 mb-2">
-          Không có quyền truy cập
+        <!-- 403 Status Code -->
+        <h1 class="text-4xl font-extrabold text-[#800a20] tracking-tight mb-2">
+          403
         </h1>
-        <p class="text-sm md:text-base text-gray-500 mb-8 max-w-sm">
-          Bạn không có quyền xem nội dung này. Vui lòng liên hệ với Quản trị viên nếu bạn nghĩ đây là một sự nhầm lẫn.
+
+        <!-- Title -->
+        <h2 class="text-xl font-bold text-slate-800 mb-2">
+          Access Denied
+        </h2>
+
+        <!-- Description -->
+        <p class="text-xs md:text-sm text-slate-500 max-w-sm mb-6 leading-relaxed">
+          You don't have permission to access this page. Please contact your system administrator if you believe this is an error.
         </p>
 
-        <a routerLink="/dashboard" tds-button tdsType="primary" class="!bg-[#800a20] !border-[#800a20] hover:!bg-[#a00d28] !h-11 !px-8 !rounded-xl font-semibold shadow-md flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-          Quay lại Trang chủ
-        </a>
+        <!-- Buttons Row (Flex Col for Centering) -->
+        <div class="flex flex-col items-center justify-center gap-3 mb-8 w-full max-w-xs">
+          <a routerLink="/dashboard" tds-button class="w-full !bg-[#800a20] !text-white !border-[#800a20] hover:!bg-[#a00d28] !h-10 !px-5 !rounded-xl font-semibold text-xs shadow-md inline-flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+            Back to Dashboard
+          </a>
+
+          <a routerLink="/dashboard" tds-button class="w-full !bg-white !text-slate-700 !border-slate-200 hover:!bg-slate-50 !h-10 !px-5 !rounded-xl font-medium text-xs shadow-sm inline-flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            Contact Support
+          </a>
+        </div>
+
+        <!-- Footer Links (No full border-t divider line) -->
+        <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-400 uppercase tracking-widest w-full justify-center">
+          <a routerLink="/dashboard" class="hover:text-slate-600 transition-colors">STATUS</a>
+          <span>•</span>
+          <a routerLink="/dashboard" class="hover:text-slate-600 transition-colors">DOCUMENTATION</a>
+          <span>•</span>
+          <a routerLink="/dashboard" class="hover:text-slate-600 transition-colors">HOME</a>
+        </div>
 
       </div>
     </div>

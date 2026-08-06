@@ -56,5 +56,20 @@ export const appRoutes: Routes = [
           console.error('[App Shell] Failed to load ProjectsComponent from mfe-dashboard:', err);
           return null as any;
         })
+  },
+  {
+    path: 'page-403',
+    loadComponent: () =>
+      import('./pages/forbidden/forbidden.component').then((m) => m.ForbiddenComponent)
+  },
+  {
+    path: 'page-404',
+    loadComponent: () =>
+      import('./pages/not-found/not-found.component').then((m) => m.NotFoundComponent)
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./pages/not-found/not-found.component').then((m) => m.NotFoundComponent)
   }
 ];
