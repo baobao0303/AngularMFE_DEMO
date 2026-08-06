@@ -1,1 +1,32 @@
+@if (isLoading()) {
+<!-- Overlay loading spinner using TDS Red color -->
+<div class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/60 backdrop-blur-[2px]">
+  <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white shadow-lg border border-gray-100">
+    <tds-spinner color="error" class="mr-1 h-8 w-8"></tds-spinner>
+  </div>
+</div>
+}
+
+@if (isAuthRoute()) {
 <router-outlet></router-outlet>
+} @else {
+<div class="flex h-screen w-full overflow-hidden bg-[#FAF8FF] font-sans text-[#131B2E]">
+
+  <!-- Sidebar Navigation Component -->
+  <app-sidebar [collapsed]="collapsed()" (toggleSidebar)="toggleSidebar()" (logout)="logout()"></app-sidebar>
+
+  <!-- Main Content Layout Area -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Top Navigation Header Component -->
+    <app-header (toggleSidebar)="toggleSidebar()" (logout)="logout()"></app-header>
+
+    <!-- Main Dynamic Route Viewport -->
+    <main class="flex-1 overflow-y-auto px-4 py-5 md:px-6 md:py-5">
+      <div class="max-w-[1280px] mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
+}

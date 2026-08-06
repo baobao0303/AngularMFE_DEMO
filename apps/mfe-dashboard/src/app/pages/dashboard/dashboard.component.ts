@@ -1,21 +1,23 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService, EventBusService, DashboardMetrics, MfeEvent } from '@core';
-import { CardComponent, BadgeComponent, ButtonComponent, WidgetCardComponent, StatsWidgetComponent } from '@ui';
+import { BaseEventBusService, BaseStorageService, MfeEvent } from '@core';
 import { TDSTagModule } from 'tds-ui/tag';
 import { TDSTabsModule } from 'tds-ui/tabs';
 import { TDSCardModule } from 'tds-ui/card';
 import { TDSSkeletonModule } from 'tds-ui/skeleton';
 import { TDSTableModule } from 'tds-ui/table';
 import { TDSDataTableModule } from 'tds-ui/data-table';
-import { DashboardSkeletonComponent } from './components/dashboard-skeleton.component';
-import { OverviewTabComponent } from './components/overview-tab/overview-tab.component';
-import { PerformanceTabComponent } from './components/performance-tab/performance-tab.component';
-import { ActivityTabComponent } from './components/activity-tab/activity-tab.component';
 import { DashboardApiService } from '../../services/dashboard-api.service';
 
 export type TimeFilter = '30D' | '90D' | '1Y';
 export type ActivityFilterType = 'All' | 'Projects' | 'Security' | 'System';
+
+export interface DashboardMetrics {
+  totalUsers: number;
+  activeSessions: number;
+  revenue: number;
+  systemHealth: string;
+}
 
 export interface ProjectItem {
   name: string;
@@ -56,28 +58,19 @@ export interface ActivityLogItem {
   standalone: true,
   imports: [
     CommonModule, 
-    CardComponent, 
-    BadgeComponent, 
-    ButtonComponent, 
-    WidgetCardComponent, 
-    StatsWidgetComponent,
     TDSTagModule,
     TDSTabsModule,
     TDSCardModule,
     TDSSkeletonModule,
     TDSTableModule,
-    TDSDataTableModule,
-    DashboardSkeletonComponent,
-    OverviewTabComponent,
-    PerformanceTabComponent,
-    ActivityTabComponent
+    TDSDataTableModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  public readonly authService = inject(AuthService);
-  public readonly eventBus = inject(EventBusService);
+  public readonly storage = inject(BaseStorageService);
+  public readonly eventBus = inject(BaseEventBusService);
   private readonly apiService = inject(DashboardApiService);
 
   public readonly isLoading = signal(true);
@@ -112,23 +105,16 @@ export class DashboardComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // Fetch mock JSON data via API Service HTTP simulation
+    this.eventBus.on('USER_LOGGED_IN').subscribe((evt) => {
+      this.lastEvent.set(evt);
+    });
+
     this.apiService.getProjects().subscribe(data => this.projectsData.set(data));
     this.apiService.getBenchmarkData().subscribe(data => this.benchmarkData.set(data));
     this.apiService.getTeamPerformance().subscribe(data => this.teamPerformanceData.set(data));
     this.apiService.getActivityLogs().subscribe(data => {
       this.activityLogsData.set(data);
       this.isLoading.set(false);
-    });
-
-    this.eventBus.on<MfeEvent>('USER_LOGGED_IN').subscribe((event: MfeEvent) => {
-      this.lastEvent.set(event);
-    });
-    this.eventBus.on<MfeEvent>('USER_REGISTERED').subscribe((event: MfeEvent) => {
-      this.lastEvent.set(event);
-    });
-    this.eventBus.on<MfeEvent>('USER_LOGGED_OUT').subscribe((event: MfeEvent) => {
-      this.lastEvent.set(event);
     });
   }
 }

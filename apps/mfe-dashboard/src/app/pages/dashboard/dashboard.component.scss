@@ -35,12 +35,13 @@
     }
   }
 
-  /* Custom Dashboard Tabs styling (Matching User Screenshot Spec) */
+  /* Custom Dashboard Tabs styling (Burgundy Red #800A20 Theme) */
+  tds-tabset.custom-dashboard-tabs,
   .custom-dashboard-tabs {
     
     .tds-tabs-nav-wrap,
     .tds-tabs-bar {
-      border-bottom: 1px solid #E2E8F0 !important; /* Full width subtle light gray bottom line */
+      border-bottom: 1px solid #E2E8F0 !important;
       margin-bottom: 16px !important;
       position: relative;
     }
@@ -67,7 +68,7 @@
       display: none !important;
     }
     
-    /* Tab item buttons */
+    /* Inactive Tab item buttons */
     .tds-tabs-tab {
       padding: 8px 20px 12px 20px !important;
       font-size: 16px !important;
@@ -75,31 +76,42 @@
       color: #64748B !important;
       transition: all 0.2s ease;
 
-      /* Remove left padding on the first tab so it aligns flush left with the content grid */
       &:first-child {
         padding-left: 0 !important;
       }
 
-      &:hover {
-        color: #4F46E5 !important;
-      }
-    }
-
-    .tds-tabs-tab-active {
       .tds-tabs-tab-btn {
-        color: #4F46E5 !important;
+        color: #64748B !important;
+        transition: color 0.2s ease;
+      }
+
+      /* Hover state - Burgundy Red #800A20 */
+      &:hover,
+      &:hover .tds-tabs-tab-btn,
+      .tds-tabs-tab-btn:hover {
+        color: #800A20 !important;
+      }
+
+      /* Active state - Burgundy Red #800A20 */
+      &.tds-tabs-tab-active,
+      &.tds-tabs-tab-active .tds-tabs-tab-btn,
+      &.tds-tabs-tab-active:hover,
+      &.tds-tabs-tab-active:hover .tds-tabs-tab-btn {
+        color: #800A20 !important;
         font-weight: 700 !important;
-        font-size: 16px !important;
       }
     }
 
-    /* Active indicator line - elegant 3px height positioned right on top of the border */
-    .tds-tabs-ink-bar {
-      background-color: #4F46E5 !important;
+    /* Active indicator bottom bar - Burgundy Red #800A20 */
+    .tds-tabs-ink-bar,
+    div.tds-tabs-ink-bar,
+    .tds-tabs-nav-list > .tds-tabs-ink-bar {
+      background-color: #800A20 !important;
+      background: #800A20 !important;
       height: 3px !important;
       border-radius: 2px !important;
       bottom: 0px !important;
-      z-index: 10;
+      z-index: 10 !important;
     }
   }
 }

@@ -4,3 +4,32 @@
 @import 'tds-ui/assets/v2/scss/components/tds.component.scss';
 @import 'tds-ui/assets/v2/scss/theme/theme.all.scss';
 @import './tokens.scss';
+
+/* TDS Select Red Focus, Red Shadow & Red Opacity Dropdown Options */
+.tds-select-focused:not(.tds-select-disabled).tds-select-single:not(.tds-select-customize-input) .tds-select-selector,
+.tds-select-open:not(.tds-select-disabled).tds-select-single:not(.tds-select-customize-input) .tds-select-selector,
+.tds-select-focused .tds-select-selector,
+.tds-select-open .tds-select-selector,
+.tds-select:focus .tds-select-selector,
+.tds-select:focus-within .tds-select-selector {
+  border-color: #800a20 !important;
+  box-shadow: 0 0 0 3px rgba(128, 10, 32, 0.2) !important;
+}
+
+.tds-select-dropdown {
+  border-radius: 12px !important;
+  border: 1px solid rgba(128, 10, 32, 0.15) !important;
+  box-shadow: 0 10px 25px -5px rgba(128, 10, 32, 0.15), 0 8px 10px -6px rgba(128, 10, 32, 0.08) !important;
+}
+
+.tds-select-item-option-selected:not(.tds-select-item-option-disabled) {
+  font-weight: 600 !important;
+  color: #800a20 !important;
+  background-color: rgba(128, 10, 32, 0.12) !important;
+}
+
+.tds-select-item-option-active:not(.tds-select-item-option-disabled),
+.tds-select-item-option:hover:not(.tds-select-item-option-disabled) {
+  color: #800a20 !important;
+  background-color: rgba(128, 10, 32, 0.08) !important;
+}

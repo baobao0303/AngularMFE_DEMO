@@ -1,34 +1,36 @@
 :host {
-  display: block;
+    display: block;
+    width: 100%;
+    height: 100%;
 
-  tds-layout-footer {
-    line-height: 1.5;
-  }
-
-  tds-layout-sider {
-    background: #3ba0e9;
-    color: #fff;
-    line-height: 120px;
-    height: auto;
-
-    ::ng-deep .tds-layout-sider-children {
-      height: 100%;
+    tds-layout-footer {
+        line-height: 1.5;
     }
-  }
 
-  tds-layout-content {
-    background: rgba(16, 142, 233, 1);
-    color: #fff;
-    min-height: 120px;
-    line-height: 120px;
-  }
+    tds-layout-sider {
+        background: #3ba0e9;
+        color: #fff;
+        line-height: 120px;
+        height: auto;
 
-  tds-layout {
-    margin-bottom: 48px;
-  }
+        ::ng-deep .tds-layout-sider-children {
+            height: 100%;
+        }
+    }
 
-  tds-layout tds-layout,
-  tds-layout:last-child {
-    margin: 0;
-  }
+    tds-layout-content {
+        background: rgba(16, 142, 233, 1);
+        color: #fff;
+        min-height: 120px;
+        line-height: 120px;
+    }
+
+    tds-layout {
+        margin-bottom: 48px;
+    }
+
+    tds-layout tds-layout,
+    tds-layout:last-child {
+        margin: 0;
+    }
 }

@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '@ui';
 import { TDSButtonModule } from 'tds-ui/button';
 import { TDSInputModule } from 'tds-ui/tds-input';
+import { timer, finalize } from 'rxjs';
 
 @Component({
   selector: 'mfe-auth-forgot-password',
@@ -25,11 +26,14 @@ export class ForgotPasswordComponent {
   public readonly loading = signal(false);
   public readonly submitted = signal(false);
 
-  public async onSubmit(): Promise<void> {
+  public onSubmit(): void {
     if (!this.email()) return;
     this.loading.set(true);
-    await new Promise(resolve => setTimeout(resolve, 800));
-    this.loading.set(false);
-    this.submitted.set(true);
+
+    timer(800).pipe(
+      finalize(() => this.loading.set(false))
+    ).subscribe(() => {
+      this.submitted.set(true);
+    });
   }
 }

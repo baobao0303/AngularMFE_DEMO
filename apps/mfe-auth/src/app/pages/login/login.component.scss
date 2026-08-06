@@ -60,7 +60,8 @@
       transform: translateY(-1px);
     }
 
-    &:focus, &:active {
+    &:focus,
+    &:active {
       border-color: #C80025 !important;
       box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.2) !important;
     }
@@ -100,8 +101,10 @@
 
   /* TDS Checkbox Red Theme Override via :host & ::ng-deep */
   ::ng-deep {
+
     tds-checkbox,
     .tds-checkbox {
+
       &.tds-checkbox-checked,
       &.tds-checkbox-indeterminate {
         .tds-checkbox-wrapper-svg {
@@ -114,6 +117,7 @@
         .tds-checkbox-wrapper-svg:hover {
           border-color: #E4002B !important;
         }
+
         &.tds-checkbox-checked,
         &.tds-checkbox-indeterminate {
           .tds-checkbox-wrapper-svg {
@@ -124,6 +128,7 @@
       }
 
       .tds-checkbox-wrapper-svg {
+
         &.tds-checkbox-checked,
         &.tds-checkbox-indeterminate {
           background-color: #E4002B !important;

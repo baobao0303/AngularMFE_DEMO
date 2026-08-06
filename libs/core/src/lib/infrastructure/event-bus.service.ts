@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, filter } from 'rxjs';
-import { BaseEventBusService } from '../base/base-event-bus.service';
-import { MfeEvent } from '../domain/mfe-event.interface';
+import { BaseEventBusService, MfeEvent } from '../base/base-event-bus.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +20,9 @@ export class EventBusService extends BaseEventBusService {
     return this._eventSubject.asObservable().pipe(
       filter(e => e.type === eventType)
     );
+  }
+
+  public override destroy(): void {
+    this._eventSubject.complete();
   }
 }

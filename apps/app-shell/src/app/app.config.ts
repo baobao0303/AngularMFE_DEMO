@@ -1,23 +1,20 @@
-import '@angular/compiler';
-import 'zone.js';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 import { TDS_I18N, vi_VN } from 'tds-ui/i18n';
 import { provideCore } from '@core';
-
-import { AppComponent } from './app/app.component';
-import { appRoutes } from './app/app.routes';
-import { provideRouter } from '@angular/router';
+import { appRoutes } from './app.routes';
 
 registerLocaleData(localeVi);
 
-bootstrapApplication(AppComponent, {
+export const appConfig: ApplicationConfig = {
   providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideAnimations(),
     provideCore(),
     { provide: TDS_I18N, useValue: vi_VN }
   ]
-}).catch((err) => console.error(err));
+};
