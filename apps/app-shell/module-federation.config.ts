@@ -1,25 +1,12 @@
-import { sharedMappings } from '../../shared/federation.shared';
+import { ModuleFederationConfig } from '@nx/module-federation';
 
-const config = {
+const config: ModuleFederationConfig = {
   name: 'app-shell',
   remotes: [
-    'mfe-auth',
-    'mfe-dashboard',
-    'mfe-reporting'
-  ],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  shared: (libraryName: string, defaultConfig: any) => {
-    if (libraryName in sharedMappings) {
-      return {
-        ...sharedMappings[libraryName],
-        eager: true
-      };
-    }
-    return {
-      ...defaultConfig,
-      eager: true
-    };
-  }
+    ['mfe-auth', 'http://localhost:4201/mf-manifest.json'],
+    ['mfe-dashboard', 'http://localhost:4202/mf-manifest.json'],
+    ['mfe-reporting', 'http://localhost:4203/mf-manifest.json']
+  ]
 };
 
 export default config;

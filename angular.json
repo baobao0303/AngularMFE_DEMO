@@ -10,24 +10,30 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@nx/angular:webpack-browser",
           "options": {
             "outputPath": "dist/apps/app-shell",
             "index": "apps/app-shell/src/index.html",
             "main": "apps/app-shell/src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "apps/app-shell/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": ["apps/app-shell/src/assets"],
             "styles": ["apps/app-shell/src/styles.scss"],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
+            "customWebpackConfig": {
+              "path": "apps/app-shell/webpack.config.ts"
+            }
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nx/angular:dev-server",
           "options": {
             "buildTarget": "app-shell:build",
-            "port": 4200
+            "port": 4200,
+            "liveReload": false,
+            "hmr": false
           }
         }
       }
@@ -39,24 +45,30 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@nx/angular:webpack-browser",
           "options": {
             "outputPath": "dist/apps/mfe-auth",
             "index": "apps/mfe-auth/src/index.html",
             "main": "apps/mfe-auth/src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "apps/mfe-auth/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": ["apps/mfe-auth/src/assets"],
             "styles": ["apps/mfe-auth/src/styles.scss"],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
+            "customWebpackConfig": {
+              "path": "apps/mfe-auth/webpack.config.ts"
+            }
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nx/angular:dev-server",
           "options": {
             "buildTarget": "mfe-auth:build",
-            "port": 4201
+            "port": 4201,
+            "liveReload": false,
+            "hmr": false
           }
         }
       }
@@ -68,24 +80,30 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@nx/angular:webpack-browser",
           "options": {
             "outputPath": "dist/apps/mfe-dashboard",
             "index": "apps/mfe-dashboard/src/index.html",
             "main": "apps/mfe-dashboard/src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "apps/mfe-dashboard/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": ["apps/mfe-dashboard/src/styles.scss"],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
+            "customWebpackConfig": {
+              "path": "apps/mfe-dashboard/webpack.config.ts"
+            }
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nx/angular:dev-server",
           "options": {
             "buildTarget": "mfe-dashboard:build",
-            "port": 4202
+            "port": 4202,
+            "liveReload": false,
+            "hmr": false
           }
         }
       }
@@ -97,24 +115,30 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@nx/angular:webpack-browser",
           "options": {
             "outputPath": "dist/apps/mfe-reporting",
             "index": "apps/mfe-reporting/src/index.html",
             "main": "apps/mfe-reporting/src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "apps/mfe-reporting/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": ["apps/mfe-reporting/src/styles.scss"],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
+            "customWebpackConfig": {
+              "path": "apps/mfe-reporting/webpack.config.ts"
+            }
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nx/angular:dev-server",
           "options": {
             "buildTarget": "mfe-reporting:build",
-            "port": 4203
+            "port": 4203,
+            "liveReload": false,
+            "hmr": false
           }
         }
       }

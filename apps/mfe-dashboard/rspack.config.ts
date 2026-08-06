@@ -5,5 +5,5 @@ import moduleFederationConfig from './module-federation.config';
 export default composePlugins(
   withNx(),
   withWeb(),
-  withModuleFederation(moduleFederationConfig)
+  withModuleFederation(moduleFederationConfig, { dts: false })
 );

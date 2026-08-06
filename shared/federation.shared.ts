@@ -123,14 +123,13 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
         key.startsWith('rxjs/') ||
         key === 'rxjs'
       ) {
-        return { singleton: true, strictVersion: false, requiredVersion: getRequiredVersion(key), eager: true };
+        return { singleton: true, strictVersion: false, requiredVersion: getRequiredVersion(key) };
       }
       if (Reflect.has(target, key)) {
         const item = Reflect.get(target, key);
         return {
           ...item,
-          requiredVersion: item.requiredVersion === 'auto' ? getRequiredVersion(key) : item.requiredVersion,
-          eager: true
+          requiredVersion: item.requiredVersion === 'auto' ? getRequiredVersion(key) : item.requiredVersion
         };
       }
     }

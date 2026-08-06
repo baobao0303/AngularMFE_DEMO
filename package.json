@@ -8,7 +8,7 @@
     "start:auth": "nx serve mfe-auth",
     "start:dashboard": "nx serve mfe-dashboard",
     "start:reporting": "nx serve mfe-reporting",
-    "build": "nx run-many -t build --parallel=4",
+    "build": "nx affected -t build --parallel=4",
     "build:lib": "nx build core && nx build ui",
     "test": "nx run-many -t test"
   },
@@ -49,6 +49,8 @@
     "@nx/module-federation": "23.1.0",
     "@nx/web": "23.1.0",
     "@nx/workspace": "23.1.0",
+    "@swc-node/register": "^1.12.1",
+    "@swc/core": "^1.15.47",
     "@types/jest": "~29.5.12",
     "@types/node": "^20.14.9",
     "eslint": "^9.8.0",
@@ -62,5 +64,8 @@
     "ts-node": "10.9.1",
     "typescript": "~5.4.5",
     "typescript-eslint": "^8.0.0"
+  },
+  "allowScripts": {
+    "@swc/core@1.15.47": true
   }
 }

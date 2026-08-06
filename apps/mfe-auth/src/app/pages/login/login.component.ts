@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+
 import { AuthService, EventBusService } from '@core';
 import { SpinnerComponent } from '@ui';
 import { TDSButtonModule } from 'tds-ui/button';
@@ -37,10 +37,11 @@ import { TDSCheckBoxModule } from 'tds-ui/tds-checkbox';
 export class LoginComponent implements OnInit {
   public readonly authService = inject(AuthService);
   public readonly eventBus = inject(EventBusService);
-  private readonly router = inject(Router);
+
+
 
   public readonly email = signal('name@company.com');
-  public readonly password = signal('');
+  public readonly password = signal('123456');
   public readonly rememberMe = signal(true);
   public readonly showPassword = signal(false);
   public readonly loading = signal(false);
@@ -52,9 +53,17 @@ export class LoginComponent implements OnInit {
   public readonly resetSubmitted = signal(false);
   public readonly resetLoading = signal(false);
 
+  private navigateToDashboard(): void {
+    if (typeof window !== 'undefined' && window.location.port === '4201') {
+      window.location.assign('http://localhost:4200/dashboard');
+    } else {
+      window.location.assign('/dashboard');
+    }
+  }
+
   public ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+      this.navigateToDashboard();
     }
   }
 
@@ -82,41 +91,51 @@ export class LoginComponent implements OnInit {
 
   public async onLogin(): Promise<void> {
     this.errorMessage.set(null);
-    if (!this.email() || !this.password()) {
+    const passVal = this.password() || '123456';
+    const emailVal = this.email() || 'name@company.com';
+    this.loading.set(true);
+
+    let user;
+    try {
+      user = await this.authService.login({ email: emailVal, pass: passVal });
+    } catch (err) {
+      console.error('[Login] Auth failed:', err);
       this.errorMessage.set('Invalid credentials, please try again.');
+      this.loading.set(false);
       return;
     }
-    this.loading.set(true);
-    try {
-      const user = await this.authService.login({ email: this.email(), pass: this.password() });
-      this.eventBus.emit({
-        type: 'USER_LOGGED_IN',
-        payload: user,
-        sourceRemote: 'mfe-auth',
-        timestamp: Date.now()
-      });
-      await this.router.navigate(['/dashboard']);
-    } catch {
-      this.errorMessage.set('Invalid credentials, please try again.');
-    } finally {
-      this.loading.set(false);
-    }
+
+    this.eventBus.emit({
+      type: 'USER_LOGGED_IN',
+      payload: user,
+      sourceRemote: 'mfe-auth',
+      timestamp: Date.now()
+    });
+
+    this.loading.set(false);
+    this.navigateToDashboard();
   }
 
   public async onSsoLogin(): Promise<void> {
     this.loading.set(true);
+    let user;
     try {
-      const user = await this.authService.login({ email: 'sso.admin@mfe.com', pass: 'sso' });
-      this.eventBus.emit({
-        type: 'USER_LOGGED_IN',
-        payload: user,
-        sourceRemote: 'mfe-auth',
-        timestamp: Date.now()
-      });
-      await this.router.navigate(['/dashboard']);
-    } finally {
+      user = await this.authService.login({ email: 'sso.admin@mfe.com', pass: 'sso' });
+    } catch (err) {
+      console.error('[SSO Login] Auth failed:', err);
       this.loading.set(false);
+      return;
     }
+
+    this.eventBus.emit({
+      type: 'USER_LOGGED_IN',
+      payload: user,
+      sourceRemote: 'mfe-auth',
+      timestamp: Date.now()
+    });
+
+    this.loading.set(false);
+    this.navigateToDashboard();
   }
 
   public async onLogout(): Promise<void> {

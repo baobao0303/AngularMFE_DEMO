@@ -29,3 +29,8 @@ projects/
 !projects/.gitkeep
 node_modules
 package-lock.json
+
+# Module Federation auto-generated type definitions and cache
+@mf-types/
+.mf/
+
