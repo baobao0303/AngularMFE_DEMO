@@ -280,7 +280,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   private triggerToast(title: string, content: string, type: 'success' | 'info' | 'warning' | 'error' = 'success'): void {
-    this.actionToastMessage.set(content);
     if (type === 'success') {
       this.notification.success(title, content);
     } else if (type === 'warning') {
@@ -290,8 +289,5 @@ export class ProjectsComponent implements OnInit {
     } else {
       this.notification.info(title, content);
     }
-    setTimeout(() => {
-      this.actionToastMessage.set(null);
-    }, 2500);
   }
 }
