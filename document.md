@@ -4,16 +4,10 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | **Hệ thống** | Company Enterprise Micro-Frontend Portal |
-| **Phiên bản kiến trúc** | 1.0.0 |
-| **Đơn vị sở hữu** | Company Engineering |
-| **Trạng thái** | Nháp / Đang phát triển |
 | **Framework** | Angular 18 |
 | **Monorepo** | Nx Workspace 23.x |
 | **Cơ chế MFE** | Webpack Module Federation (`@module-federation/enhanced`) |
 | **UI Stack** | Telenor Design System (`tds-ui`) + Tailwind CSS + SCSS |
-| **Kiểm thử** | Jest + ESLint |
-| **Runtime yêu cầu** | Node.js >= 18.x; trình duyệt hỗ trợ ES2022 |
-
 ---
 
 ## Mục lục
@@ -50,7 +44,7 @@ Tài liệu này là **Technical System Document (TSD)** — định nghĩa ki�
 - Port assignments, yêu cầu môi trường, lệnh vận hành
 
 ### 1.3. Ngoài phạm vi
-- Tài liệu nghiệp vụ (`spec_new.md`)
+- Tài liệu nghiệp vụ (`spec.md`)
 - Tài liệu hướng dẫn người dùng cuối
 - Topology triển khai production ngoài môi trường local
 
@@ -101,27 +95,14 @@ Hệ thống áp dụng mẫu **Host-Remote Micro-Frontend** trong 1 **Nx Worksp
 └─────────────────────────────────────────────────────────────────────────┘
                                     │
                     Composition chỉ xảy ra tại runtime
-                                    ▼
-┌──────────────────────────────────────────────────────────────────────────┐
-│  Browser                                                                 │
-│  ┌──────────────────────────────────────────────────────────────────┐    │
-│  │ App Shell (Host) :4200                                           │    │
-│  │ ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐       │    │
-│  │ │ Sidebar  │  │ Header   │  │ AuthGuard│  │ RouterOutlet │       │    │
-│  │ └──────────┘  └──────────┘  └──────────┘  └──────┬───────┘       │    │
-│  │                                         loadRemoteModule         │    │
-│  └────────────────────────────────┬─────────────────────────────────┘    │
-│                                   │                                      │
-│             ┌─────────────────────┼─────────────────────┐                │
-│             ▼                     ▼                     ▼                │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐        │
+          │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐        │
 │  │ mfe-auth         │  │ mfe-dashboard    │  │ mfe-reporting    │        │
 │  │    :4201         │  │    :4202         │  │    :4203         │        │
 │  │ Login            │  │ Dashboard        │  │ Reporting        │        │
 │  │ Forgot Pwd       │  │ Projects         │  │ Export PDF       │        │
 │  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘        │
 │           │                     │                     │                  │
-│           └─────────────────────┼─────────────────────┘                │
+│           └─────────────────────┼─────────────────────┘                  │
 │                                 │                                        │
 │                           Shared Runtime Layer                           │
 │  @angular/* (singleton)   rxjs (singleton)   tds-ui (singleton)          │
@@ -142,18 +123,69 @@ Hệ thống áp dụng mẫu **Host-Remote Micro-Frontend** trong 1 **Nx Worksp
 
 ### 4.1. App Shell (`apps/app-shell`)
 
-**Trách nhiệm**: Host container cung cấp layout, routing toàn cục, authentication enforcement, error pages.
+**Trách nhiệm**: Host application; layout container, global navigation, authentication guard, remote module loader.
 
-| Thành phần / Service | Vị trí | Trách nhiệm |
+| Thành phần | Đường dẫn | Trách nhiệm |
 |---|---|---|
-| `app.routes.ts` | `apps/app-shell/src/app/` | Root router config với `loadRemoteModule` entries và `authGuard` attachment. |
-| `authGuard` | `apps/app-shell/src/app/` | Kiểm tra `localStorage` có `mfe_jwt_token`; redirect unauthenticated về `/auth/login`. |
-| `ForbiddenComponent` (`page-403`) | `apps/app-shell/src/app/` | Render 403 khi truy cập route protected thiếu quyền. |
-| `NotFoundComponent` (`page-404`) | `apps/app-shell/src/app/` | Render 404 với mascot TDS khi route không khớp. |
-| Layout | `apps/app-shell/src/app/` | Sidebar navigation, Header, primary content outlet. |
+| `AppComponent` | `apps/app-shell/src/app/app.component.ts` | Layout shell: Sidebar (`tds-side-nav`), Header (`tds-header`), `<router-outlet>`. |
+| `authGuard` | `apps/app-shell/src/app/guards/auth.guard.ts` | Functional CanActivate guard; kiểm tra JWT token trong `localStorage`. Redirect đến `/auth/login` nếu chưa auth. |
+| `app.routes.ts` | `apps/app-shell/src/app/app.routes.ts` | Dynamic routes mapping tới remote modules via `loadRemoteModule`. |
 
 **Port**: `4200`  
 **Chiến lược routing**: Host sở hữu toàn bộ top-level routes; remotes mount như lazy-loaded route segments.
+
+#### 🔄 Sơ đồ luồng khởi động hệ thống (System Startup Flow)
+
+```
+Người dùng mở trình duyệt
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  Browser nhận HTML từ App Shell                         │
+│  http://localhost:4200                                  │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Angular bootstrap trong App Shell                      │
+│  - Tải @angular/core, rxjs, tds-ui từ Host bundle       │
+│    (singleton scope)                                    │
+│  - Khởi tạo DI container                                │
+│  - Tải Layout: Sidebar + Header + RouterOutlet          │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Host router resolve route ban đầu                      │
+│                                                         │
+│  ┌─────────────┐    ┌──────────────┐                    │
+│  │ Public route │    │ Protected    │                   │
+│  │ /auth/login  │    │ /dashboard   │                   │
+│  └──────┬──────┘    └──────┬───────┘                    │
+│         │                  │                            │
+│         ▼                  ▼                            │
+│  loadRemoteModule()   authGuard kiểm tra localStorage   │
+│  - mfe-auth:4201    - Có token → loadRemoteModule()     │
+│  - ./Login          - Không token → redirect /auth/login│
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Browser fetch remoteEntry.js + shared chunks           │
+│  từ dev server của MFE tương ứng                        │
+│  (ví dụ: http://localhost:4202/remoteEntry.js)          │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Remote module bootstrap                                │
+│  - Tiêu thụ @angular/core từ Host (singleton)           │
+│  - Injector hierarchy vẫn là 1 cấp                      │
+│  - Component render vào RouterOutlet của Host           │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
 
 ### 4.2. MFE Auth (`apps/mfe-auth`)
 
@@ -166,6 +198,53 @@ Hệ thống áp dụng mẫu **Host-Remote Micro-Frontend** trong 1 **Nx Worksp
 
 **Port**: `4201`  
 **Auth model**: Mock authentication; không phụ thuộc backend. Token là JWT-like string stored client-side.
+
+#### 🔄 Sơ đồ luồng đăng nhập (Login Flow)
+
+```
+Người dùng truy cập /auth/login
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  App Shell (Host)                                       │
+│  authGuard: /auth/login là public route                 │
+│  → Cho phép truy cập                                    │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  loadRemoteModule({ remoteName: 'mfe-auth', ... })      │
+│  Browser fetch: http://localhost:4201/remoteEntry.js    │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  MFE Auth bootstrap trong RouterOutlet                  │
+│  LoginComponent hiển thị                                │
+└────────────────────────┬────────────────────────────────┘
+                         │
+            Người dùng nhập credentials & bấm Đăng nhập
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  LoginComponent → AuthService.login(...)                │
+│  → MockApiInterceptor intercept & trả mock JWT + user   │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  StorageService lưu mfe_jwt_token & mfe_mock_user       │
+│  EventBus.emit('USER_LOGGED_IN', payload)               │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Router.navigate(['/dashboard'])                        │
+│  → authGuard kiểm tra token OK → Load MFE Dashboard     │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
 
 ### 4.3. MFE Dashboard (`apps/mfe-dashboard`)
 
@@ -187,6 +266,42 @@ Hệ thống áp dụng mẫu **Host-Remote Micro-Frontend** trong 1 **Nx Worksp
 
 **Port**: `4202`
 
+#### 🔄 Sơ đồ luồng tương tác Kanban (Kanban Board Interaction Flow)
+
+```
+Người dùng chọn "Projects" trong Sidebar
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  Host router resolves /projects                         │
+│  → authGuard: token OK → loadRemoteModule('mfe-dashboard')│
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Browser fetch mfe-dashboard remoteEntry.js             │
+│  ProjectsComponent bootstrap                            │
+└────────────────────────┬────────────────────────────────┘
+                         │
+            Người dùng tạo dự án mới qua Modal
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  ProjectsComponent → ProjectsService.create(...)        │
+│  → MockApiInterceptor lưu mock DB & trả về data         │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  ProjectsComponent cập nhật Signals state               │
+│  → TDSNotificationService.success('Đã tạo thành công')  │
+│  → EventBus.emit('PROJECT_CREATED', { project })        │
+│    (mfe-reporting tự động refresh thống kê)             │
+└────────────────────────┬────────────────────────────────┘
+```
+
+---
+
 ### 4.4. MFE Reporting (`apps/mfe-reporting`)
 
 **Trách nhiệm**: Analytics, performance statistics, and data export.
@@ -205,24 +320,57 @@ Hệ thống áp dụng mẫu **Host-Remote Micro-Frontend** trong 1 **Nx Worksp
 
 ## 5. Thư viện dùng chung
 
-### 5.1. `libs/core`
-Cross-cutting business logic, không phụ thuộc UI (không import TDS UI trực tiếp).
+Phân khu `libs/` chứa các tài nguyên được chia sẻ giữa **Host (`app-shell`)** và các **Remote MFEs (`mfe-auth`, `mfe-dashboard`, `mfe-reporting`)**.
 
-| Module | Vị trí | Trách nhiệm |
-|---|---|---|
-| `MockApiInterceptor` | `libs/core/src/lib/` | Intercept `HttpClient` requests; trả mock responses cho Auth, Projects, Reporting endpoints. Loại bỏ backend dependency trong dev/demo. |
-| `AuthorizationTokenInterceptor` | `libs/core/src/lib/` | Đọc `mfe_jwt_token` từ `localStorage`; gắn header `Authorization: Bearer <token>` vào mọi outgoing HTTP request. |
-| `StorageService` | `libs/core/src/lib/` | Type-safe wrapper cho `localStorage` / `sessionStorage` với SSR-safe guards. |
-| `EventBusService` | `libs/core/src/lib/` | In-memory Pub/Sub channel. Methods: `emit(event, payload)`, `subscribe(event, handler)`, `unsubscribe(event, handler)`. |
+### 5.1. `libs/core` (`@core`) — Logic & Hạ tầng nghiệp vụ
 
-### 5.2. `libs/ui`
-Shared UI tokens, global styles, TDS overrides.
+| Tài nguyên share | Loại | Lý do bắt buộc phải share |
+| ---------------- | ---- | ------------------------- |
+| **`EventBusService`** | Service (Singleton) | **Giao tiếp liên MFE:** Đảm bảo tất cả MFE dùng chung 1 kênh Pub/Sub duy nhất. Nếu không share, các sự kiện như `USER_LOGGED_IN` hay `USER_LOGGED_OUT` từ `mfe-auth` sẽ không truyền tới được Host hay các Remote khác. |
+| **`StorageService`** | Service | **Đồng bộ phiên đăng nhập:** Thống nhất việc đọc/ghi `localStorage` (`mfe_jwt_token`, `mfe_mock_user`) giữa các MFE, đồng thời đảm bảo an toàn không gây lỗi khi chạy Server-Side Rendering (SSR). |
+| **`AuthorizationTokenInterceptor`** | HTTP Interceptor | **Bảo mật nhất quán:** Tự động đính kèm header `Authorization: Bearer <token>` cho mọi HTTP request từ tất cả MFE mà không phải viết lại logic ở từng app. |
+| **`MockApiInterceptor`** | HTTP Interceptor | **Giả lập dữ liệu dùng chung:** Bắt request và trả dữ liệu giả lập cho toàn bộ ứng dụng trong quá trình phát triển local, giúp độc lập với backend. |
+| **`BaseApiService` / `BaseLoadingService`** | Base Service | **Tái sử dụng & Thống nhất API:** Thống nhất cách thức gọi HTTP request và quản lý trạng thái tải (Loading spinner) trên toàn bộ hệ thống. |
 
-| Module | Vị trí | Trách nhiệm |
-|---|---|---|
-| `global.scss` | `libs/ui/src/lib/styles/` | Global CSS overrides cho Telenor Design System. Import trong mỗi app's `styles.scss`. |
-| Toast Notification | `libs/ui/src/lib/styles/` | Width `340px`; left border color và icon thay đổi theo status. |
-| Close Button | `libs/ui/src/lib/styles/` | 24×24px, positioned `top: 10px; right: 10px`; hover background transition; font-icon fallback. |
+#### 🔄 Sơ đồ luồng HTTP request xuyên biên giới MFE
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  MFE Dashboard / ProjectsComponent                       │
+│  ProjectsService.getProjects() → HttpClient.get(...)    │
+└────────────────────────┬─────────────────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────────────────┐
+│  AuthorizationTokenInterceptor                           │
+│  - Đọc localStorage: mfe_jwt_token                       │
+│  - Gắn header: Authorization: Bearer <token>             │
+└────────────────────────┬─────────────────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────────────────┐
+│  MockApiInterceptor                                      │
+│  - Match URL /api/projects → Trả mock data từ bộ nhớ     │
+└────────────────────────┬─────────────────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────────────────┐
+│  Response trả về ProjectsComponent → Signals update UI   │
+└────────────────────────┬─────────────────────────────────┘
+```
+
+---
+
+### 5.2. `libs/ui` (`@ui`) — Giao diện & Styling System
+
+| Tài nguyên share | Loại | Lý do bắt buộc phải share |
+| ---------------- | ---- | ------------------------- |
+| **`global.scss`** | SCSS Stylesheet | **Đồng bộ thiết kế (Branding):** Chứa CSS variables, Tailwind directives và quy tắc ghi đè Telenor Design System (`tds-ui`). Giúp tất cả MFE có cùng màu sắc, font chữ và trải nghiệm UI thống nhất mà không phải định dạng lại từng app. |
+| **`CardComponent`** | UI Component | **Chuẩn hóa khung hiển thị:** Thống nhất bố cục Card (Header, Body, Footer) và hiệu ứng thị giác trên toàn hệ thống. |
+| **`BadgeComponent`** | UI Component | **Chuẩn hóa nhãn trạng thái:** Thống nhất màu sắc các nhãn trạng thái (`success`, `warning`, `danger`, `info`) ở tất cả các trang. |
+| **`SpinnerComponent`** | UI Component | **Tải trang đồng bộ:** Đảm bảo biểu tượng loading hiển thị giống hệt nhau khi tải bất kỳ MFE hay dữ liệu async nào. |
+| **Toast Notification Styles** | SCSS Rule | **Đồng bộ thông báo:** Đảm bảo kích thước (`340px`), viền màu trạng thái và vị trí Toast giống hệt nhau dù phát ra từ MFE nào. |
+| **Close Button Styles** | SCSS Rule | **Đồng bộ nút đóng:** Thống nhất kích thước `24×24px` và hiệu ứng hover nút đóng trên các Modal/Drawer. |
 
 ---
 
@@ -245,17 +393,45 @@ export const federationShared = {
 };
 ```
 
-**`singleton: true`**: yêu cầu Webpack chỉ giữ 1 instance của package trên toàn bộ shared scope.  
-→ Khi Remote cần dùng `@angular/core`, nó sẽ dùng chung instance mà Host đã tải, thay vì tự bundle 1 bản riêng.  
-→ Tránh lỗi: nhiều `Injector`, nhiều `ChangeDetectorRef`, `EventBus` hoạt động rời rạc.
+**Phân biệt mục đích giữa `shared` và `singleton: true`**:
 
-**`strictVersion: false`**: không bắt buộc Host và Remote phải cùng version tuyệt đối.  
-→ Cho phép minor version drift trong dev, ví dụ Host dùng `@angular/core@18.2.0`, Remote dùng `@angular/core@18.2.1` vẫn được coi là compatible.  
-→ Trong production, versions nên được align qua workspace `package.json` để đảm bảo deterministic build.
+- **Mục đích của việc Share (`shared`):** **Tối ưu dung lượng (Bundle Deduplication)**  
+  → Giúp các MFE dùng chung file bundle thay vì mỗi Remote tự đóng gói (bundle) lại thư viện đó vào build output của mình, giảm dung lượng tải qua mạng.
 
-> Lưu ý: `strictVersion: false` chỉ nên dùng trong dev. Trong CI/production, khuyến nghị đặt `strictVersion: true` để phát hiện drift sớm.
+- **Mục đích của `singleton: true`:** **Đảm bảo 1 Instance duy nhất trong bộ nhớ ở Runtime (Single Memory Instance)**  
+  → Bắt buộc Webpack chỉ khởi tạo **đúng 1 instance duy nhất trong bộ nhớ (memory)** cho package đó trên toàn bộ ứng dụng, kể cả khi các MFE được load động vào thời điểm khác nhau.  
+  → **Lý do bắt buộc cho `@angular/*`, `rxjs`, `@core`:**  
+    - Angular quản lý trạng thái qua Dependency Injection (DI) Container và Zone.js. Nếu tồn tại nhiều hơn 1 instance của `@angular/core` trong bộ nhớ, DI Container sẽ bị vỡ, làm sai lệch `ChangeDetectorRef` và biến các Service `providedIn: 'root'` thành nhiều bản thể riêng biệt.  
+    - RxJS `Subject` / `Observable` và `EventBusService` bắt buộc phải chạy trên cùng 1 instance memory để sự kiện Pub/Sub liên-MFE hoạt động chính xác.
 
-**Cơ sở thiết kế**: toàn bộ các package trong bảng trên đều là thư viện framework/core, không phải business feature. Việc đảm bảo chúng singleton là bắt buộc để hệ thống MFE chạy ổn định.
+- **Mục đích của `strictVersion: false`:** **Linh hoạt phiên bản trong môi trường Dev**  
+  → Cho phép minor version drift giữa Host và Remote (ví dụ Host dùng `@angular/core@18.2.0`, Remote dùng `@angular/core@18.2.1`) mà Webpack vẫn ép buộc dùng chung 1 instance thay vì tự động load bản fallback thứ 2.
+
+> ⚠️ **Lưu ý**: `strictVersion: false` hỗ trợ linh hoạt khi dev local, nhưng trong môi trường Production nên đặt `strictVersion: true` để đảm bảo tuyệt đối tính đồng nhất phiên bản.
+
+#### 🔄 Sơ đồ luồng Singleton Resolution
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  Host Bundle (app-shell)                                 │
+│  - @angular/core@18.2.0  ← singleton instance #1         │
+│  - rxjs@7.8.0            ← singleton instance #2         │
+│  - tds-ui@18.6.2         ← singleton instance #3         │
+│  - @core                 ← singleton instance #4         │
+│  - @ui                   ← singleton instance #5         │
+│                          │ (Shared scope)                │
+│                          ▼                               │
+│  Remote Bundle (mfe-dashboard)                           │
+│  - Requests: @angular/core → dùng Instance #1 của Host   │
+│  - Requests: rxjs          → dùng Instance #2 của Host   │
+│                                                          │
+│  ✅ Angular DI container vẫn là 1 cấp duy nhất           │
+│  ✅ Services providedIn: 'root' là truly singleton       │
+└──────────────────────────────────────────────────────────┘
+
+---
+
+
 
 ### 6.2. Remote Entrypoints
 
@@ -307,15 +483,42 @@ Nếu thiếu `singleton: true` cho shared package:
 ### 7.1. Routing Contract
 Host sở hữu canonical route map. Remote components không được define top-level routes độc lập.
 
-| Host Route | Remote Source | Method |
-|---|---|---|
-| `/auth/login` | `mfe-auth` / `./Login` | `loadRemoteModule({ type: 'module', remoteName: 'mfe-auth', exposedModule: './Login' })` |
-| `/auth/forgot-password` | `mfe-auth` / `./ForgotPassword` | `loadRemoteModule(...)` |
-| `/dashboard` | `mfe-dashboard` / `./Dashboard` | `loadRemoteModule(...)` |
-| `/projects` | `mfe-dashboard` / `./Projects` | `loadRemoteModule(...)` |
-| `/reporting` | `mfe-reporting` / `./Reporting` | `loadRemoteModule(...)` |
+| Host Route               | Remote Source                  | Method                                                                                   |
+| ------------------------ | ------------------------------ | ---------------------------------------------------------------------------------------- |
+| `/auth/login`            | `mfe-auth` / `./Login`         | `loadRemoteModule({ type: 'module', remoteName: 'mfe-auth', exposedModule: './Login' })` |
+| `/auth/forgot-password`  | `mfe-auth` / `./ForgotPassword`| `loadRemoteModule(...)`                                                                  |
+| `/dashboard`             | `mfe-dashboard` / `./Dashboard`| `loadRemoteModule(...)`                                                                  |
+| `/projects`              | `mfe-dashboard` / `./Projects` | `loadRemoteModule(...)`                                                                  |
+| `/reporting`             | `mfe-reporting` / `./Reporting`| `loadRemoteModule(...)`                                                                  |
+
+#### 💡 Phân biệt các kiểu `import` trong hệ thống
+
+| Tiêu chí so sánh           | Local `import()` (`import('./local')`) | Static Remote `import()` (`import('mfe-auth/Login')`) | Dynamic `loadRemoteModule(...)` (Nx / Manifest Helper) |
+| -------------------------- | ------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| **Bản chất**               | ESM Dynamic Import nội bộ             | **Webpack Remotes Config Import**                     | **Manifest-driven Dynamic Remote Load**               |
+| **Cấu hình URL**           | Đường dẫn tương đối file cục bộ       | Cấu hình cứng URL trong `webpack.config.ts` (`remotes: { 'mfe-auth': 'http://...' }`) | **Đọc động tại Runtime** từ `federation.manifest.json` hoặc API backend |
+| **Khai báo Type (d.ts)**   | TypeScript tự nhận biết               | Bắt buộc phải tạo file `decl.d.ts` (`declare module 'mfe-auth/*';`) | Không bắt buộc `decl.d.ts`, load qua Manifest Config |
+| **Khả năng đổi Server URL**| Không thể                             | Phải re-build Host nếu đổi IP/Port của Remote         | **Hoàn toàn linh hoạt:** Đổi URL trên Manifest/API mà KHÔNG CẦN re-build Host |
+
+**Tóm lại:**
+1. **Local `import()`**: Dùng cho Code Splitting các file `.ts` nội bộ trong cùng 1 project.
+2. **Static Remote `import('mfe-name/Module')`**: Dùng Module Federation nhưng URL của remoteEntry.js bị **cố định trong `webpack.config.ts`** lúc build Host.
+3. **Dynamic `loadRemoteModule(...)`**: Chuẩn được dự án lựa chọn! Cho phép Host **nạp URL của các Remote MFE một cách hoàn toàn linh hoạt từ Manifest/API** ở Runtime mà không cần build lại Host khi thay đổi môi trường (Dev/Staging/Prod).
+
+
 
 ### 7.2. EventBus Contract
+
+#### 🛠️ Bản chất triển khai: Tự viết (Custom In-House) vs Thư viện ngoài
+EventBus trong hệ thống là **mã nguồn tự phát triển (Custom-built)** đặt tại `libs/core/src/lib/infrastructure/event-bus.service.ts`, kế thừa từ lớp trừu tượng `BaseEventBusService`.
+
+- **Cơ chế hoạt động:** Sử dụng `Subject<MfeEvent<any>>` của RxJS kết hợp toán tử `filter()` để điều phối luồng dữ liệu (Pub/Sub Event Stream).
+- **Lý do tự viết thay vì cài thư viện bên thứ 3:**
+  1. **Không phụ thuộc thư viện ngoài (Zero External Dependency):** Giảm thiểu rủi ro bảo mật và giữ cho dung lượng bundle size của hệ thống siêu nhẹ.
+  2. **Tận dụng tối đa RxJS & Singleton Scope:** Vì `rxjs` đã được cấu hình `singleton: true` trong Module Federation, `EventBusService` tự động chạy trên 1 instance duy nhất trên toàn bộ Host và các Remote MFE mà không cần thiết lập phức tạp.
+  3. **Tương thích hoàn hảo với Angular Reactive:** Trả về `Observable<MfeEvent<T>>` giúp các Angular Component dễ dàng áp dụng các toán tử RxJS (`takeUntil`, `map`, `debounceTime`) và quản lý hủy đăng ký (unsubscribe) chuẩn xác.
+
+#### 📋 Danh sách Events và Hợp đồng dữ liệu
 Tất cả events là plain objects với discriminated `type` field.
 
 | Event Name | Emitted By | Payload Shape | Subscribers |
@@ -330,6 +533,7 @@ Tất cả events là plain objects với discriminated `type` field.
 - Events phải serializable (không class instances, functions, circular refs).
 - Subscribers phải unsubscribe trong `ngOnDestroy` để tránh memory leaks.
 - Event names phải unique across workspace (khuyến nghị prefix với MFE origin: `AUTH:USER_LOGGED_IN`).
+
 
 ### 7.3. Storage Contract
 | Key | Read/Write | Owner | Description |
@@ -349,46 +553,46 @@ Người dùng mở trình duyệt
         ▼
 ┌─────────────────────────────────────────────────────────┐
 │  Browser nhận HTML từ App Shell                         │
-│  http://localhost:4200                                   │
+│  http://localhost:4200                                  │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  Angular bootstrap trong App Shell                       │
-│  - Tải @angular/core, rxjs, tds-ui từ Host bundle        │
-│    (singleton scope)                                     │
-│  - Khởi tạo DI container                                 │
-│  - Tải Layout: Sidebar + Header + RouterOutlet           │
+│  Angular bootstrap trong App Shell                      │
+│  - Tải @angular/core, rxjs, tds-ui từ Host bundle       │
+│    (singleton scope)                                    │
+│  - Khởi tạo DI container                                │
+│  - Tải Layout: Sidebar + Header + RouterOutlet          │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  Host router resolve route ban đầu                       │
+│  Host router resolve route ban đầu                      │
 │                                                         │
 │  ┌─────────────┐    ┌──────────────┐                    │
-│  │ Public route │    │ Protected    │                    │
-│  │ /auth/login  │    │ /dashboard   │                    │
+│  │ Public route│    │ Protected    │                    │
+│  │ /auth/login │    │ /dashboard   │                    │
 │  └──────┬──────┘    └──────┬───────┘                    │
-│         │                  │                             │
-│         ▼                  ▼                             │
-│  loadRemoteModule()   authGuard kiểm tra localStorage    │
-│  - mfe-auth:4201      - Có token → loadRemoteModule()   │
-│  - ./Login            - Không token → redirect /auth/login│
+│         │                  │                            │
+│         ▼                  ▼                            │
+│  loadRemoteModule()   authGuard kiểm tra localStorage   │
+│  - mfe-auth:4201    - Có token → loadRemoteModule()     │
+│  - ./Login          - Không token → redirect /auth/login│
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  Browser fetch remoteEntry.js + shared chunks            │
-│  từ dev server của MFE tương ứng                         │
-│  (ví dụ: http://localhost:4202/remoteEntry.js)           │
+│  Browser fetch remoteEntry.js + shared chunks           │
+│  từ dev server của MFE tương ứng                        │
+│  (ví dụ: http://localhost:4202/remoteEntry.js)          │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  Remote module bootstrap                                 │
-│  - Tiêu thụ @angular/core từ Host (singleton)            │
-│  - Injector hierarchy vẫn là 1 cấp                       │
-│  - Component render vào RouterOutlet của Host            │
+│  Remote module bootstrap                                │
+│  - Tiêu thụ @angular/core từ Host (singleton)           │
+│  - Injector hierarchy vẫn là 1 cấp                      │
+│  - Component render vào RouterOutlet của Host           │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -399,8 +603,8 @@ Người dùng truy cập /auth/login
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│  App Shell (Host)                                        │
-│  authGuard: /auth/login là public route                  │
+│  App Shell (Host)                                       │
+│  authGuard: /auth/login là public route                 │
 │  → Cho phép truy cập                                    │
 └────────────────────────┬────────────────────────────────┘
                          │
@@ -418,7 +622,7 @@ Người dùng truy cập /auth/login
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  MFE Auth bootstrap trong RouterOutlet                   │
+│  MFE Auth bootstrap trong RouterOutlet                  │
 │  LoginComponent hiển thị                                │
 └────────────────────────┬────────────────────────────────┘
                          │
@@ -426,14 +630,14 @@ Người dùng truy cập /auth/login
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  LoginComponent                                          │
-│  → AuthService.login(username, password, role)           │
+│  LoginComponent                                         │
+│  → AuthService.login(username, password, role)          │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │  HttpClient gửi request                                 │
-│  → MockApiInterceptor intercept                          │
+│  → MockApiInterceptor intercept                         │
 │  → Trả về mock JWT + user data                          │
 └────────────────────────┬────────────────────────────────┘
                          │
@@ -450,22 +654,22 @@ Người dùng truy cập /auth/login
 │    username, role, token                                │
 │  })                                                     │
 │                                                         │
-│  ┌──────────────┐  ┌──────────────┐  ┌───────────────┐ │
-│  │ App Shell    │  │ mfe-dashboard│  │mfe-reporting  │ │
-│  │ Header update│  │ Refresh data │  │ Refresh data  │ │
-│  └──────────────┘  └──────────────┘  └───────────────┘ │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────┐  │
+│  │ App Shell    │  │ mfe-dashboard│  │mfe-reporting  │  │
+│  │ Header update│  │ Refresh data │  │ Refresh data  │  │
+│  └──────────────┘  └──────────────┘  └───────────────┘  │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │  Router.navigate(['/dashboard'])                        │
-│  → Host chuyển route sang /dashboard                     │
+│  → Host chuyển route sang /dashboard                    │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  authGuard kiểm tra localStorage                         │
-│  - Có mfe_jwt_token → CHO PHÉP                         │
+│  authGuard kiểm tra localStorage                        │
+│  - Có mfe_jwt_token → CHO PHÉP                          │
 │  → loadRemoteModule('mfe-dashboard', './Dashboard')     │
 └────────────────────────┬────────────────────────────────┘
                          │
@@ -482,44 +686,44 @@ Người dùng bấm vào menu "Projects" trong Sidebar
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│  Host router resolves /projects                          │
-│  → authGuard: có token → CHO PHÉP                      │
-│  → loadRemoteModule('mfe-dashboard', './Projects')     │
+│  Host router resolves /projects                         │
+│  → authGuard: có token → CHO PHÉP                       │
+│  → loadRemoteModule('mfe-dashboard', './Projects')      │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │  Browser fetch mfe-dashboard remoteEntry.js             │
-│  ProjectsComponent bootstrap                             │
+│  ProjectsComponent bootstrap                            │
 └────────────────────────┬────────────────────────────────┘
                          │
             Người dùng tạo dự án mới qua Modal
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  ProjectsComponent                                       │
-│  → ProjectsService.create(projectData)                   │
-│  → HttpClient POST                                       │
+│  ProjectsComponent                                      │
+│  → ProjectsService.create(projectData)                  │
+│  → HttpClient POST                                      │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  MockApiInterceptor                                      │
-│  → Lưu project vào mock DB                               │
+│  MockApiInterceptor                                     │
+│  → Lưu project vào mock DB                              │
 │  → Trả về project object đã tạo                         │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  ProjectsComponent cập nhật local state                  │
-│  → Signals notify re-render                              │
-│  → TDSNotificationService.success('Đã tạo thành công')   │
-│  → Toast hiển thị ở góc trên bên phải                    │
+│  ProjectsComponent cập nhật local state                 │
+│  → Signals notify re-render                             │
+│  → TDSNotificationService.success('Đã tạo thành công')  │
+│  → Toast hiển thị ở góc trên bên phải                   │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  EventBus.emit('PROJECT_CREATED', { project })           │
+│  EventBus.emit('PROJECT_CREATED', { project })          │
 │                                                         │
 │  ┌──────────────┐                                       │
 │  │mfe-reporting │                                       │
@@ -536,28 +740,28 @@ Người dùng bấm vào menu "Projects" trong Sidebar
 ┌──────────────────────────────────────────────────────────┐
 │  Host Bundle (app-shell)                                 │
 │                                                          │
-│  ┌────────────────────────────────────────────────┐     │
-│  │ @angular/core@18.2.0  ← singleton instance #1  │     │
-│  │ rxjs@7.8.0            ← singleton instance #2  │     │
-│  │ tds-ui@18.6.2         ← singleton instance #3  │     │
-│  │ @core                 ← singleton instance #4  │     │
-│  │ @ui                   ← singleton instance #5  │     │
-│  └────────────────────────────────────────────────┘     │
+│  ┌────────────────────────────────────────────────┐      │
+│  │ @angular/core@18.2.0  ← singleton instance #1  │      │
+│  │ rxjs@7.8.0            ← singleton instance #2  │      │
+│  │ tds-ui@18.6.2         ← singleton instance #3  │      │
+│  │ @core                 ← singleton instance #4  │      │
+│  │ @ui                   ← singleton instance #5  │      │
+│  └────────────────────────────────────────────────┘      │
 │                          │                               │
 │                          │ shared scope                  │
 │                          ▼                               │
-│  ┌────────────────────────────────────────────────┐     │
-│  │ Remote Bundle (mfe-dashboard)                   │     │
-│  │                                                │     │
-│  │  Requests:                                     │     │
-│  │  - @angular/core → Host cung cấp instance #1  │     │
-│  │  - rxjs          → Host cung cấp instance #2  │     │
-│  │  - tds-ui        → Host cung cấp instance #3  │     │
-│  │                                                │     │
-│  │  Result: Chỉ có 1 @angular/core, 1 rxjs, ...  │     │
-│  └────────────────────────────────────────────────┘     │
+│  ┌────────────────────────────────────────────────┐      │
+│  │ Remote Bundle (mfe-dashboard)                  │      │
+│  │                                                │      │
+│  │  Requests:                                     │      │
+│  │  - @angular/core → Host cung cấp instance #1   │      │
+│  │  - rxjs          → Host cung cấp instance #2   │      │
+│  │  - tds-ui        → Host cung cấp instance #3   │      │
+│  │                                                │      │
+│  │  Result: Chỉ có 1 @angular/core, 1 rxjs, ...   │      │
+│  └────────────────────────────────────────────────┘      │
 │                                                          │
-│  ✅ Angular DI container vẫn là 1 cấp duy nhất          │
+│  ✅ Angular DI container vẫn là 1 cấp duy nhất           │
 │  ✅ Services providedIn: 'root' là truly singleton       │
 └──────────────────────────────────────────────────────────┘
 
@@ -580,7 +784,7 @@ KHI THIẾU singleton: true:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  MFE Dashboard / ProjectsComponent                        │
+│  MFE Dashboard / ProjectsComponent                       │
 │                                                          │
 │  ProjectsService.getProjects()                           │
 │  → HttpClient.get('/api/projects')                       │
@@ -597,15 +801,15 @@ KHI THIẾU singleton: true:
 ┌──────────────────────────────────────────────────────────┐
 │  MockApiInterceptor                                      │
 │  - Match URL /api/projects                               │
-│  - Trả về mock data từ bộ nhớ                          │
+│  - Trả về mock data từ bộ nhớ                            │
 │  - Không gọi backend thật                                │
 └────────────────────────┬─────────────────────────────────┘
                          │
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  Response trả về ProjectsComponent                        │
-│  → update() trên Signals                                  │
-│  → Template tự động re-render                             │
+│  Response trả về ProjectsComponent                       │
+│  → update() trên Signals                                 │
+│  → Template tự động re-render                            │
 └────────────────────────┬─────────────────────────────────┘
 ```
 
@@ -613,8 +817,8 @@ KHI THIẾU singleton: true:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│                    EventBusService (singleton)            │
-│                   In-memory Pub/Sub Channel               │
+│                    EventBusService (singleton)           │
+│                   In-memory Pub/Sub Channel              │
 └──────────────────────────────────────────────────────────┘
                          ▲
                          │ subscribe / emit
@@ -622,16 +826,16 @@ KHI THIẾU singleton: true:
         │                │                │
         ▼                ▼                ▼
 ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ mfe-auth     │ │ app-shell    │ │mfe-dashboard  │
+│ mfe-auth     │ │ app-shell    │ │mfe-dashboard │
 │              │ │              │ │              │
 │ emit(        │ │ subscribe(   │ │ emit(        │
 │   USER_      │ │   USER_      │ │   PROJECT_   │
 │   LOGGED_IN) │ │   LOGGED_IN) │ │   CREATED)   │
-│              │ │ → Header      │ │              │
+│              │ │ → Header     │ │              │
 │              │ │   update UI  │ │ subscribe(   │
 │              │ │              │ │   PROJECT_   │
 │              │ │              │ │   CREATED)   │
-│              │ │              │ │ → Refresh     │
+│              │ │              │ │ → Refresh    │
 └──────────────┘ └──────────────┘ └──────────────┘
                          ▲
                          │ subscribe
@@ -663,15 +867,15 @@ QUY TẮC:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  Developer chạy lệnh: npm run build                       │
+│  Developer chạy lệnh: npm run build                      │
 └────────────────────────┬─────────────────────────────────┘
                          │
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  Nx affected computation                                  │
+│  Nx affected computation                                 │
 │  - Phát hiện project nào bị thay đổi                     │
 │  - Xác định dependency graph từ nx.json                  │
-│  - Lọc chỉ build những project bị ảnh hưởng               │
+│  - Lọc chỉ build những project bị ảnh hưởng              │
 └────────────────────────┬─────────────────────────────────┘
                          │
                          ▼
@@ -690,17 +894,17 @@ QUY TẮC:
                          │
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  Deploy lên CDN/Static Hosting                            │
+│  Deploy lên CDN/Static Hosting                           │
 │                                                          │
-│  - Upload dist/ cho từng app                              │
-│  - Đảm bảo remoteEntry.js served với                    │
+│  - Upload dist/ cho từng app                             │
+│  - Đảm bảo remoteEntry.js served với                     │
 │    MIME type: application/javascript                     │
 │  - Cấu hình CDN preserve chunk filenames                 │
 └────────────────────────┬─────────────────────────────────┘
                          │
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  User truy cập production URL                             │
+│  User truy cập production URL                            │
 │  → App Shell tải từ CDN                                  │
 │  → loadRemoteModule tải remotes từ CDN                   │
 │  → Singleton packages được resolve từ Host               │
