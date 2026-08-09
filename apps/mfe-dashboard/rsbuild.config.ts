@@ -3,15 +3,15 @@ import moduleFederationConfig from './module-federation.config';
 import { sharedMappings } from '../../shared/federation.shared';
 import * as path from 'path';
 
-const appDir = path.resolve(process.cwd(), 'apps/mfe-auth');
+const appDir = path.resolve(process.cwd(), 'apps/mfe-dashboard');
 
 export default await createConfig({
   options: {
     root: process.cwd(),
-    browser: 'apps/mfe-auth/src/main.ts',
-    index: 'apps/mfe-auth/src/index.html',
-    tsConfig: 'apps/mfe-auth/tsconfig.app.json',
-    styles: ['apps/mfe-auth/src/styles.scss'],
+    browser: 'apps/mfe-dashboard/src/main.ts',
+    index: 'apps/mfe-dashboard/src/index.html',
+    tsConfig: 'apps/mfe-dashboard/tsconfig.app.json',
+    styles: ['apps/mfe-dashboard/src/styles.scss'],
     inlineStyleLanguage: 'scss',
     assets: [],
     outputHashing: 'none',
@@ -28,16 +28,16 @@ export default await createConfig({
       liveReload: true,
     },
     server: {
-      port: 4201,
+      port: 4202,
     },
     output: {
-      assetPrefix: '/mfe-auth/',
+      assetPrefix: '/mfe-dashboard/',
     },
     tools: {
       rspack: {
         output: {
-          uniqueName: 'mfe_auth',
-          publicPath: '/mfe-auth/',
+          uniqueName: 'mfe_dashboard',
+          publicPath: '/mfe-dashboard/',
         },
         optimization: {
           splitChunks: {
@@ -98,8 +98,8 @@ export default await createConfig({
     moduleFederation: {
       options: {
         ...moduleFederationConfig,
-        name: 'mfe-auth',
-        library: { type: 'global', name: 'mfe_auth' },
+        name: 'mfe-dashboard',
+        library: { type: 'global', name: 'mfe_dashboard' },
         filename: 'remoteEntry.js',
         shared: sharedMappings,
       },

@@ -16,7 +16,7 @@ import { mockApiInterceptor } from './infrastructure/mock-api.interceptor';
  */
 export function provideCore(): Array<Provider | EnvironmentProviders> {
   return [
-    provideHttpClient(withInterceptors([authorizationTokenInterceptorFn, mockApiInterceptor])),
+    provideHttpClient(withInterceptors([authorizationTokenInterceptorFn])),
     StorageService,
     EventBusService,
     ApiService,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Subject, Observable, filter } from 'rxjs';
+
 /**
- * Abstract contract for Cross-MFE Event Bus messaging system.
- * Allows loosely-coupled communication between shell and remote micro-frontends.
+ * Contract and Root Service for Cross-MFE Event Bus messaging system.
  */
 export interface MfeEvent<T = any> {
   type: string;
@@ -11,27 +11,23 @@ export interface MfeEvent<T = any> {
   timestamp: number;
 }
 
-@Injectable()
-export abstract class BaseEventBusService {
-  /**
-   * Emits an event across the event bus stream.
-   *
-   * @template T - Type of the event payload
-   * @param event - The MFE event object to broadcast
-   */
-  public abstract emit<T>(event: MfeEvent<T>): void;
+@Injectable({
+  providedIn: 'root'
+})
+export class BaseEventBusService {
+  private readonly _eventSubject = new Subject<MfeEvent<any>>();
 
-  /**
-   * Listens for events of a specific type.
-   *
-   * @template T - Type of the expected event payload
-   * @param eventType - Unique string identifier of the event type to filter
-   * @returns Observable stream emitting matching MFE events
-   */
-  public abstract on<T>(eventType: string): Observable<MfeEvent<T>>;
+  public emit<T>(event: MfeEvent<T>): void {
+    this._eventSubject.next(event);
+  }
 
-  /**
-   * Complete event bus subject and release resources.
-   */
-  public abstract destroy(): void;
+  public on<T>(eventType: string): Observable<MfeEvent<T>> {
+    return this._eventSubject.asObservable().pipe(
+      filter(e => e.type === eventType)
+    );
+  }
+
+  public destroy(): void {
+    this._eventSubject.complete();
+  }
 }

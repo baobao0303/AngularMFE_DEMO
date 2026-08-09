@@ -60,11 +60,15 @@ const rawSharedMappings: Record<string, { singleton: boolean; strictVersion: boo
   '@angular/core/primitives/signals': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/common': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/common/http': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/common/locales/vi': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/router': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/forms': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/forms/signals': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/animations': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/animations/browser': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/platform-browser': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/platform-browser/animations': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/platform-browser-dynamic': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
   // RxJS
   'rxjs': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
@@ -96,16 +100,12 @@ const rawSharedMappings: Record<string, { singleton: boolean; strictVersion: boo
   '@ngx-translate/core': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
   // Utility & Chart Libraries
-  'apexcharts': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'ng-apexcharts': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'moment': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'crypto-js': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'swiper': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'leaflet': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-
-  // Internal Shared Libraries (@core, @ui)
-  '@core': { singleton: true, strictVersion: false, requiredVersion: '*' },
-  '@ui': { singleton: true, strictVersion: false, requiredVersion: '*' }
+  'apexcharts': { singleton: true, strictVersion: false, requiredVersion: false },
+  'ng-apexcharts': { singleton: true, strictVersion: false, requiredVersion: false },
+  'moment': { singleton: true, strictVersion: false, requiredVersion: false },
+  'crypto-js': { singleton: true, strictVersion: false, requiredVersion: false },
+  'swiper': { singleton: true, strictVersion: false, requiredVersion: false },
+  'leaflet': { singleton: true, strictVersion: false, requiredVersion: false }
 };
 
 export const sharedMappings = new Proxy(rawSharedMappings, {
@@ -132,17 +132,27 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
         key.startsWith('rxjs/') ||
         key === 'rxjs'
       ) {
-        return { singleton: true, strictVersion: false, requiredVersion: getRequiredVersion(key) };
+        return { singleton: true, strictVersion: false, requiredVersion: false };
       }
       if (Reflect.has(target, key)) {
         const item = Reflect.get(target, key);
         return {
           ...item,
-          requiredVersion: item.requiredVersion === 'auto' ? getRequiredVersion(key) : item.requiredVersion
+          requiredVersion: false
         };
       }
     }
     return Reflect.get(target, key);
+  },
+  ownKeys(target) {
+    return Reflect.ownKeys(target);
+  },
+  getOwnPropertyDescriptor(target, prop) {
+    return {
+      enumerable: true,
+      configurable: true,
+      value: (sharedMappings as any)[prop]
+    };
   }
 // Cast to 'any' so it is assignable to Module Federation's `Shared` type,
 // which accepts both array and object forms but is typed as array-only.

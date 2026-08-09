@@ -58,7 +58,8 @@ export class LoginComponent implements OnInit {
   public readonly resetLoading = signal(false);
 
   private navigateToDashboard(): void {
-    console.log('[mfe-auth] Emitted USER_LOGGED_IN, letting shell handle navigation.');
+    console.log('[mfe-auth] Emitted USER_LOGGED_IN, navigating to /dashboard');
+    this.router.navigate(['/dashboard']);
   }
 
   public ngOnInit(): void {

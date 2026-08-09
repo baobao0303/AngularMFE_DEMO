@@ -1,17 +1,16 @@
 import { createConfig } from '@ng-rsbuild/plugin-angular';
-import moduleFederationConfig from './module-federation.config';
 import { sharedMappings } from '../../shared/federation.shared';
 import * as path from 'path';
 
-const appDir = path.resolve(process.cwd(), 'apps/mfe-auth');
+const appDir = path.resolve(process.cwd(), 'apps/app-shell');
 
 export default await createConfig({
   options: {
     root: process.cwd(),
-    browser: 'apps/mfe-auth/src/main.ts',
-    index: 'apps/mfe-auth/src/index.html',
-    tsConfig: 'apps/mfe-auth/tsconfig.app.json',
-    styles: ['apps/mfe-auth/src/styles.scss'],
+    browser: 'apps/app-shell/src/main.ts',
+    index: 'apps/app-shell/src/index.html',
+    tsConfig: 'apps/app-shell/tsconfig.app.json',
+    styles: ['apps/app-shell/src/styles.scss'],
     inlineStyleLanguage: 'scss',
     assets: [],
     outputHashing: 'none',
@@ -28,16 +27,34 @@ export default await createConfig({
       liveReload: true,
     },
     server: {
-      port: 4201,
-    },
-    output: {
-      assetPrefix: '/mfe-auth/',
+      port: 4200,
+      proxy: {
+        '/mfe-auth': {
+          target: 'http://localhost:4201',
+          pathRewrite: { '^/mfe-auth': '' },
+          changeOrigin: true,
+        },
+        '/mfe-dashboard': {
+          target: 'http://localhost:4202',
+          pathRewrite: { '^/mfe-dashboard': '' },
+          changeOrigin: true,
+        },
+        '/mfe-reporting': {
+          target: 'http://localhost:4203',
+          pathRewrite: { '^/mfe-reporting': '' },
+          changeOrigin: true,
+        },
+        '/api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+        },
+      },
     },
     tools: {
       rspack: {
         output: {
-          uniqueName: 'mfe_auth',
-          publicPath: '/mfe-auth/',
+          uniqueName: 'app_shell',
+          publicPath: '/',
         },
         optimization: {
           splitChunks: {
@@ -97,11 +114,16 @@ export default await createConfig({
     },
     moduleFederation: {
       options: {
-        ...moduleFederationConfig,
-        name: 'mfe-auth',
-        library: { type: 'global', name: 'mfe_auth' },
-        filename: 'remoteEntry.js',
-        shared: sharedMappings,
+        name: 'app-shell',
+        shared: Object.keys(sharedMappings).reduce((acc, key) => {
+          acc[key] = {
+            singleton: true,
+            strictVersion: false,
+            requiredVersion: false,
+            eager: true,
+          };
+          return acc;
+        }, {} as Record<string, any>),
       },
     },
   },

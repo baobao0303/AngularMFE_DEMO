@@ -1,49 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 /**
- * Abstract contract for HTTP API client communication.
- * Encapsulates standard RESTful methods (GET, POST, PUT, PATCH, DELETE).
+ * Contract and Root Service for HTTP API client communication.
  */
-@Injectable()
-export abstract class BaseApiService {
-  /**
-   * Performs HTTP GET request.
-   * @template T Response type
-   * @param url Target endpoint URL
-   * @param params Optional query parameters
-   */
-  public abstract get<T>(url: string, params?: HttpParams | Record<string, any>): Observable<T>;
+@Injectable({
+  providedIn: 'root'
+})
+export class BaseApiService {
+  protected readonly http = inject(HttpClient);
 
-  /**
-   * Performs HTTP POST request.
-   * @template T Response type
-   * @param url Target endpoint URL
-   * @param body Request payload
-   */
-  public abstract post<T>(url: string, body: any): Observable<T>;
+  public get<T>(url: string, params?: HttpParams | Record<string, any>): Observable<T> {
+    return this.http.get<T>(url, { params });
+  }
 
-  /**
-   * Performs HTTP PUT request.
-   * @template T Response type
-   * @param url Target endpoint URL
-   * @param body Request payload
-   */
-  public abstract put<T>(url: string, body: any): Observable<T>;
+  public post<T>(url: string, body: any): Observable<T> {
+    return this.http.post<T>(url, body);
+  }
 
-  /**
-   * Performs HTTP PATCH request.
-   * @template T Response type
-   * @param url Target endpoint URL
-   * @param body Request payload
-   */
-  public abstract patch<T>(url: string, body: any): Observable<T>;
+  public put<T>(url: string, body: any): Observable<T> {
+    return this.http.put<T>(url, body);
+  }
 
-  /**
-   * Performs HTTP DELETE request.
-   * @template T Response type
-   * @param url Target endpoint URL
-   */
-  public abstract delete<T>(url: string): Observable<T>;
+  public patch<T>(url: string, body: any): Observable<T> {
+    return this.http.patch<T>(url, body);
+  }
+
+  public delete<T>(url: string): Observable<T> {
+    return this.http.delete<T>(url);
+  }
 }

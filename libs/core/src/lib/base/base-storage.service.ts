@@ -1,31 +1,36 @@
 import { Injectable } from '@angular/core';
 
 /**
- * Abstract contract for Browser Storage operations across Micro-Frontends.
+ * Contract and Root Service for Browser Storage operations across Micro-Frontends.
  */
-@Injectable()
-export abstract class BaseStorageService {
-  /**
-   * Retrieves an item from browser storage.
-   * @param key Storage key
-   */
-  public abstract getItem<T = string>(key: string): T | null;
+@Injectable({
+  providedIn: 'root'
+})
+export class BaseStorageService {
+  public getItem<T = string>(key: string): T | null {
+    if (typeof window === 'undefined') return null;
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as T;
+    } catch {
+      return raw as unknown as T;
+    }
+  }
 
-  /**
-   * Stores an item in browser storage.
-   * @param key Storage key
-   * @param value Value to store (automatically serialized if object)
-   */
-  public abstract setItem<T>(key: string, value: T): void;
+  public setItem<T>(key: string, value: T): void {
+    if (typeof window === 'undefined') return;
+    const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+    localStorage.setItem(key, serialized);
+  }
 
-  /**
-   * Removes an item from browser storage.
-   * @param key Storage key
-   */
-  public abstract removeItem(key: string): void;
+  public removeItem(key: string): void {
+    if (typeof window === 'undefined') return;
+    localStorage.removeItem(key);
+  }
 
-  /**
-   * Clears all items from browser storage.
-   */
-  public abstract clear(): void;
+  public clear(): void {
+    if (typeof window === 'undefined') return;
+    localStorage.clear();
+  }
 }

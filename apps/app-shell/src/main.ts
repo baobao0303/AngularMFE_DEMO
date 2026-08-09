@@ -12,8 +12,8 @@ init({
   name: 'app-shell',
   remotes: [
     { name: 'mfe-auth', entry: '/mfe-auth/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_auth' },
-    { name: 'mfe-dashboard', entry: '/mfe-dashboard/mf-manifest.json' },
-    { name: 'mfe-reporting', entry: '/mfe-reporting/mf-manifest.json' }
+    { name: 'mfe-dashboard', entry: '/mfe-dashboard/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_dashboard' },
+    { name: 'mfe-reporting', entry: '/mfe-reporting/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_reporting' }
   ]
 });
 
