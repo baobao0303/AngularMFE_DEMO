@@ -52,6 +52,12 @@ export default await createConfig({
     },
     tools: {
       rspack: {
+        resolve: {
+          fallback: {
+            path: false,
+            'node:path': false,
+          },
+        },
         output: {
           uniqueName: 'app_shell',
           publicPath: '/',
@@ -115,15 +121,7 @@ export default await createConfig({
     moduleFederation: {
       options: {
         name: 'app-shell',
-        shared: Object.keys(sharedMappings).reduce((acc, key) => {
-          acc[key] = {
-            singleton: true,
-            strictVersion: false,
-            requiredVersion: false,
-            eager: true,
-          };
-          return acc;
-        }, {} as Record<string, any>),
+        shared: sharedMappings,
       },
     },
   },

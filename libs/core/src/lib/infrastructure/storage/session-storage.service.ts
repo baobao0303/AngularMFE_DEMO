@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 
 /**
- * Contract and Root Service for Browser Storage operations across Micro-Frontends.
+ * Dedicated SessionStorage Service for Angular Micro-Frontends.
+ * 100% SSR-Safe for Angular Universal.
  */
 @Injectable({
   providedIn: 'root'
 })
-export class BaseStorageService {
+export class SessionStorageService {
   public getItem<T = string>(key: string): T | null {
     if (typeof window === 'undefined') return null;
-    const raw = localStorage.getItem(key);
+    const raw = sessionStorage.getItem(key);
     if (!raw) return null;
     try {
       return JSON.parse(raw) as T;
@@ -21,16 +22,16 @@ export class BaseStorageService {
   public setItem<T>(key: string, value: T): void {
     if (typeof window === 'undefined') return;
     const serialized = typeof value === 'string' ? value : JSON.stringify(value);
-    localStorage.setItem(key, serialized);
+    sessionStorage.setItem(key, serialized);
   }
 
   public removeItem(key: string): void {
     if (typeof window === 'undefined') return;
-    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
   }
 
   public clear(): void {
     if (typeof window === 'undefined') return;
-    localStorage.clear();
+    sessionStorage.clear();
   }
 }

@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseStorageService } from '../base/base-storage.service';
 
+/**
+ * Dedicated LocalStorage Service for Angular Micro-Frontends.
+ * 100% SSR-Safe for Angular Universal.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class StorageService extends BaseStorageService {
-  public override getItem<T = string>(key: string): T | null {
+export class LocalStorageService {
+  public getItem<T = string>(key: string): T | null {
     if (typeof window === 'undefined') return null;
     const raw = localStorage.getItem(key);
     if (!raw) return null;
@@ -16,18 +19,18 @@ export class StorageService extends BaseStorageService {
     }
   }
 
-  public override setItem<T>(key: string, value: T): void {
+  public setItem<T>(key: string, value: T): void {
     if (typeof window === 'undefined') return;
     const serialized = typeof value === 'string' ? value : JSON.stringify(value);
     localStorage.setItem(key, serialized);
   }
 
-  public override removeItem(key: string): void {
+  public removeItem(key: string): void {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(key);
   }
 
-  public override clear(): void {
+  public clear(): void {
     if (typeof window === 'undefined') return;
     localStorage.clear();
   }

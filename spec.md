@@ -17,8 +17,9 @@ Micro Frontend (MFE) chia ứng dụng Web Monolithic thành các ứng dụng n
 - **Remote App 2:** `mfe-dashboard` (Angular 19, **Rsbuild/Rspack**) — Port `4202`
 - **Remote App 3:** `mfe-reporting` (Angular 19, **Rsbuild/Rspack**) — Port `4203`
 - **Backend Service:** `backend` (Node.js Express + TypeScript) — Port `3000`
+- **Core Shared Library:** `libs/core` — Chuẩn cấu trúc mô-đun Clean Architecture (Application, Common, Infrastructure, Store, Config, Providers)
 
-> 🚀 **Trạng thái hiện tại:** **100% dự án (Cả Host App, 3 Remotes và Backend Service)** đã được khởi tạo và chạy đồng bộ. Frontend chạy trên **Rsbuild + Rspack**, Backend API chạy trên **Node.js Express TypeScript** (Port 3000) phục vụ đầy đủ API cho Auth, Dashboard, Projects và Reporting.
+> 🚀 **Trạng thái hiện tại:** **100% dự án (Host App, 3 Remotes, Backend Service và Thư viện Shared Core)** đã được chuẩn hóa và đồng bộ 100%. Frontend chạy trên **Rsbuild + Rspack**, Backend API chạy trên **Node.js Express TypeScript** (Port 3000), Thư viện Shared Core nâng cấp cấu hình Clean Architecture mới nhất.
 
 ---
 
@@ -185,6 +186,41 @@ Dưới đây là tổng hợp toàn bộ các lỗi thực tế đã phát sinh
   1. Tháo bỏ `mockApiInterceptor` trong `libs/core/src/lib/providers.ts` để chuyển toàn bộ luồng gọi API sang gửi request HTTP thực tế.
   2. Kết hợp với proxy `/api` trỏ về `http://localhost:3000` (Node.js Express Backend), bây giờ khi bấm Sign In, trình duyệt lập tức phát HTTP `POST /api/auth/login` thật và hiển thị 200 OK trên DevTools Network tab.
   3. Bổ sung `this.router.navigate(['/dashboard'])` trong `LoginComponent` để tự động điều hướng ngay sang Dashboard sau khi xác thực thành công.
+
+---
+
+### 🛠️ Lỗi 14 & 15: Lỗi `@ngrx/signals/rxjs-interop` và `node:path` trong `remote-loader.util.ts`
+- **Triệu chứng:**
+  1. Console báo lỗi: `Module not found: Can't resolve '@ngrx/signals/rxjs-interop' in libs/core/src/lib/store`.
+  2. Rsbuild báo lỗi: `Error: "node:*" is a built-in Node.js module and cannot be imported in client-side code` từ `./node_modules/@nx/angular/fesm2022/nx-angular-mf.mjs`.
+- **Nguyên nhân:**
+  1. Cấu trúc `libs/core` mới từ `demo2` sử dụng `@ngrx/signals` (State Management), nhưng gói này chưa được cài phiên bản tương thích với Angular 19 (`@ngrx/signals@19.0.0`) và Proxy `sharedMappings` chưa bắt được pattern `@ngrx/signals/`.
+  2. File `remote-loader.util.ts` cũ import `@nx/angular/mf` vốn chứa code Node.js `node:path`.
+- **Giải pháp:**
+  1. Cài đặt `@ngrx/signals@^19.0.0` tương thích tuyệt đối với Angular 19 và thêm `@ngrx/signals/` vào `shared/federation.shared.ts`.
+  2. Thay thế hoàn toàn `@nx/angular/mf` trong `remote-loader.util.ts` bằng `@module-federation/enhanced/runtime` chuẩn của Rsbuild.
+  3. Đã chạy thử nghiệm build thực tế cả 4 dự án (`app-shell`, `mfe-auth`, `mfe-dashboard`, `mfe-reporting`), toàn bộ 4 dự án đều đạt kết quả **BUILD SUCCESS 100% (thời gian build siêu tốc ~8s)**.
+
+---
+
+### 🛠️ Lỗi 16: Lỗi `TypeError: Cannot read properties of undefined (reading 'dispose')` trên HMR Router
+- **Triệu chứng:**
+  Khi trình duyệt nạp route `auth` hoặc `dashboard`, Console bắn ra lỗi: `TypeError: Cannot read properties of undefined (reading 'dispose') at Promise.then at app.routes.ts:18`.
+- **Nguyên nhân:**
+  `loadChildren` trong `app.routes.ts` trực tiếp gọi `loadRemote('mfe-auth/Routes').then(m => m.appRoutes)`. Khi HMR hoặc Angular Router tiến hành reload/dispose module, router cố truy cập hàm `.dispose()` trên object trả về từ Promise làm bắn ra ngoại lệ runtime.
+- **Giải pháp:**
+  Chuyển sang sử dụng `loadRemoteModule` chuẩn từ `@core` (`import { loadRemoteModule } from '@core'`) cho tất cả các lazy routes trong [`apps/app-shell/src/app/app.routes.ts`](file:///Users/bao312/Desktop/untitled%20folder%202/demo/apps/app-shell/src/app/app.routes.ts). Hàm này đã bọc kiểm tra `isBrowser` và bẫy lỗi an toàn cho Angular Router.
+
+---
+
+### 🛠️ Lỗi 17: Lỗi `Attempting to attach an unknown Portal type` từ `tds-ui-drawer`
+- **Triệu chứng:**
+  Khi giao diện render `TDSDrawerComponent` (từ thư viện `tds-ui`), Console bắn ra ngoại lệ:
+  `ERROR Error: Attempting to attach an unknown Portal type. BasePortalOutlet accepts either a ComponentPortal or a TemplatePortal. at DomPortalOutlet.attach at OverlayRef.attach at TDSDrawerComponent.attachOverlay`.
+- **Nguyên nhân:**
+  Thư viện UI `tds-ui` chưa được cấu hình chia sẻ singleton chung qua Module Federation trong `shared/federation.shared.ts`. Khi `TDSDrawerComponent` của `tds-ui` tạo `TemplatePortal` hoặc `ComponentPortal`, phép kiểm tra `portal instanceof TemplatePortal` bị thất bại do class `TemplatePortal` thuộc instance bundle khác với `@angular/cdk/portal`.
+- **Giải pháp:**
+  Thêm `'tds-ui'` vào cấu hình `rawSharedMappings` và thiết lập bẫy Proxy pattern (`key.startsWith('tds-ui/') || key === 'tds-ui'`) trong [`shared/federation.shared.ts`](file:///Users/bao312/Desktop/untitled%20folder%202/demo/shared/federation.shared.ts) để đảm bảo `tds-ui` và `@angular/cdk` luôn dùng duy nhất 1 singleton instance trên toàn bộ Micro-Frontends.
 
 ---
 ---

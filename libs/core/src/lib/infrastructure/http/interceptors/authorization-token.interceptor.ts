@@ -8,44 +8,39 @@ import {
   HttpStatusCode
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   catchError,
   filter,
-  finalize,
   Observable,
   switchMap,
   take,
   throwError
 } from 'rxjs';
-import { BaseStorageService } from '../base/base-storage.service';
-import { BaseLoadingService } from '../base/base-loading.service';
-
-const TOKEN_KEY = 'mfe_jwt_token';
-const REFRESH_TOKEN_KEY = 'mfe_refresh_token';
+import { BaseStorageService } from '../../storage/storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationTokenInterceptor implements HttpInterceptor {
-  private readonly _storage = inject(BaseStorageService);
-  private readonly _loading = inject(BaseLoadingService);
-  private readonly _router = inject(Router);
+  private readonly _storageService = inject(BaseStorageService);
 
   private isRefreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   public intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    this._loading.show();
-    const token = this._getToken();
-    const clonedRequest = token ? this._addTokenHeader(req, token) : req;
+  ): Observable<HttpEvent<unknown>> {
+    const token = this._storageService.getAccessToken();
+    let clonedRequest = token ? this._addTokenHeader(req, token) : req;
+
+    if (clonedRequest.url.startsWith('/api') && typeof window !== 'undefined' && window.location.port !== '4200') {
+      clonedRequest = clonedRequest.clone({ url: `http://localhost:4200${clonedRequest.url}` });
+    }
 
     return next.handle(clonedRequest).pipe(
-      catchError((error) => {
+      catchError((error: unknown) => {
         if (
           error instanceof HttpErrorResponse &&
           this._isUnauthorized(error) &&
@@ -54,20 +49,15 @@ export class AuthorizationTokenInterceptor implements HttpInterceptor {
           return this._handleUnauthorized(req, next);
         }
         return throwError(() => error);
-      }),
-      finalize(() => this._loading.hide())
+      })
     );
-  }
-
-  private _getToken(): string | null {
-    return this._storage.getItem<string>(TOKEN_KEY);
   }
 
   private _isUnauthorized(response: HttpErrorResponse): boolean {
     return response.status === HttpStatusCode.Unauthorized;
   }
 
-  private _shouldIntercept(req: HttpRequest<any>): boolean {
+  private _shouldIntercept(req: HttpRequest<unknown>): boolean {
     const blacklist = [
       '/auth/login',
       '/auth/register',
@@ -77,46 +67,40 @@ export class AuthorizationTokenInterceptor implements HttpInterceptor {
   }
 
   private _addTokenHeader(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     token: string
-  ): HttpRequest<any> {
+  ): HttpRequest<unknown> {
     return req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
   }
 
   private _handleUnauthorized(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
-      const refreshToken = this._storage.getItem<string>(REFRESH_TOKEN_KEY);
+      const refreshToken = this._storageService.getRefreshToken();
       if (!refreshToken) {
-        return this._redirectToSignIn();
+        this._storageService.removeAccessToken();
+        this._storageService.removeRefreshToken();
+        return throwError(() => null);
       }
 
-      // Mock token refresh
+      // Refresh token handling
       const newToken = `mock_refreshed_jwt_${Date.now()}`;
-      this._storage.setItem(TOKEN_KEY, newToken);
+      this._storageService.setAccessToken(newToken);
       this.refreshTokenSubject.next(newToken);
       this.isRefreshing = false;
       return next.handle(this._addTokenHeader(req, newToken));
     }
 
     return this.refreshTokenSubject.pipe(
-      filter((token) => token !== null),
+      filter((token): token is string => token !== null),
       take(1),
-      switchMap((token) => next.handle(this._addTokenHeader(req, token!)))
+      switchMap((token) => next.handle(this._addTokenHeader(req, token)))
     );
-  }
-
-  private _redirectToSignIn(): Observable<never> {
-    this._storage.removeItem(TOKEN_KEY);
-    this._storage.removeItem(REFRESH_TOKEN_KEY);
-    this._storage.removeItem('mfe_mock_user');
-    this._router.navigateByUrl('/auth/login');
-    return throwError(() => null);
   }
 }
 

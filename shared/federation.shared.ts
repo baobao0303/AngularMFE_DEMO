@@ -75,6 +75,7 @@ const rawSharedMappings: Record<string, { singleton: boolean; strictVersion: boo
   'rxjs/operators': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
   // UI Frameworks & Components
+  'tds-ui': { singleton: true, strictVersion: false, requiredVersion: false },
   'ng-zorro-antd': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/cdk': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/cdk/overlay': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
@@ -115,6 +116,10 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
         key.startsWith('@angular/cdk/') ||
         key.startsWith('@angular/material/') ||
         key.startsWith('@angular/') ||
+        key.startsWith('@ngrx/signals/') ||
+        key === '@ngrx/signals' ||
+        key.startsWith('tds-ui/') ||
+        key === 'tds-ui' ||
         key.startsWith('rxjs/') ||
         key === 'rxjs'
       ) {
@@ -129,6 +134,10 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
         key.startsWith('@angular/cdk/') ||
         key.startsWith('@angular/material/') ||
         key.startsWith('@angular/') ||
+        key.startsWith('@ngrx/signals/') ||
+        key === '@ngrx/signals' ||
+        key.startsWith('tds-ui/') ||
+        key === 'tds-ui' ||
         key.startsWith('rxjs/') ||
         key === 'rxjs'
       ) {
