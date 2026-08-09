@@ -20,6 +20,10 @@
     "test": "nx run-many -t test"
   },
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
   "dependencies": {
     "@angular-devkit/build-angular": "~19.2.0",
     "@angular/animations": "~19.2.0",

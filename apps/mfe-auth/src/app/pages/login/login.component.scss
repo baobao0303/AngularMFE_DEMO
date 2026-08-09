@@ -42,7 +42,8 @@
   }
 
   /* Custom TDS Button Overrides with TMT Red Theme (#E4002B) */
-  .btn-sign-in {
+  button.btn-sign-in,
+  a.btn-sign-in {
     height: 48px !important;
     background-color: #E4002B !important;
     border: 1px solid #E4002B !important;
@@ -53,6 +54,10 @@
     width: 100% !important;
     box-shadow: 0 4px 12px rgba(228, 0, 43, 0.25) !important;
     transition: all 0.2s ease-in-out !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
 
     &:hover {
       background-color: #C80025 !important;
@@ -65,6 +70,12 @@
       border-color: #C80025 !important;
       box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.2) !important;
     }
+
+    &:disabled {
+      opacity: 0.7 !important;
+      cursor: not-allowed !important;
+      transform: none !important;
+    }
   }
 
   .btn-social-container {
@@ -72,25 +83,39 @@
     align-items: center !important;
     gap: 16px !important;
     width: 100% !important;
+
+    @media (max-width: 380px) {
+      flex-direction: column !important;
+      gap: 12px !important;
+
+      .btn-social {
+        width: 100% !important;
+      }
+    }
   }
 
   .btn-social {
-    height: 40px !important;
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
+    height: 48px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
     flex: 1 1 0% !important;
     background-color: #ffffff !important;
     border: 1px solid #C7C4D8 !important;
     color: #131B2E !important;
     border-radius: 12px !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     font-weight: 600 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 10px !important;
+    gap: 8px !important;
     margin: 0 !important;
     transition: all 0.2s ease-in-out !important;
+
+    svg {
+      margin-right: 8px !important;
+      flex-shrink: 0 !important;
+    }
 
     &:hover {
       background-color: #FFF5F6 !important;
@@ -101,6 +126,18 @@
 
   /* TDS Checkbox Red Theme Override via :host & ::ng-deep */
   ::ng-deep {
+    button.btn-social,
+    .btn-social {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+
+      svg {
+        margin-right: 8px !important;
+        flex-shrink: 0 !important;
+      }
+    }
 
     tds-checkbox,
     .tds-checkbox {

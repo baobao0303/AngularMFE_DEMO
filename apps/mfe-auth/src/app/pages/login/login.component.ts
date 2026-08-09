@@ -1,34 +1,32 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { BaseStorageService, BaseEventBusService } from '@core';
-import { timer, finalize } from 'rxjs';
-import { SpinnerComponent } from '@ui';
-import { TDSButtonModule } from 'tds-ui/button';
+import { BaseView, AuthService } from '@microfrontend/core';
+import { SpinnerComponent } from '@microfrontend/ui';
 import { TDSTagModule } from 'tds-ui/tag';
-import { TDSDrawerModule } from 'tds-ui/drawer';
-import { TDSInputModule } from 'tds-ui/tds-input';
+import { TDSFormInputModule } from 'tds-ui/input';
 import { TDSInputPasswordModule } from 'tds-ui/input-password';
 import { TDSFormFieldModule } from 'tds-ui/form-field';
 import { TDSCardModule } from 'tds-ui/card';
 import { TDSDividerModule } from 'tds-ui/divider';
 import { TDSCheckBoxModule } from 'tds-ui/tds-checkbox';
 
-import { AuthApiService } from '../../services/auth-api.service';
+import { AuthStore } from './stores/auth.api.store';
+import { AuthApiService } from './services/auth.api.service';
 
 @Component({
   selector: 'mfe-auth-login',
   standalone: true,
+  providers: [AuthStore, AuthApiService],
   imports: [
     CommonModule,
     FormsModule,
+    RouterLink,
     SpinnerComponent,
-    TDSButtonModule,
     TDSTagModule,
-    TDSDrawerModule,
-    TDSInputModule,
+    TDSFormInputModule,
     TDSInputPasswordModule,
     TDSFormFieldModule,
     TDSCardModule,
@@ -38,102 +36,94 @@ import { AuthApiService } from '../../services/auth-api.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
-  public readonly storage = inject(BaseStorageService);
-  public readonly eventBus = inject(BaseEventBusService);
-  private readonly router = inject(Router);
-  private readonly authApi = inject(AuthApiService);
+export class LoginComponent extends BaseView {
+  public readonly authStore = inject(AuthStore);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
 
-  public readonly email = signal('name@company.com');
-  public readonly password = signal('123456');
-  public readonly rememberMe = signal(true);
-  public readonly showPassword = signal(false);
-  public readonly loading = signal(false);
-  public readonly errorMessage = signal<string | null>(null);
+  // Private Writable Signals
+  private readonly _email = signal('name@company.com');
+  private readonly _password = signal('123456');
+  private readonly _rememberMe = signal(true);
+  private readonly _showPassword = signal(false);
 
-  // Forgot Password Drawer State
-  public readonly forgotDrawerVisible = signal(false);
-  public readonly resetEmail = signal('name@company.com');
-  public readonly resetSubmitted = signal(false);
-  public readonly resetLoading = signal(false);
+  // Public Computed Signals for Reading
+  public readonly email = computed(() => this._email());
+  public readonly password = computed(() => this._password());
+  public readonly rememberMe = computed(() => this._rememberMe());
+  public readonly showPassword = computed(() => this._showPassword());
 
-  private navigateToDashboard(): void {
-    console.log('[mfe-auth] Emitted USER_LOGGED_IN, navigating to /dashboard');
-    this.router.navigate(['/dashboard']);
+  // Store State Signals
+  public readonly loading = this.authStore.loginLoading;
+  public readonly errorMessage = computed(() =>
+    this.authStore.loginError() ? 'Invalid credentials. Please try again.' : null
+  );
+
+  constructor() {
+    super();
+
+    // Auto-redirect if user is already logged in
+    if (this.authService.getToken() || this.storage.getItem('mfe_jwt_token')) {
+      this.navigateToDashboard();
+    }
+
+    // Reaction for successful login / SSO login
+    effect(() => {
+      const res = this.authStore.loginResponse();
+      if (res?.user && res?.token) {
+        this.authService.setToken(res.token, res.user);
+        this.storage.setItem('mfe_mock_user', res.user);
+        this.storage.setItem('mfe_jwt_token', res.token);
+        this.eventBus.emit({
+          type: 'USER_LOGGED_IN',
+          payload: res.user,
+          sourceRemote: 'mfe-auth',
+          timestamp: Date.now()
+        });
+        this.navigateToDashboard();
+      }
+    });
   }
 
-  public ngOnInit(): void {
-    // Standalone check or optional auto-redirect
+  // Update / Setters for Private Signals
+  public setEmail(val: string): void {
+    this._email.set(val);
+  }
+
+  public setPassword(val: string): void {
+    this._password.set(val);
+  }
+
+  public setRememberMe(val: boolean): void {
+    this._rememberMe.set(val);
+  }
+
+  private navigateToDashboard(): void {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.router.navigateByUrl(returnUrl).catch(() => {
+      if (typeof window !== 'undefined') {
+        window.location.href = returnUrl;
+      }
+    });
   }
 
   public togglePasswordVisibility(): void {
-    this.showPassword.update(v => !v);
-  }
-
-  public openForgotDrawer(): void {
-    this.resetEmail.set(this.email());
-    this.resetSubmitted.set(false);
-    this.forgotDrawerVisible.set(true);
-  }
-
-  public closeForgotDrawer(): void {
-    this.forgotDrawerVisible.set(false);
-  }
-
-  public onSendResetLink(): void {
-    if (!this.resetEmail()) return;
-    this.resetLoading.set(true);
-    this.authApi.sendPasswordReset(this.resetEmail()).subscribe(() => {
-      this.resetLoading.set(false);
-      this.resetSubmitted.set(true);
-    });
+    this._showPassword.update(v => !v);
   }
 
   public onLogin(): void {
-    this.errorMessage.set(null);
-    this.loading.set(true);
-    this.authApi.login(this.email(), this.password()).subscribe({
-      next: (res) => {
-        this.storage.setItem('mfe_mock_user', res.user);
-        this.storage.setItem('mfe_jwt_token', res.token);
-        this.eventBus.emit({
-          type: 'USER_LOGGED_IN',
-          payload: res.user,
-          sourceRemote: 'mfe-auth',
-          timestamp: Date.now()
-        });
-        this.loading.set(false);
-        this.navigateToDashboard();
-      },
-      error: () => {
-        this.loading.set(false);
-        this.errorMessage.set('Invalid credentials. Please try again.');
-      }
-    });
+    if (this.loading()) {
+      return;
+    }
+    this.authStore.login({ email: this._email(), pass: this._password() });
   }
 
   public onSsoLogin(): void {
-    this.loading.set(true);
-    this.authApi.ssoLogin().subscribe({
-      next: (res) => {
-        this.storage.setItem('mfe_mock_user', res.user);
-        this.storage.setItem('mfe_jwt_token', res.token);
-        this.eventBus.emit({
-          type: 'USER_LOGGED_IN',
-          payload: res.user,
-          sourceRemote: 'mfe-auth',
-          timestamp: Date.now()
-        });
-        this.loading.set(false);
-        this.navigateToDashboard();
-      },
-      error: () => {
-        this.loading.set(false);
-      }
-    });
+    this.authStore.ssoLogin(undefined);
   }
 
   public async onLogout(): Promise<void> {
+    this.authService.logout();
     this.storage.removeItem('mfe_mock_user');
     this.storage.removeItem('mfe_jwt_token');
     this.eventBus.emit({

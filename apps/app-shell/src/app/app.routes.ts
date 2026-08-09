@@ -1,21 +1,16 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+import { authGuard, guestGuard } from '@microfrontend/core';
 import { loadRemoteModule } from '@core';
-
-const authGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  const hasToken = typeof window !== 'undefined' && (!!localStorage.getItem('mfe_jwt_token') || !!localStorage.getItem('mfe_mock_user'));
-  return hasToken || router.createUrlTree(['/auth/login']);
-};
 
 export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
     path: 'auth',
+    canActivate: [guestGuard],
     loadChildren: () => loadRemoteModule<any>('mfe-auth', './Routes')
   },
   {

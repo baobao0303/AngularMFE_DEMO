@@ -6,9 +6,9 @@
   "types": "src/index.ts",
   "private": true,
   "peerDependencies": {
-    "@angular/core": "^18.0.0",
-    "@angular/common": "^18.0.0",
-    "@angular/router": "^18.0.0",
+    "@angular/core": ">=18.0.0",
+    "@angular/common": ">=18.0.0",
+    "@angular/router": ">=18.0.0",
     "rxjs": "^7.8.0"
   }
 }

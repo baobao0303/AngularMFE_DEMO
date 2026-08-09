@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 import {
   initialProjects,
   initialBenchmarks,
@@ -8,6 +9,7 @@ import {
 } from '../data/db.js';
 
 export const dashboardRouter = Router();
+dashboardRouter.use(authenticateToken);
 
 dashboardRouter.get('/projects', (_req: Request, res: Response) => {
   res.json(initialProjects);

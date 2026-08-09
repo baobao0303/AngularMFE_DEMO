@@ -223,6 +223,17 @@ Dưới đây là tổng hợp toàn bộ các lỗi thực tế đã phát sinh
   Thêm `'tds-ui'` vào cấu hình `rawSharedMappings` và thiết lập bẫy Proxy pattern (`key.startsWith('tds-ui/') || key === 'tds-ui'`) trong [`shared/federation.shared.ts`](file:///Users/bao312/Desktop/untitled%20folder%202/demo/shared/federation.shared.ts) để đảm bảo `tds-ui` và `@angular/cdk` luôn dùng duy nhất 1 singleton instance trên toàn bộ Micro-Frontends.
 
 ---
+
+### 🎨 Đồng bộ UI MFE-Auth từ Demo2 sang Demo:
+- **Nội dung đồng bộ:**
+  Đã sao chép và chuyển đổi 100% toàn bộ giao diện và logic của ứng dụng Auth từ `demo2/apps/mfe-auth/src/app` sang [`apps/mfe-auth/src/app`](file:///Users/bao312/Desktop/untitled%20folder%202/demo/apps/mfe-auth/src/app):
+  1. `LoginComponent` (Đăng nhập, lưu token, SignalStore `AuthApiStore`, Service `AuthApiService`, giao diện SCSS/HTML chuẩn thiết kế TDS).
+  2. `ForgotPasswordComponent` (Quên mật khẩu, SignalStore `ForgotPasswordStore`, Service `ForgotPasswordApiService`, giao diện SCSS/HTML).
+- **Cấu hình Alias:**
+  Bổ sung alias `@microfrontend/core` và `@microfrontend/ui` vào [`tsconfig.base.json`](file:///Users/bao312/Desktop/untitled%20folder%202/demo/tsconfig.base.json) để đảm bảo tương thích 100% đường dẫn import từ `demo2`.
+- **Kết quả Build:** Chạy `rsbuild build` trên `mfe-auth` đạt **BUILD SUCCESS (7.94s)**.
+
+---
 ---
 
 # PHẦN II: TÀI LIỆU CẤU TRÚC & CẤU HÌNH CHI TIẾT RSBUILD REMOTES

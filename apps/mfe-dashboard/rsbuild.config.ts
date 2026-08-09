@@ -29,6 +29,12 @@ export default await createConfig({
     },
     server: {
       port: 4202,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:4200',
+          changeOrigin: true,
+        },
+      },
     },
     output: {
       assetPrefix: '/mfe-dashboard/',
