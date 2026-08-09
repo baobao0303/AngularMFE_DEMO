@@ -70,6 +70,10 @@ export class AppComponent implements OnInit {
       this.storage.removeItem('mfe_jwt_token');
       this.router.navigate(['/auth/login']);
     });
+
+    this.eventBus.on('USER_LOGGED_IN').subscribe(() => {
+      this.router.navigate(['/dashboard']);
+    });
   }
 
   public toggleSidebar(): void {

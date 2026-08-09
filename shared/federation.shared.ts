@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 declare const __dirname: string;
 declare const process: any;
@@ -18,7 +19,15 @@ interface PackageJson {
 
 let pkg: PackageJson = {};
 try {
-  const dir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+  // Resolve __dirname safely for both CJS and ESM contexts
+  let dir: string;
+  try {
+    // ESM: use import.meta.url
+    dir = path.dirname(fileURLToPath(import.meta.url));
+  } catch {
+    // CJS fallback
+    dir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+  }
   const pkgPath = path.resolve(dir, dir.endsWith('shared') ? '../package.json' : 'package.json');
   if (fs.existsSync(pkgPath)) {
     pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8')) as PackageJson;
@@ -135,7 +144,9 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
     }
     return Reflect.get(target, key);
   }
-}) as unknown as Record<string, { singleton: boolean; strictVersion: boolean; requiredVersion: boolean | string; eager?: boolean }>;
+// Cast to 'any' so it is assignable to Module Federation's `Shared` type,
+// which accepts both array and object forms but is typed as array-only.
+}) as unknown as any;
 
 export interface SharedConfigItem {
   singleton?: boolean;

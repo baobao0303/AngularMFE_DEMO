@@ -58,17 +58,11 @@ export class LoginComponent implements OnInit {
   public readonly resetLoading = signal(false);
 
   private navigateToDashboard(): void {
-    this.router.navigateByUrl('/dashboard').catch(() => {
-      if (typeof window !== 'undefined') {
-        window.location.href = 'http://localhost:4200/dashboard';
-      }
-    });
+    console.log('[mfe-auth] Emitted USER_LOGGED_IN, letting shell handle navigation.');
   }
 
   public ngOnInit(): void {
-    if (this.storage.getItem('mfe_mock_user')) {
-      this.navigateToDashboard();
-    }
+    // Standalone check or optional auto-redirect
   }
 
   public togglePasswordVisibility(): void {
