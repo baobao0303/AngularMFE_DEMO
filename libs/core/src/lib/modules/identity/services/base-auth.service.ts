@@ -37,6 +37,8 @@ export abstract class BaseAuthService<TUser = User> {
   public logout(): void {
     this.storage.removeAccessToken();
     this.storage.removeUserProfile();
+    this.storage.removeItem('mfe_mock_user');
+    this.storage.removeItem('mfe_jwt_token');
     this.currentUser.set(null);
     this.onLogout();
   }

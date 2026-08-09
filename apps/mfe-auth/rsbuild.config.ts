@@ -37,13 +37,13 @@ export default await createConfig({
       },
     },
     output: {
-      assetPrefix: '/mfe-auth/',
+      assetPrefix: 'http://localhost:4201/',
     },
     tools: {
       rspack: {
         output: {
           uniqueName: 'mfe_auth',
-          publicPath: '/mfe-auth/',
+          publicPath: 'http://localhost:4201/',
         },
         optimization: {
           splitChunks: {

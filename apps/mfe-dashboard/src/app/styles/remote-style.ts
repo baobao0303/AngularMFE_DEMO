@@ -9,7 +9,7 @@ export const STYLE_REGISTRY: Record<string, StyleRegistryItem> = {
   'mfe-shared-card': {
     className: 'mfe-shared-card',
     themeName: 'Crimson Master Theme',
-    cssContent: `.mfe-shared-card { background: #FFF5F6 !important; color: #131B2E !important; } .mfe-shared-card .mfe-styled-card { background: #FFFFFF !important; border: 1px solid #FAD0D6 !important; border-left: 4px solid #800A20 !important; color: #131B2E !important; box-shadow: 0 4px 20px -2px rgba(128, 10, 32, 0.1) !important; } .mfe-shared-card .mfe-styled-btn { background: #800A20 !important; color: #FFFFFF !important; font-weight: 700 !important; box-shadow: 0 4px 12px rgba(128, 10, 32, 0.3) !important; }`
+    cssContent: `.mfe-shared-card { background: #FFF5F6 !important; color: #131B2E !important; } .mfe-shared-card .mfe-styled-card { background: #FFFFFF !important; border: 1px solid #FAD0D6 !important; border-left: 4px solid #800A20 !important; color: #131B2E !important; box-shadow: 0 4px 20px -2px rgba(128, 10, 32, 0.1) !important; } .mfe-shared-card .mfe-styled-btn { background: #800A20 !important; color: #FFFFFF !important; font-weight: 700 !important; box-shadow: 0 4px 12px rgba(128, 10, 32, 0.3) !important; transition: all 0.2s ease !important; } .mfe-shared-card .mfe-styled-btn:hover { background: #630617 !important; transform: translateY(-1px) !important; }`
   },
   'mfe-theme-dark-glass': {
     className: 'mfe-theme-dark-glass',
@@ -37,8 +37,11 @@ export async function loadStyle(targetClass?: string): Promise<void> {
   if (typeof document === 'undefined') return;
   const key = targetClass || 'mfe-shared-card';
   const item = STYLE_REGISTRY[key];
+  console.log(`[mfe-dashboard/SharedStyle] 🎨 loadStyle called for targetClass "${targetClass || ''}" (key: "${key}"):`, item);
   if (item) {
     injectStyleElement(key, item.cssContent);
+  } else {
+    console.warn(`[mfe-dashboard/SharedStyle] ⚠️ No registered style item found for key "${key}" in STYLE_REGISTRY`, Object.keys(STYLE_REGISTRY));
   }
 }
 
@@ -48,5 +51,12 @@ export async function loadStyle(targetClass?: string): Promise<void> {
 export function unloadStyle(targetClass?: string): void {
   if (typeof document === 'undefined') return;
   const key = targetClass || 'mfe-shared-card';
+  console.log(`[mfe-dashboard/SharedStyle] 🧹 unloadStyle called for key "${key}"`);
   removeStyleElement(key);
 }
+
+export default {
+  STYLE_REGISTRY,
+  loadStyle,
+  unloadStyle
+};

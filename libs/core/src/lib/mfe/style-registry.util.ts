@@ -9,6 +9,8 @@ export function injectStyleElement(key: string, cssContent: string): void {
   if (typeof document === 'undefined') return;
   if (activeDynamicStyles.has(key)) return;
 
+  console.log(`[injectStyleElement] 🎨 Injecting CSS element into <head> for key "${key}":\n`, cssContent);
+
   const styleEl = document.createElement('style');
   styleEl.setAttribute('data-mfe-style-key', key);
   styleEl.textContent = cssContent;
@@ -23,6 +25,7 @@ export function removeStyleElement(key: string): void {
   if (typeof document === 'undefined') return;
   const styleEl = activeDynamicStyles.get(key);
   if (styleEl) {
+    console.log(`[removeStyleElement] 🧹 Removing <style> element from <head> for key "${key}"`);
     styleEl.remove();
     activeDynamicStyles.delete(key);
   }

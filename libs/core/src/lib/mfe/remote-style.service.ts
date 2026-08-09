@@ -36,22 +36,38 @@ export class RemoteStyleService extends AbstractRemoteStyleLoader {
     const targetClass = config.className;
     const key = targetClass ? `${remoteName}:${exposedModule}:${targetClass}` : `${remoteName}:${exposedModule}`;
 
+    console.log(`[RemoteStyleService] 🎨 Requesting remote style load for key "${key}":`, config);
+
     if (this.loadedStyles.has(key)) {
+      console.log(`[RemoteStyleService] ℹ️ Style key "${key}" already loaded in cache.`);
       return;
     }
 
     try {
       const styleModule = await loadRemoteModule<Record<string, unknown>>(remoteName, exposedModule);
 
-      if (styleModule && typeof styleModule['loadStyle'] === 'function') {
-        await (styleModule['loadStyle'] as (cls?: string) => Promise<void>)(targetClass);
-        const unloadFn = typeof styleModule['unloadStyle'] === 'function' ? (styleModule['unloadStyle'] as (cls?: string) => void) : undefined;
+      const loadFn = typeof styleModule['loadStyle'] === 'function'
+        ? (styleModule['loadStyle'] as (cls?: string) => Promise<void>)
+        : typeof (styleModule['default'] as any)?.loadStyle === 'function'
+        ? ((styleModule['default'] as any).loadStyle as (cls?: string) => Promise<void>)
+        : undefined;
+
+      const unloadFn = typeof styleModule['unloadStyle'] === 'function'
+        ? (styleModule['unloadStyle'] as (cls?: string) => void)
+        : typeof (styleModule['default'] as any)?.unloadStyle === 'function'
+        ? ((styleModule['default'] as any).unloadStyle as (cls?: string) => void)
+        : undefined;
+
+      if (loadFn) {
+        console.log(`[RemoteStyleService] 💉 Executing loadStyle('${targetClass || ''}') on styleModule from "${remoteName}/${exposedModule}"`);
+        await loadFn(targetClass);
         this.loadedStyles.set(key, { unloadStyle: unloadFn });
       } else {
+        console.log(`[RemoteStyleService] ℹ️ styleModule from "${remoteName}/${exposedModule}" loaded without explicit loadStyle function.`);
         this.loadedStyles.set(key, {});
       }
     } catch (err) {
-      console.warn(`[RemoteStyleService] Error loading remote style for ${remoteName}/${exposedModule}:`, err);
+      console.warn(`[RemoteStyleService] ⚠️ Error loading remote style for ${remoteName}/${exposedModule}:`, err);
     }
   }
 
@@ -63,9 +79,12 @@ export class RemoteStyleService extends AbstractRemoteStyleLoader {
     const targetClass = config.className;
     const key = targetClass ? `${remoteName}:${exposedModule}:${targetClass}` : `${remoteName}:${exposedModule}`;
 
+    console.log(`[RemoteStyleService] 🗑️ Unloading remote style for key "${key}":`, config);
+
     const loaded = this.loadedStyles.get(key);
     if (loaded) {
       if (loaded.unloadStyle) {
+        console.log(`[RemoteStyleService] 🧹 Executing unloadStyle('${targetClass || ''}') for key "${key}"`);
         loaded.unloadStyle(targetClass);
       }
       this.loadedStyles.delete(key);

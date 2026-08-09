@@ -1,7 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { BaseStorageService, BaseEventBusService } from '@core';
+import { BaseStorageService, BaseEventBusService, AuthService } from '@core';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,6 +12,7 @@ import { BaseStorageService, BaseEventBusService } from '@core';
 export class SidebarComponent {
   private readonly _storage = inject(BaseStorageService);
   private readonly _eventBus = inject(BaseEventBusService);
+  private readonly _authService = inject(AuthService);
 
   public readonly collapsed = input<boolean>(false);
   public readonly toggleSidebar = output<void>();
@@ -24,14 +25,13 @@ export class SidebarComponent {
   }
 
   public onLogout(): void {
+    this._authService.logout();
     this._eventBus.emit({
       type: 'USER_LOGGED_OUT',
       payload: null,
       sourceRemote: 'app-shell',
       timestamp: Date.now()
     });
-    this._storage.removeItem('mfe_mock_user');
-    this._storage.removeItem('mfe_jwt_token');
     this.currentUser.set(null);
     this.logout.emit();
   }

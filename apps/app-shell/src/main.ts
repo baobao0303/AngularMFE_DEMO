@@ -11,9 +11,9 @@ import { init } from '@module-federation/enhanced/runtime';
 init({
   name: 'app-shell',
   remotes: [
-    { name: 'mfe-auth', entry: '/mfe-auth/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_auth' },
-    { name: 'mfe-dashboard', entry: '/mfe-dashboard/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_dashboard' },
-    { name: 'mfe-reporting', entry: '/mfe-reporting/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_reporting' }
+    { name: 'mfe-auth', entry: 'http://localhost:4201/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_auth' },
+    { name: 'mfe-dashboard', entry: 'http://localhost:4202/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_dashboard' },
+    { name: 'mfe-reporting', entry: 'http://localhost:4203/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_reporting' }
   ]
 });
 

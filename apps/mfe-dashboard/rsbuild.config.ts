@@ -37,13 +37,13 @@ export default await createConfig({
       },
     },
     output: {
-      assetPrefix: '/mfe-dashboard/',
+      assetPrefix: 'http://localhost:4202/',
     },
     tools: {
       rspack: {
         output: {
           uniqueName: 'mfe_dashboard',
-          publicPath: '/mfe-dashboard/',
+          publicPath: 'http://localhost:4202/',
         },
         optimization: {
           splitChunks: {

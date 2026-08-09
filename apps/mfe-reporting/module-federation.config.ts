@@ -1,7 +1,7 @@
 export default {
   name: 'mfe-reporting',
   remotes: {
-    'mfe-dashboard': 'http://localhost:4202/mfe-dashboard/mf-manifest.json',
+    'mfe-dashboard': 'mfe_dashboard@http://localhost:4202/remoteEntry.js',
   },
   exposes: {
     './Routes': './apps/mfe-reporting/src/app/app.routes.ts',
