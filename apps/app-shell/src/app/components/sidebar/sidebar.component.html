@@ -87,6 +87,22 @@
     </a>
 
     <a 
+      routerLink="/shared-styles" 
+      routerLinkActive="!bg-white !text-[#800A20] font-semibold shadow-sm" 
+      [title]="collapsed() ? 'Shared Styles' : ''"
+      class="flex items-center gap-3 px-3 py-2.5 text-white/90 hover:bg-white/15 hover:text-white rounded-lg font-medium text-[14px] border border-transparent transition-all group no-underline"
+      [class.justify-center]="collapsed()"
+    >
+      <svg class="w-4.5 h-4.5 text-current group-hover:scale-105 transition-transform flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a7 7 0 1 0 10 10"></path>
+      </svg>
+      @if (!collapsed()) {
+        <span class="truncate">Shared Styles</span>
+      }
+    </a>
+
+    <a 
       href="#" 
       (click)="$event.preventDefault()" 
       [title]="collapsed() ? 'Settings' : ''"

@@ -29,6 +29,11 @@ export const appRoutes: Routes = [
     loadComponent: () => loadRemoteModule<any>('mfe-dashboard', './Projects')
   },
   {
+    path: 'shared-styles',
+    canActivate: [authGuard],
+    loadComponent: () => loadRemoteModule<any>('mfe-reporting', './SharedStyles')
+  },
+  {
     path: 'page-403',
     loadComponent: () =>
       import('./pages/forbidden/forbidden.component').then((m) => m.ForbiddenComponent)

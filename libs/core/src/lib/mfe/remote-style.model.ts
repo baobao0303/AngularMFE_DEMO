@@ -1,24 +1,25 @@
-/**
- * Interface defining options required to dynamically load a Remote MFE Style.
- * Supports cross-repository dynamic loading via explicit remoteUrl.
- */
+export interface StyleRegistryItem {
+  className: string;
+  themeName: string;
+  cssContent: string;
+}
+
+export interface RemoteStyleConfig {
+  /** Name of the remote MFE container (e.g. 'mfe-dashboard', 'mfe-reporting') */
+  mfeName: string;
+  /** Exposed module entry point (e.g. './SharedStyle') */
+  exposedModule?: string;
+  /** Target class name or CSS scope class to load/apply (e.g. 'mfe-shared-card') */
+  className?: string;
+  /** File name of the SCSS/CSS stylesheet */
+  fileName?: string;
+  /** Type of style injection ('js-module' | 'scss' | 'css-variables') */
+  styleType?: 'js-module' | 'scss' | 'css-variables';
+}
+
 export interface RemoteStyleOptions {
   remoteName: string;
   exportName?: string;
   scopeClass?: string;
   exposedModule?: string;
-  remoteUrl?: string; // 👈 CDN / Remote Entry URL for remotes in separate repositories
-}
-
-/**
- * Contract defining metadata of a Remote Style Module.
- */
-export class RemoteStyleContract implements RemoteStyleOptions {
-  constructor(
-    public readonly remoteName: string,
-    public readonly exportName?: string,
-    public readonly scopeClass?: string,
-    public readonly exposedModule?: string,
-    public readonly remoteUrl?: string
-  ) {}
 }

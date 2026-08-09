@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
   public readonly isLoading = computed(() => this.routeLoading() || this.loadingService.isLoading());
 
   private isStandaloneUrl(url: string): boolean {
-    const layoutPrefixes = ['/dashboard', '/reporting', '/projects'];
+    const layoutPrefixes = ['/dashboard', '/reporting', '/projects', '/shared-styles'];
     return !layoutPrefixes.some(prefix => url.startsWith(prefix));
   }
 

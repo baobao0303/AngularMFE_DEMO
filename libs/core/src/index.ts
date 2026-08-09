@@ -22,6 +22,7 @@ export * from './lib/mfe/event-bus.service';
 export * from './lib/mfe/event-bus.model';
 export * from './lib/mfe/remote-style.service';
 export * from './lib/mfe/remote-style.model';
+export * from './lib/mfe/style-registry.util';
 export * from './lib/mfe/preload-strategy.service';
 export * from './lib/mfe/loading.service';
 

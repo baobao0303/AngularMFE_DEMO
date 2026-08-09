@@ -244,5 +244,75 @@ export const initialDetailedReports: DetailedReportItem[] = [
     dateCreated: 'Sep 15, 2023',
     author: { name: 'Elena Vance', initials: 'EV', avatarBg: 'bg-[#D97706] text-white' },
     status: 'Pending'
+  },
+  {
+    id: 'REP-006',
+    name: 'Security Vulnerability Scan',
+    dateCreated: 'Sep 10, 2023',
+    author: { name: 'Jane Doe', initials: 'JD', avatarBg: 'bg-[#800A20] text-white' },
+    status: 'Completed'
+  },
+  {
+    id: 'REP-007',
+    name: 'DevOps CI/CD Pipeline Cost',
+    dateCreated: 'Sep 02, 2023',
+    author: { name: 'Alex Smith', initials: 'AS', avatarBg: 'bg-[#505F76] text-white' },
+    status: 'Pending'
+  },
+  {
+    id: 'REP-008',
+    name: 'Cloud Storage Optimization',
+    dateCreated: 'Aug 28, 2023',
+    author: { name: 'Mary Jones', initials: 'MJ', avatarBg: 'bg-[#166534] text-white' },
+    status: 'Completed'
+  },
+  {
+    id: 'REP-009',
+    name: 'Customer Support SLA Health',
+    dateCreated: 'Aug 20, 2023',
+    author: { name: 'Robert Chen', initials: 'RC', avatarBg: 'bg-[#4F46E5] text-white' },
+    status: 'Completed'
+  },
+  {
+    id: 'REP-010',
+    name: 'Marketing Campaign ROI',
+    dateCreated: 'Aug 14, 2023',
+    author: { name: 'Elena Vance', initials: 'EV', avatarBg: 'bg-[#D97706] text-white' },
+    status: 'Pending'
+  },
+  {
+    id: 'REP-011',
+    name: 'API Rate Limiting Benchmark',
+    dateCreated: 'Aug 05, 2023',
+    author: { name: 'Jane Doe', initials: 'JD', avatarBg: 'bg-[#800A20] text-white' },
+    status: 'Completed'
+  },
+  {
+    id: 'REP-012',
+    name: 'Database Backup Integrity Check',
+    dateCreated: 'Jul 30, 2023',
+    author: { name: 'Alex Smith', initials: 'AS', avatarBg: 'bg-[#505F76] text-white' },
+    status: 'Completed'
+  },
+  {
+    id: 'REP-013',
+    name: 'Frontend Micro-App Latency',
+    dateCreated: 'Jul 22, 2023',
+    author: { name: 'Mary Jones', initials: 'MJ', avatarBg: 'bg-[#166534] text-white' },
+    status: 'Pending'
+  },
+  {
+    id: 'REP-014',
+    name: 'Payment Gateway Settlement',
+    dateCreated: 'Jul 15, 2023',
+    author: { name: 'Robert Chen', initials: 'RC', avatarBg: 'bg-[#4F46E5] text-white' },
+    status: 'Completed'
+  },
+  {
+    id: 'REP-015',
+    name: 'Q2 Executive Summary',
+    dateCreated: 'Jul 01, 2023',
+    author: { name: 'Elena Vance', initials: 'EV', avatarBg: 'bg-[#D97706] text-white' },
+    status: 'Completed'
   }
 ];
