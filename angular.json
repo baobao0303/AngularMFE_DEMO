@@ -52,7 +52,7 @@
             "main": "apps/mfe-auth/src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "apps/mfe-auth/tsconfig.app.json",
-            "assets": ["apps/mfe-auth/src/assets"],
+            "assets": [],
             "styles": ["apps/mfe-auth/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules"]

@@ -1,61 +1,37 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router, Routes } from '@angular/router';
-import { loadRemoteModule } from '@nx/angular/mf';
-
-const authGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  const hasToken = typeof window !== 'undefined' && (!!localStorage.getItem('mfe_jwt_token') || !!localStorage.getItem('mfe_mock_user'));
-  return hasToken || router.createUrlTree(['/auth/login']);
-};
+import { Routes } from '@angular/router';
+import { authGuard, guestGuard } from '@microfrontend/core';
+import { loadRemoteModule } from '@core';
 
 export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
     path: 'auth',
-    loadChildren: () =>
-      loadRemoteModule('mfe-auth', './Routes')
-        .then((m) => m.appRoutes)
-        .catch((err) => {
-          console.error('[App Shell] Failed to load mfe-auth remote module:', err);
-          return [];
-        })
+    canActivate: [guestGuard],
+    loadChildren: () => loadRemoteModule<any>('mfe-auth', './Routes')
   },
   {
     path: 'dashboard',
     canActivate: [authGuard],
-    loadChildren: () =>
-      loadRemoteModule('mfe-dashboard', './Routes')
-        .then((m) => m.appRoutes)
-        .catch((err) => {
-          console.error('[App Shell] Failed to load mfe-dashboard remote module:', err);
-          return [];
-        })
+    loadChildren: () => loadRemoteModule<any>('mfe-dashboard', './Routes')
   },
   {
     path: 'reporting',
     canActivate: [authGuard],
-    loadChildren: () =>
-      loadRemoteModule('mfe-reporting', './Routes')
-        .then((m) => m.appRoutes)
-        .catch((err) => {
-          console.error('[App Shell] Failed to load mfe-reporting remote module:', err);
-          return [];
-        })
+    loadChildren: () => loadRemoteModule<any>('mfe-reporting', './Routes')
   },
   {
     path: 'projects',
     canActivate: [authGuard],
-    loadComponent: () =>
-      loadRemoteModule('mfe-dashboard', './Projects')
-        .then((m) => m.ProjectsComponent)
-        .catch((err) => {
-          console.error('[App Shell] Failed to load ProjectsComponent from mfe-dashboard:', err);
-          return null as any;
-        })
+    loadComponent: () => loadRemoteModule<any>('mfe-dashboard', './Projects')
+  },
+  {
+    path: 'shared-styles',
+    canActivate: [authGuard],
+    loadComponent: () => loadRemoteModule<any>('mfe-reporting', './SharedStyles')
   },
   {
     path: 'page-403',

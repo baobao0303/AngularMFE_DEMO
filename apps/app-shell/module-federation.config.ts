@@ -1,12 +1,13 @@
 import { ModuleFederationConfig } from '@nx/module-federation';
+import manifestJson from './src/assets/federation.manifest.json';
+
+const MFE_REMOTES = manifestJson as Record<string, any>;
 
 const config: ModuleFederationConfig = {
   name: 'app-shell',
-  remotes: [
-    ['mfe-auth', 'http://localhost:4201/mf-manifest.json'],
-    ['mfe-dashboard', 'http://localhost:4202/mf-manifest.json'],
-    ['mfe-reporting', 'http://localhost:4203/mf-manifest.json']
-  ]
+  remotes: Object.values(MFE_REMOTES)
+    .filter(r => r.name !== 'app-shell')
+    .map(r => [r.name, r.entry])
 };
 
 export default config;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, NavigationStart, NavigationError, NavigationCancel, Router, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
-import { BaseEventBusService, BaseStorageService, BaseLoadingService } from '@core';
+import { BaseEventBusService, BaseStorageService, BaseLoadingService, AuthService } from '@core';
 import { TDSSpinnerModule } from 'tds-ui/progress-spinner';
 import { SidebarComponent, HeaderComponent } from './components';
 
@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   public readonly storage = inject(BaseStorageService);
   public readonly eventBus = inject(BaseEventBusService);
   public readonly loadingService = inject(BaseLoadingService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
   public readonly collapsed = signal(false);
@@ -51,7 +52,7 @@ export class AppComponent implements OnInit {
   public readonly isLoading = computed(() => this.routeLoading() || this.loadingService.isLoading());
 
   private isStandaloneUrl(url: string): boolean {
-    const layoutPrefixes = ['/dashboard', '/reporting', '/projects'];
+    const layoutPrefixes = ['/dashboard', '/reporting', '/projects', '/shared-styles'];
     return !layoutPrefixes.some(prefix => url.startsWith(prefix));
   }
 
@@ -66,9 +67,12 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.eventBus.on('USER_LOGGED_OUT').subscribe(() => {
-      this.storage.removeItem('mfe_mock_user');
-      this.storage.removeItem('mfe_jwt_token');
+      this.authService.logout();
       this.router.navigate(['/auth/login']);
+    });
+
+    this.eventBus.on('USER_LOGGED_IN').subscribe(() => {
+      this.router.navigate(['/dashboard']);
     });
   }
 
@@ -77,8 +81,7 @@ export class AppComponent implements OnInit {
   }
 
   public async logout(): Promise<void> {
-    this.storage.removeItem('mfe_mock_user');
-    this.storage.removeItem('mfe_jwt_token');
+    this.authService.logout();
     this.eventBus.emit({
       type: 'USER_LOGGED_OUT',
       sourceRemote: 'app-shell',

@@ -1,21 +1,21 @@
-<div class="min-h-screen flex flex-col items-center justify-center p-6 sm:p-8 bg-[#FAF8FF] bg-[radial-gradient(#FAD0D6_1.2px,transparent_1.2px)] [background-size:24px_24px] font-sans text-[#131B2E] relative">
+<div class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 bg-[#FAF8FF] bg-[radial-gradient(#FAD0D6_1.2px,transparent_1.2px)] [background-size:1.5rem_1.5rem] font-sans text-[#131B2E] relative antialiased">
   <!-- Centered Card Container Matching Exact Stitch Spec -->
-  <div class="w-full max-w-[460px] bg-white rounded-2xl border border-[#C7C4D8]/40 shadow-[0_12px_40px_rgba(0,0,0,0.05)] overflow-hidden">
+  <div class="w-full max-w-[28.75rem] bg-white rounded-2xl border border-[#C7C4D8]/40 shadow-[0_12px_40px_rgba(0,0,0,0.05)] overflow-hidden">
     
     <!-- Top Main Content Area (Tighter padding & margins) -->
     <div class="p-6 sm:p-8 space-y-5">
       
       <!-- Brand Logo Header: Standalone TMT Red SVG Logo -->
       <div class="flex items-center justify-center mb-4 pt-2">
-        <svg class="h-[48px] w-auto" viewBox="0 0 147 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="h-[4.25rem] w-auto" viewBox="0 0 147 49" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M82.3881 12.9753L73.0977 22.1419L63.7949 12.9753H54.8872V36.9558H63.7949V23.3664L70.0832 29.577H76.1245L82.3881 23.3664V36.9558H91.2983V12.9753H82.3881ZM98.5692 12.9753V20.3468H110.83V36.9753H119.75V20.3541H132.013V12.9753H98.5692ZM26.263 12.9753V36.9753H35.183V20.3541H47.446V12.9753H26.263ZM14 12.9753V20.3615H21.4387V12.9753H14Z" fill="#E4002B"/>
         </svg>
       </div>
 
       <!-- Welcome Heading -->
       <div class="text-center mb-4 space-y-1">
-        <h1 class="text-[28px] font-bold text-[#131B2E] tracking-tight leading-tight m-0">Welcome back</h1>
-        <p class="text-[15px] text-[#505F76] m-0 font-normal">Please enter your details to sign in.</p>
+        <h1 class="text-[1.75rem] font-bold text-[#131B2E] tracking-tight leading-tight m-0">Welcome back</h1>
+        <p class="text-[0.9375rem] text-[#505F76] m-0 font-normal">Please enter your details to sign in.</p>
       </div>
 
       <!-- Login Form with TMT Red Theme -->
@@ -23,7 +23,7 @@
         
         <!-- Email Input -->
         <div class="space-y-2 text-left">
-          <label class="block text-[14px] font-semibold text-[#131B2E]" for="email">Email</label>
+          <label class="block text-[0.875rem] font-semibold text-[#131B2E]" for="email">Email</label>
           <div class="relative flex items-center">
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-[#777587] pointer-events-none flex items-center z-10">
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -36,7 +36,7 @@
               id="email"
               type="email" 
               [value]="email()" 
-              (input)="email.set($any($event.target).value)"
+              (input)="setEmail($any($event.target).value)"
               placeholder="name@company.com" 
               class="auth-input-field"
             />
@@ -46,14 +46,13 @@
         <!-- Password Input -->
         <div class="space-y-2 text-left">
           <div class="flex items-center justify-between">
-            <label class="block text-[14px] font-semibold text-[#131B2E]" for="password">Password</label>
-            <button 
-              type="button" 
-              (click)="openForgotDrawer()" 
-              class="text-[14px] font-semibold text-[#E4002B] hover:text-[#C80025] transition-colors bg-transparent border-0 cursor-pointer p-0"
+            <label class="block text-[0.875rem] font-semibold text-[#131B2E]" for="password">Password</label>
+            <a 
+              routerLink="../forgot-password" 
+              class="text-[0.875rem] font-semibold text-[#E4002B] hover:text-[#C80025] transition-colors no-underline cursor-pointer p-0"
             >
               Forgot password?
-            </button>
+            </a>
           </div>
 
           <div class="relative flex items-center">
@@ -68,7 +67,7 @@
               id="password"
               [type]="showPassword() ? 'text' : 'password'" 
               [value]="password()" 
-              (input)="password.set($any($event.target).value)"
+              (input)="setPassword($any($event.target).value)"
               placeholder="••••••••" 
               class="auth-input-field auth-input-password"
             />
@@ -99,9 +98,9 @@
         <div class="flex items-center text-left py-1">
           <tds-checkbox 
             [checked]="rememberMe()" 
-            (tdsChange)="rememberMe.set($event.checked)"
+            (tdsChange)="setRememberMe($event.checked)"
           >
-            <span class="text-[14px] text-[#505F76] font-medium ml-2">Remember me for 30 days</span>
+            <span class="text-[0.875rem] text-[#505F76] font-medium ml-2">Remember me for 30 days</span>
           </tds-checkbox>
         </div>
 
@@ -114,22 +113,17 @@
 
         <!-- Submit Button in TMT Red -->
         <div class="pt-1">
-          @if (loading()) {
-            <div class="flex justify-center py-2">
-              <ui-spinner></ui-spinner>
-            </div>
-          } @else {
-            <button 
-              type="submit" 
-              tds-button 
-              tdsType="default" 
-              color="primary" 
-              size="md" 
-              class="btn-sign-in"
-            >
-              Sign In
-            </button>
-          }
+          <button 
+            type="submit" 
+            [disabled]="loading()"
+            class="btn-sign-in"
+          >
+            @if (loading()) {
+              <ui-spinner color="white"></ui-spinner>
+            } @else {
+              <span>Sign In</span>
+            }
+          </button>
         </div>
       </form>
 
@@ -138,7 +132,7 @@
         <div class="absolute inset-0 flex items-center">
           <div class="w-full border-t border-[#C7C4D8]/40"></div>
         </div>
-        <div class="relative px-3 bg-white text-[12px] uppercase font-semibold text-[#777587] tracking-wider">
+        <div class="relative px-3 bg-white text-[0.75rem] uppercase font-semibold text-[#777587] tracking-wider">
           Or continue with
         </div>
       </div>
@@ -152,13 +146,13 @@
           (click)="onSsoLogin()" 
           class="btn-social"
         >
-          <svg class="w-4 h-4" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 mr-2 shrink-0" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
           </svg>
-          Google
+          <span>Google</span>
         </button>
 
         <button 
@@ -168,10 +162,10 @@
           (click)="onSsoLogin()" 
           class="btn-social"
         >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 mr-2 shrink-0" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
           </svg>
-          GitHub
+          <span>GitHub</span>
         </button>
       </div>
 
@@ -179,9 +173,9 @@
 
     <!-- Bottom Shaded Bar Inside Card -->
     <div class="py-5 px-8 bg-[#FFF5F6] border-t border-[#FAD0D6] text-center">
-      <p class="text-[14px] text-[#505F76] m-0 font-normal">
+      <p class="text-[0.875rem] text-[#505F76] m-0 font-normal">
         Don't have an account? 
-        <a href="#" (click)="$event.preventDefault()" class="text-[14px] text-[#E4002B] font-semibold hover:underline no-underline ml-1">
+        <a href="#" (click)="$event.preventDefault()" class="text-[0.875rem] text-[#E4002B] font-semibold hover:underline no-underline ml-1">
           Sign up
         </a>
       </p>
@@ -190,56 +184,7 @@
   </div>
 
   <!-- Outside Copyright Footer -->
-  <div class="mt-6 text-[14px] text-[#777587] text-center font-normal">
+  <div class="mt-6 text-[0.875rem] text-[#777587] text-center font-normal">
     &copy; 2026 TMT Inc. All rights reserved.
   </div>
 </div>
-
-<!-- TDS Drawer for Forgot Password -->
-<tds-drawer
-  [visible]="forgotDrawerVisible()"
-  [title]="'Reset your password'"
-  [width]="420"
-  (tdsOnClose)="closeForgotDrawer()"
->
-  <ng-container *tdsDrawerContent>
-    <div class="p-4 space-y-4 text-left">
-      <p class="text-sm text-[#505F76]">
-        Enter your email address and we'll send you instructions to reset your password.
-      </p>
-
-      @if (resetSubmitted()) {
-        <div class="p-4 bg-[#FFF5F6] border border-[#FAD0D6] rounded-xl text-center space-y-2">
-          <div class="text-[#E4002B] font-bold text-base">✓ Email sent!</div>
-          <p class="text-xs text-[#505F76]">
-            Check your inbox at <strong>{{ resetEmail() }}</strong> for password recovery link.
-          </p>
-        </div>
-      } @else {
-        <div class="space-y-2">
-          <label class="block text-xs font-semibold text-[#131B2E]">Email Address</label>
-          <input 
-            tdsInput
-            type="email" 
-            [value]="resetEmail()" 
-            (input)="resetEmail.set($any($event.target).value)"
-            placeholder="name@company.com" 
-            class="auth-input-field"
-          />
-        </div>
-
-        <button 
-          tds-button 
-          tdsType="default" 
-          color="primary" 
-          size="md" 
-          (click)="onSendResetLink()"
-          [disabled]="resetLoading()"
-          class="btn-sign-in mt-4"
-        >
-          @if (resetLoading()) { Sending... } @else { Send Reset Link }
-        </button>
-      }
-    </div>
-  </ng-container>
-</tds-drawer>

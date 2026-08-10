@@ -8,8 +8,7 @@
     </div>
     <button 
       type="button" 
-      tds-button
-      class="!bg-[#800A20] !text-white !px-5 !py-2.5 !rounded-xl !font-bold !text-sm flex items-center gap-2 hover:!bg-[#630617] transition-all shadow-sm !border-0 cursor-pointer active:scale-95 flex-shrink-0"
+      class="bg-[#800A20] text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-[#630617] transition-all shadow-sm border-0 cursor-pointer active:scale-95 flex-shrink-0"
     >
       <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -30,61 +29,56 @@
         
         <div class="space-y-4">
           <!-- Date Range Select -->
-          <div>
-            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1.5">Date Range</label>
-            <tds-select 
-              class="w-full !text-xs !font-semibold"
-              size="sm"
-              [data]="dateRangeOptions"
-              valueField="value"
-              textField="label"
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider">Date Range</label>
+            <select 
+              class="w-full h-10 px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-[#131B2E] outline-none focus:border-[#800A20] focus:ring-2 focus:ring-[#800A20]/10 transition-all cursor-pointer shadow-2xs"
               [ngModel]="draftDateRange()"
               (ngModelChange)="draftDateRange.set($event)">
-            </tds-select>
+              @for (opt of dateRangeOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
           </div>
 
           <!-- Category Select -->
-          <div>
-            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-1.5">Category</label>
-            <tds-select 
-              class="w-full !text-xs !font-semibold"
-              size="sm"
-              [data]="categoryOptions"
-              valueField="value"
-              textField="label"
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider">Category</label>
+            <select 
+              class="w-full h-10 px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-[#131B2E] outline-none focus:border-[#800A20] focus:ring-2 focus:ring-[#800A20]/10 transition-all cursor-pointer shadow-2xs"
               [ngModel]="draftCategory()"
               (ngModelChange)="draftCategory.set($event)">
-            </tds-select>
+              @for (opt of categoryOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
           </div>
 
           <!-- Status Pills -->
-          <div>
-            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider mb-2">Status</label>
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-[#505F76] uppercase tracking-wider">Status</label>
             <div class="flex gap-2 flex-wrap">
               <button 
                 type="button" 
-                tds-button
                 (click)="setStatusFilter('All')"
-                [class]="draftStatusFilter() === 'All' ? '!border-[#800A20] !text-[#800A20] !font-bold !bg-[#FFF5F6]' : '!border-slate-200 !text-[#505F76] !font-medium !bg-white hover:!bg-slate-50'"
-                class="!px-3.5 !py-1.5 !rounded-full !border !text-xs transition-all cursor-pointer"
+                [class]="draftStatusFilter() === 'All' ? 'border-[#800A20] text-[#800A20] font-bold bg-[#FFF5F6] ring-2 ring-[#800A20]/20' : 'border-slate-200 text-[#505F76] font-medium bg-white hover:bg-slate-50'"
+                class="px-4 py-2 rounded-full border text-xs transition-all cursor-pointer outline-none"
               >
                 All
               </button>
               <button 
                 type="button" 
-                tds-button
                 (click)="setStatusFilter('Completed')"
-                [class]="draftStatusFilter() === 'Completed' ? '!border-[#800A20] !text-[#800A20] !font-bold !bg-[#FFF5F6]' : '!border-slate-200 !text-[#505F76] !font-medium !bg-white hover:!bg-slate-50'"
-                class="!px-3.5 !py-1.5 !rounded-full !border !text-xs transition-all cursor-pointer"
+                [class]="draftStatusFilter() === 'Completed' ? 'border-[#800A20] text-[#800A20] font-bold bg-[#FFF5F6] ring-2 ring-[#800A20]/20' : 'border-slate-200 text-[#505F76] font-medium bg-white hover:bg-slate-50'"
+                class="px-4 py-2 rounded-full border text-xs transition-all cursor-pointer outline-none"
               >
                 Completed
               </button>
               <button 
                 type="button" 
-                tds-button
                 (click)="setStatusFilter('Pending')"
-                [class]="draftStatusFilter() === 'Pending' ? '!border-[#800A20] !text-[#800A20] !font-bold !bg-[#FFF5F6]' : '!border-slate-200 !text-[#505F76] !font-medium !bg-white hover:!bg-slate-50'"
-                class="!px-3.5 !py-1.5 !rounded-full !border !text-xs transition-all cursor-pointer"
+                [class]="draftStatusFilter() === 'Pending' ? 'border-[#800A20] text-[#800A20] font-bold bg-[#FFF5F6] ring-2 ring-[#800A20]/20' : 'border-slate-200 text-[#505F76] font-medium bg-white hover:bg-slate-50'"
+                class="px-4 py-2 rounded-full border text-xs transition-all cursor-pointer outline-none"
               >
                 Pending
               </button>
@@ -95,9 +89,8 @@
 
       <button 
         type="button" 
-        tds-button
         (click)="applyFilters()"
-        class="w-full mt-6 !py-2.5 !bg-white !border-slate-200 !text-[#131B2E] !rounded-xl !font-bold !text-xs hover:!bg-[#FAF8FF] transition-all cursor-pointer shadow-2xs"
+        class="w-full mt-6 py-3 bg-[#800A20] text-white rounded-xl font-bold text-xs hover:bg-[#630617] active:scale-[0.98] transition-all cursor-pointer shadow-sm border-0"
       >
         Apply Filters
       </button>
@@ -185,7 +178,7 @@
         <p class="text-xs text-[#505F76] m-0 mt-0.5 font-medium">Exportable system diagnostic logs & financial metrics</p>
       </div>
       <tds-tag class="!bg-[#FFF5F6] !text-[#800A20] !border-[#FAD0D6] text-xs font-bold px-3 py-1 rounded-xl">
-        Port 4203
+        Port 4203 (Rsbuild)
       </tds-tag>
     </div>
 
@@ -202,103 +195,111 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100 text-[#131B2E]">
-          @for (report of detailedReports(); track report.id) {
-            @if (activeStatusFilter() === 'All' || activeStatusFilter() === report.status) {
-              <tr class="hover:bg-[#FAF8FF]/80 transition-colors group">
-                
-                <!-- Report Name with Icon -->
-                <td class="py-4 px-6">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-slate-100 text-[#505F76] flex items-center justify-center flex-shrink-0">
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                      </svg>
-                    </div>
-                    <div>
-                      <span class="font-bold text-[#131B2E] text-sm block">{{ report.name }}</span>
-                      <span class="text-[11px] font-mono text-[#505F76]">{{ report.id }}</span>
-                    </div>
+          @for (report of paginatedReports(); track report.id) {
+            <tr class="hover:bg-[#FAF8FF]/80 transition-colors group">
+              
+              <!-- Report Name with Icon -->
+              <td class="py-4 px-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-slate-100 text-[#505F76] flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
                   </div>
-                </td>
-                
-                <!-- Date Created -->
-                <td class="py-4 px-6 text-[#505F76] font-medium whitespace-nowrap">{{ report.dateCreated }}</td>
-                
-                <!-- Author with Initials Avatar -->
-                <td class="py-4 px-6">
-                  <div class="flex items-center gap-2.5">
-                    <div [class]="report.author.avatarBg" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] flex-shrink-0 shadow-2xs">
-                      {{ report.author.initials }}
-                    </div>
-                    <span class="font-semibold text-[#131B2E]">{{ report.author.name }}</span>
+                  <div>
+                    <span class="font-bold text-[#131B2E] text-sm block">{{ report.name }}</span>
+                    <span class="text-[11px] font-mono text-[#505F76]">{{ report.id }}</span>
                   </div>
-                </td>
-                
-                <!-- Status Tag -->
-                <td class="py-4 px-6">
-                  @if (report.status === 'Completed') {
-                    <tds-tag status="success" class="!rounded-full !px-3 !py-0.5 font-bold text-xs">
-                      Completed
-                    </tds-tag>
-                  } @else {
-                    <tds-tag status="warning" class="!rounded-full !px-3 !py-0.5 font-bold text-xs">
-                      Pending
-                    </tds-tag>
-                  }
-                </td>
-                
-                <!-- Action Buttons -->
-                <td class="py-4 px-6 text-right">
-                  <div class="flex items-center justify-end gap-1">
-                    <button type="button" class="p-1.5 text-[#505F76] hover:text-[#800A20] hover:bg-[#FFF5F6] rounded-lg transition-colors border-0 bg-transparent cursor-pointer" title="View">
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                      </svg>
-                    </button>
-                    <button type="button" class="p-1.5 text-[#505F76] hover:text-[#800A20] hover:bg-[#FFF5F6] rounded-lg transition-colors border-0 bg-transparent cursor-pointer" title="Download">
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                      </svg>
-                    </button>
+                </div>
+              </td>
+              
+              <!-- Date Created -->
+              <td class="py-4 px-6 text-[#505F76] font-medium whitespace-nowrap">{{ report.dateCreated }}</td>
+              
+              <!-- Author with Initials Avatar -->
+              <td class="py-4 px-6">
+                <div class="flex items-center gap-2.5">
+                  <div [class]="report.author.avatarBg" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] flex-shrink-0 shadow-2xs">
+                    {{ report.author.initials }}
                   </div>
-                </td>
+                  <span class="font-semibold text-[#131B2E]">{{ report.author.name }}</span>
+                </div>
+              </td>
+              
+              <!-- Status Tag -->
+              <td class="py-4 px-6">
+                @if (report.status === 'Completed') {
+                  <tds-tag status="success" class="!rounded-full !px-3 !py-0.5 font-bold text-xs">
+                    Completed
+                  </tds-tag>
+                } @else {
+                  <tds-tag status="warning" class="!rounded-full !px-3 !py-0.5 font-bold text-xs">
+                    Pending
+                  </tds-tag>
+                }
+              </td>
+              
+              <!-- Action Buttons -->
+              <td class="py-4 px-6 text-right">
+                <div class="flex items-center justify-end gap-1">
+                  <button type="button" class="p-1.5 text-[#505F76] hover:text-[#800A20] hover:bg-[#FFF5F6] rounded-lg transition-colors border-0 bg-transparent cursor-pointer" title="View">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                  <button type="button" class="p-1.5 text-[#505F76] hover:text-[#800A20] hover:bg-[#FFF5F6] rounded-lg transition-colors border-0 bg-transparent cursor-pointer" title="Download">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                  </button>
+                </div>
+              </td>
 
-              </tr>
-            }
+            </tr>
           }
         </tbody>
       </table>
     </div>
 
-    <!-- Table Pagination Footer matching Stitch HTML Spec -->
+    <!-- Dynamic Table Pagination Footer -->
     <div class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#FAF8FF]">
-      <span class="text-xs text-[#505F76] font-medium">Showing 1 to 5 of 45 entries</span>
+      <span class="text-xs text-[#505F76] font-medium">{{ showingRangeText() }}</span>
       <div class="flex items-center gap-1">
-        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white transition-colors bg-white cursor-pointer shadow-2xs">
+        <button 
+          type="button" 
+          (click)="prevPage()"
+          [disabled]="currentPage() === 1"
+          class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer shadow-2xs">
           ‹
         </button>
-        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#800A20] text-white font-bold text-xs border-0 cursor-pointer shadow-2xs">
-          1
-        </button>
-        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white font-medium text-xs bg-white cursor-pointer shadow-2xs">
-          2
-        </button>
-        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white font-medium text-xs bg-white cursor-pointer shadow-2xs">
-          3
-        </button>
-        <button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white transition-colors bg-white cursor-pointer shadow-2xs">
+
+        @for (page of pageNumbers(); track page) {
+          <button 
+            type="button" 
+            (click)="goToPage(page)"
+            [class]="currentPage() === page ? 'bg-[#800A20] text-white font-bold border-0' : 'border border-slate-200 text-[#505F76] hover:bg-white font-medium bg-white'"
+            class="w-8 h-8 flex items-center justify-center rounded-lg text-xs cursor-pointer shadow-2xs transition-all">
+            {{ page }}
+          </button>
+        }
+
+        <button 
+          type="button" 
+          (click)="nextPage()"
+          [disabled]="currentPage() === totalPages()"
+          class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-[#505F76] hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer shadow-2xs">
           ›
         </button>
       </div>
     </div>
 
-  </tds-card>
+    </tds-card>
 
 </div>

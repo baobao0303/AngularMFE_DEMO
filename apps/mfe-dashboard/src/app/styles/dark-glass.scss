@@ -1,0 +1,18 @@
+/* Dark Glassmorphism SCSS Theme */
+.mfe-theme-dark-glass {
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+
+  .mfe-styled-card {
+    background: rgba(30, 41, 59, 0.75) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #F8FAFC !important;
+  }
+
+  .mfe-styled-btn {
+    background: linear-gradient(135deg, #38BDF8 0%, #0284C7 100%) !important;
+    color: #0F172A !important;
+    font-weight: 700 !important;
+  }
+}

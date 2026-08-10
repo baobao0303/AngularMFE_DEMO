@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 declare const __dirname: string;
 declare const process: any;
@@ -18,7 +19,15 @@ interface PackageJson {
 
 let pkg: PackageJson = {};
 try {
-  const dir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+  // Resolve __dirname safely for both CJS and ESM contexts
+  let dir: string;
+  try {
+    // ESM: use import.meta.url
+    dir = path.dirname(fileURLToPath(import.meta.url));
+  } catch {
+    // CJS fallback
+    dir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+  }
   const pkgPath = path.resolve(dir, dir.endsWith('shared') ? '../package.json' : 'package.json');
   if (fs.existsSync(pkgPath)) {
     pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8')) as PackageJson;
@@ -51,17 +60,22 @@ const rawSharedMappings: Record<string, { singleton: boolean; strictVersion: boo
   '@angular/core/primitives/signals': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/common': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/common/http': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/common/locales/vi': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/router': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/forms': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/forms/signals': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/animations': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/animations/browser': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/platform-browser': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/platform-browser/animations': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+  '@angular/platform-browser-dynamic': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
   // RxJS
   'rxjs': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   'rxjs/operators': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
   // UI Frameworks & Components
+  'tds-ui': { singleton: true, strictVersion: false, requiredVersion: false },
   'ng-zorro-antd': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/cdk': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
   '@angular/cdk/overlay': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
@@ -87,16 +101,12 @@ const rawSharedMappings: Record<string, { singleton: boolean; strictVersion: boo
   '@ngx-translate/core': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
   // Utility & Chart Libraries
-  'apexcharts': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'ng-apexcharts': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'moment': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'crypto-js': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'swiper': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-  'leaflet': { singleton: true, strictVersion: false, requiredVersion: 'auto' },
-
-  // Internal Shared Libraries (@core, @ui)
-  '@core': { singleton: true, strictVersion: false, requiredVersion: '*' },
-  '@ui': { singleton: true, strictVersion: false, requiredVersion: '*' }
+  'apexcharts': { singleton: true, strictVersion: false, requiredVersion: false },
+  'ng-apexcharts': { singleton: true, strictVersion: false, requiredVersion: false },
+  'moment': { singleton: true, strictVersion: false, requiredVersion: false },
+  'crypto-js': { singleton: true, strictVersion: false, requiredVersion: false },
+  'swiper': { singleton: true, strictVersion: false, requiredVersion: false },
+  'leaflet': { singleton: true, strictVersion: false, requiredVersion: false }
 };
 
 export const sharedMappings = new Proxy(rawSharedMappings, {
@@ -106,6 +116,10 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
         key.startsWith('@angular/cdk/') ||
         key.startsWith('@angular/material/') ||
         key.startsWith('@angular/') ||
+        key.startsWith('@ngrx/signals/') ||
+        key === '@ngrx/signals' ||
+        key.startsWith('tds-ui/') ||
+        key === 'tds-ui' ||
         key.startsWith('rxjs/') ||
         key === 'rxjs'
       ) {
@@ -120,22 +134,38 @@ export const sharedMappings = new Proxy(rawSharedMappings, {
         key.startsWith('@angular/cdk/') ||
         key.startsWith('@angular/material/') ||
         key.startsWith('@angular/') ||
+        key.startsWith('@ngrx/signals/') ||
+        key === '@ngrx/signals' ||
+        key.startsWith('tds-ui/') ||
+        key === 'tds-ui' ||
         key.startsWith('rxjs/') ||
         key === 'rxjs'
       ) {
-        return { singleton: true, strictVersion: false, requiredVersion: getRequiredVersion(key) };
+        return { singleton: true, strictVersion: false, requiredVersion: false };
       }
       if (Reflect.has(target, key)) {
         const item = Reflect.get(target, key);
         return {
           ...item,
-          requiredVersion: item.requiredVersion === 'auto' ? getRequiredVersion(key) : item.requiredVersion
+          requiredVersion: false
         };
       }
     }
     return Reflect.get(target, key);
+  },
+  ownKeys(target) {
+    return Reflect.ownKeys(target);
+  },
+  getOwnPropertyDescriptor(target, prop) {
+    return {
+      enumerable: true,
+      configurable: true,
+      value: (sharedMappings as any)[prop]
+    };
   }
-}) as unknown as Record<string, { singleton: boolean; strictVersion: boolean; requiredVersion: boolean | string; eager?: boolean }>;
+// Cast to 'any' so it is assignable to Module Federation's `Shared` type,
+// which accepts both array and object forms but is typed as array-only.
+}) as unknown as any;
 
 export interface SharedConfigItem {
   singleton?: boolean;

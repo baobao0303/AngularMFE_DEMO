@@ -6,10 +6,12 @@
   },
   "include": [
     "src/**/*.ts",
-    "module-federation.config.ts"
+    "module-federation.config.ts",
+    "../../libs/**/*.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "server.ts"
   ]
 }

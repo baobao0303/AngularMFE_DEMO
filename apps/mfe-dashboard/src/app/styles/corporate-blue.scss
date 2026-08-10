@@ -1,0 +1,18 @@
+/* Corporate Blue SCSS Theme */
+.mfe-theme-corporate-blue {
+  background: #F0F4F8 !important;
+  color: #1E293B !important;
+
+  .mfe-styled-card {
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-top: 4px solid #2563EB !important;
+    color: #1E293B !important;
+  }
+
+  .mfe-styled-btn {
+    background: #2563EB !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+  }
+}
