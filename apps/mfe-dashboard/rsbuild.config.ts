@@ -1,9 +1,11 @@
 import { createConfig } from '@ng-rsbuild/plugin-angular';
 import moduleFederationConfig from './module-federation.config';
 import { sharedMappings } from '../../shared/federation.shared';
+import manifestJson from '../app-shell/src/assets/federation.manifest.json';
 import * as path from 'path';
 
-const appDir = path.resolve(process.cwd(), 'apps/mfe-dashboard');
+const MFE_REMOTES = ((manifestJson as any)?.default || manifestJson) as Record<string, any>;
+const mfeConfig = MFE_REMOTES['mfe-dashboard'];
 
 export default await createConfig({
   options: {
@@ -28,22 +30,22 @@ export default await createConfig({
       liveReload: true,
     },
     server: {
-      port: 4202,
+      port: mfeConfig.port,
       proxy: {
         '/api': {
-          target: 'http://localhost:4200',
+          target: MFE_REMOTES['app-shell'].url,
           changeOrigin: true,
         },
       },
     },
     output: {
-      assetPrefix: 'http://localhost:4202/',
+      assetPrefix: `${mfeConfig.url}/`,
     },
     tools: {
       rspack: {
         output: {
-          uniqueName: 'mfe_dashboard',
-          publicPath: 'http://localhost:4202/',
+          uniqueName: mfeConfig.entryGlobalName,
+          publicPath: `${mfeConfig.url}/`,
         },
         optimization: {
           splitChunks: {

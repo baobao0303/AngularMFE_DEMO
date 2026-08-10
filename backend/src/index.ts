@@ -3,6 +3,7 @@ import cors from 'cors';
 import { authRouter } from './routes/auth.router.js';
 import { dashboardRouter } from './routes/dashboard.router.js';
 import { reportingRouter } from './routes/reporting.router.js';
+import { configRouter } from './routes/config.router.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 // API Routes
+app.use('/api/config', configRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/reporting', reportingRouter);

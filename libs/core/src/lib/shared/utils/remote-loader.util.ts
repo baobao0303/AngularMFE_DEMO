@@ -1,11 +1,6 @@
 import { loadRemote, registerRemotes } from '@module-federation/enhanced/runtime';
 import { RemoteStyleConfig } from '../../mfe/remote-style.model';
-
-const KNOWN_REMOTE_CONFIGS: Record<string, { entry: string; entryGlobalName: string }> = {
-  'mfe-auth': { entry: 'http://localhost:4201/remoteEntry.js', entryGlobalName: 'mfe_auth' },
-  'mfe-dashboard': { entry: 'http://localhost:4202/remoteEntry.js', entryGlobalName: 'mfe_dashboard' },
-  'mfe-reporting': { entry: 'http://localhost:4203/remoteEntry.js', entryGlobalName: 'mfe_reporting' },
-};
+import { MFE_REMOTES } from '../../mfe/remote-endpoints.config';
 
 export interface RemoteModuleExports<T = unknown> {
   appRoutes?: T;
@@ -43,14 +38,14 @@ export const loadRemoteModule = async <T = unknown>(
 
   console.log(`[loadRemoteModule] 🚀 Loading remote module: "${remoteSpecifier}" (remoteName: "${remoteName}", exposedModule: "${exposedModule}")`);
 
-  if (KNOWN_REMOTE_CONFIGS[remoteName]) {
+  if (MFE_REMOTES[remoteName]) {
     try {
       registerRemotes([
         {
           name: remoteName,
-          entry: KNOWN_REMOTE_CONFIGS[remoteName].entry,
+          entry: MFE_REMOTES[remoteName].entry,
           type: 'global',
-          entryGlobalName: KNOWN_REMOTE_CONFIGS[remoteName].entryGlobalName
+          entryGlobalName: MFE_REMOTES[remoteName].entryGlobalName
         }
       ]);
     } catch {

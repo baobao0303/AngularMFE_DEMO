@@ -19,6 +19,7 @@ export default [
             '^.*/shared/federation\\.shared$',
             '^.*/tailwind\\.config\\.js$',
             '^.*/package\\.json$',
+            '^.*/federation\\.manifest\\.json$',
           ],
           depConstraints: [
             {

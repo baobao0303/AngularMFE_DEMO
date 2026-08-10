@@ -7,14 +7,12 @@ if (typeof (globalThis as any).ngJitMode === 'undefined') {
 }
 
 import { init } from '@module-federation/enhanced/runtime';
+import { getModuleFederationRemotes } from '@core/lib/mfe/remote-endpoints.config';
+import manifestJson from './assets/federation.manifest.json';
 
 init({
   name: 'app-shell',
-  remotes: [
-    { name: 'mfe-auth', entry: 'http://localhost:4201/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_auth' },
-    { name: 'mfe-dashboard', entry: 'http://localhost:4202/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_dashboard' },
-    { name: 'mfe-reporting', entry: 'http://localhost:4203/remoteEntry.js', type: 'global', entryGlobalName: 'mfe_reporting' }
-  ]
+  remotes: getModuleFederationRemotes(manifestJson as any, 'app-shell')
 });
 
 import('./bootstrap').catch((err) => console.error(err));

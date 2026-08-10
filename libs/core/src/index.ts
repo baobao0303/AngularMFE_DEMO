@@ -17,6 +17,9 @@ export * from './lib/modules/api/interceptors/base-token.interceptor';
 export * from './lib/modules/api/interceptors/authorization-token.interceptor';
 
 // 3. Micro-Frontend Module (MFE Orchestration & EventBus)
+export * from './lib/mfe/remote-endpoints.config';
+export * from './lib/mfe/remote-endpoints.provider';
+export * from './lib/mfe/remote-endpoints.service';
 export * from './lib/mfe/mfe-config';
 export * from './lib/mfe/event-bus.service';
 export * from './lib/mfe/event-bus.model';

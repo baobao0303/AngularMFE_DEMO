@@ -1,5 +1,30 @@
 {
-  "mfe-auth": "http://localhost:4201",
-  "mfe-dashboard": "http://localhost:4202",
-  "mfe-reporting": "http://localhost:4203"
+  "app-shell": {
+    "name": "app-shell",
+    "port": 4200,
+    "url": "http://localhost:4200",
+    "entry": "http://localhost:4200/remoteEntry.js",
+    "entryGlobalName": "app_shell"
+  },
+  "mfe-auth": {
+    "name": "mfe-auth",
+    "port": 4201,
+    "url": "http://localhost:4201",
+    "entry": "http://localhost:4201/remoteEntry.js",
+    "entryGlobalName": "mfe_auth"
+  },
+  "mfe-dashboard": {
+    "name": "mfe-dashboard",
+    "port": 4202,
+    "url": "http://localhost:4202",
+    "entry": "http://localhost:4202/remoteEntry.js",
+    "entryGlobalName": "mfe_dashboard"
+  },
+  "mfe-reporting": {
+    "name": "mfe-reporting",
+    "port": 4203,
+    "url": "http://localhost:4203",
+    "entry": "http://localhost:4203/remoteEntry.js",
+    "entryGlobalName": "mfe_reporting"
+  }
 }
